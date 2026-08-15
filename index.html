@@ -3,124 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b3a">
+  <meta name="description" content="Kalaivani Stores – everyday groceries and essentials delivered locally.">
   <title>Kalaivani Stores – Fresh Groceries Delivered</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="announcement">🚚 Fast local delivery · 💬 Easy WhatsApp ordering · 🛍️ Everyday essentials</div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo-circle">KS</div>
-  <div>
-    <div class="store-name">Kalaivani Stores</div>
-    <div class="store-sub">Groceries at your doorstep</div>
-  </div>
-  <div class="header-spacer"></div>
-  <div class="header-search">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="search-input" placeholder="Search products…">
-  </div>
-  <a class="call-btn" href="tel:7667771101">📞 Call Shop</a>
-  <button class="cart-btn" id="open-cart-btn">
-    🛒 Cart
-    <span class="cart-badge" id="cart-badge">0</span>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Kalaivani Stores home">
+      <span class="logo-mark">KS</span>
+      <span>
+        <strong>Kalaivani Stores</strong>
+        <small>Groceries at your doorstep</small>
+      </span>
+    </a>
+
+    <div class="header-search">
+      <span>⌕</span>
+      <input id="search-input" type="search" placeholder="Search groceries, snacks, drinks…" autocomplete="off">
+      <button id="clear-search" class="icon-btn" type="button" aria-label="Clear search">×</button>
+    </div>
+
+    <div class="header-actions">
+      <a class="call-btn" href="tel:7667771101">☎ <span>Call</span></a>
+      <button class="cart-btn" id="open-cart-btn" type="button">
+        🛒 <span>Cart</span><b class="cart-badge" id="cart-badge">0</b>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">LOCAL · FRESH · RELIABLE</span>
+        <h1>Everything you need,<br><em>right at your doorstep.</em></h1>
+        <p>Shop everyday groceries, snacks, beverages, dairy, home essentials and more from Kalaivani Stores.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="shop-now" type="button">Shop now ↓</button>
+          <a class="secondary-btn" href="https://wa.me/917667771101" target="_blank" rel="noopener">💬 WhatsApp us</a>
+        </div>
+        <div class="trust-row">
+          <span>✓ Local store</span>
+          <span>✓ Easy ordering</span>
+          <span>✓ Fast delivery</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-circle">🛍️</div>
+        <span class="float-card card-one">🥛 Fresh dairy</span>
+        <span class="float-card card-two">🍪 Snacks</span>
+        <span class="float-card card-three">🧹 Home care</span>
+      </div>
+    </section>
+
+    <section class="benefits">
+      <div><span>🚚</span><strong>Local delivery</strong><small>To your doorstep</small></div>
+      <div><span>💬</span><strong>WhatsApp orders</strong><small>Simple & convenient</small></div>
+      <div><span>💰</span><strong>Clear pricing</strong><small>No surprises</small></div>
+      <div><span>🏪</span><strong>Neighbourhood store</strong><small>Local & reliable</small></div>
+    </section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">SHOP</span>
+          <h2>Browse our essentials</h2>
+        </div>
+        <span class="result-count" id="result-count"></span>
+      </div>
+
+      <div class="category-wrap">
+        <div class="category-bar" id="cat-bar" aria-label="Product categories">
+          <button class="cat-tab active" data-cat="All" type="button">✨ All</button>
+          <button class="cat-tab" data-cat="Snacks" type="button">🍪 Snacks</button>
+          <button class="cat-tab" data-cat="Beverages" type="button">🥤 Beverages</button>
+          <button class="cat-tab" data-cat="Dairy" type="button">🥛 Dairy</button>
+          <button class="cat-tab" data-cat="Groceries" type="button">🍚 Groceries</button>
+          <button class="cat-tab" data-cat="Quick meals" type="button">🍜 Quick meals</button>
+          <button class="cat-tab" data-cat="Bath & Body" type="button">🧴 Bath & Body</button>
+          <button class="cat-tab" data-cat="Home Cleaning" type="button">🧹 Home Cleaning</button>
+          <button class="cat-tab" data-cat="Stationery" type="button">📚 Stationery</button>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <button type="button" data-quick="popular">⭐ Popular</button>
+        <button type="button" data-quick="under50">₹50 & under</button>
+        <button type="button" data-quick="all">View all products</button>
+      </div>
+
+      <div class="product-grid" id="product-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <div>🔎</div>
+        <h3>No products found</h3>
+        <p>Try another search or category.</p>
+        <button class="secondary-btn" id="reset-filters" type="button">Reset filters</button>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div class="section-heading centered">
+        <span class="section-kicker">HOW IT WORKS</span>
+        <h2>Ordering is easy</h2>
+      </div>
+      <div class="steps">
+        <article><b>01</b><span>🛍️</span><h3>Choose your items</h3><p>Browse products and add what you need to your cart.</p></article>
+        <article><b>02</b><span>📝</span><h3>Enter your details</h3><p>Add your name, phone and delivery location.</p></article>
+        <article><b>03</b><span>💬</span><h3>Confirm on WhatsApp</h3><p>Send the ready-made order message to the shop.</p></article>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <div class="about-card">
+        <div>
+          <span class="section-kicker">KALAIVANI STORES</span>
+          <h2>Your neighbourhood store, made easier.</h2>
+          <p>Get everyday essentials without the extra trip. Select your products online and send your order directly to the store through WhatsApp.</p>
+        </div>
+        <div class="contact-card">
+          <strong>Need help?</strong>
+          <p>Call or WhatsApp the shop.</p>
+          <a href="tel:7667771101">☎ 7667771101</a>
+          <a href="https://wa.me/917667771101" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand"><span class="logo-mark">KS</span><strong>Kalaivani Stores</strong></div>
+        <p>Everyday groceries and essentials for your neighbourhood.</p>
+      </div>
+      <div>
+        <strong>Contact</strong>
+        <a href="tel:7667771101">7667771101</a>
+        <span>Muniappan Kovil · Komarapalayam</span>
+      </div>
+      <div>
+        <strong>Order</strong>
+        <a href="https://wa.me/917667771101" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:7667771101">Call the shop</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Kalaivani Stores · All rights reserved.</div>
+  </footer>
+
+  <button class="float-cart" id="float-cart" type="button" onclick="openCart()">
+    <span><b id="float-count">0 items</b><small>View cart →</small></span>
+    <strong id="float-total">₹0</strong>
   </button>
-</header>
 
-<!-- INFO STRIP -->
-<div class="info-strip">
-  <div class="info-item">⚡ Fast delivery to your door</div>
-  <div class="info-item">📍 Komarapalayam area</div>
-  <div class="info-item">📞 7667771101</div>
-  <div class="info-item">💬 Order via WhatsApp</div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-text">
-    <div class="hero-badge">🛒 FRESH · LOCAL · RELIABLE</div>
-    <h1>Daily essentials<br>at your doorstep</h1>
-    <p>Groceries, snacks, beverages, toiletries, dairy — everything you need, delivered fast from your neighbourhood store.</p>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">50+</div>
-        <div class="stat-lbl">Products</div>
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true">
+    <div class="overlay-bg" id="overlay-bg"></div>
+    <aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <div class="cart-header">
+        <div><span class="section-kicker">YOUR ORDER</span><h2 id="cart-title">Shopping cart</h2></div>
+        <button class="cart-close" id="close-cart-btn" type="button" aria-label="Close cart">×</button>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">Fast</div>
-        <div class="stat-lbl">Delivery</div>
+      <div class="cart-items" id="cart-items-panel"></div>
+      <div class="cart-footer">
+        <div class="summary-row"><span>Subtotal</span><strong id="panel-total">₹0</strong></div>
+        <div class="delivery-note">🚚 Local delivery · Delivery fee confirmed by the shop</div>
+        <div class="checkout-fields">
+          <label>Your name<input id="c-name" type="text" placeholder="Enter your name"></label>
+          <label>Phone number<input id="c-phone" type="tel" inputmode="tel" placeholder="Enter phone number"></label>
+          <label>Delivery location<input id="c-place" type="text" placeholder="Hostel, room no., street, landmark…"></label>
+        </div>
+        <button class="wa-btn" id="wa-order-btn" type="button">💬 Confirm order on WhatsApp</button>
+        <button class="clear-btn" id="clear-btn" type="button">Clear cart</button>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">₹0</div>
-        <div class="stat-lbl">Delivery fee</div>
-      </div>
-    </div>
+    </aside>
   </div>
-  <div class="hero-image">🛒</div>
-</div>
 
-<!-- CATEGORY TABS -->
-<div class="category-bar" id="cat-bar">
-  <button class="cat-tab active" data-cat="All">All</button>
-  <button class="cat-tab" data-cat="Snacks">Snacks</button>
-  <button class="cat-tab" data-cat="Beverages">Beverages</button>
-  <button class="cat-tab" data-cat="Dairy">Dairy</button>
-  <button class="cat-tab" data-cat="Groceries">Groceries</button>
-  <button class="cat-tab" data-cat="Quick meals">Quick meals</button>
-  <button class="cat-tab" data-cat="Toiletries">Toiletries</button>
-  <button class="cat-tab" data-cat="Stationery">Stationery</button>
-</div>
-
-<!-- PRODUCTS -->
-<div class="main-wrapper">
-  <div class="section-title" id="section-title">All Products</div>
-  <div class="product-grid" id="product-grid"></div>
-</div>
-
-<!-- FLOATING CART BAR (mobile) -->
-<button class="float-cart" id="float-cart" onclick="openCart()">
-  <div class="float-cart-left">
-    <div class="float-cart-count" id="float-count">0 items</div>
-    <div class="float-cart-label">View cart →</div>
-  </div>
-  <div class="float-cart-total" id="float-total">₹0</div>
-</button>
-
-<!-- CART OVERLAY -->
-<div class="cart-overlay" id="cart-overlay">
-  <div class="overlay-bg" id="overlay-bg"></div>
-  <div class="cart-panel">
-    <div class="cart-header">
-      <h2>Your cart</h2>
-      <button class="cart-close" id="close-cart-btn">✕</button>
-    </div>
-    <div class="cart-items" id="cart-items-panel">
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛒</div>
-        <p>Your cart is empty</p>
-        <p class="cart-empty-sub">Add items to get started</p>
-      </div>
-    </div>
-    <div class="cart-footer">
-      <div class="total-row">
-        <span class="total-lbl">Total</span>
-        <span class="total-amt" id="panel-total">₹0</span>
-      </div>
-      <div class="checkout-fields">
-        <input id="c-name"  type="text" placeholder="Your name">
-        <input id="c-phone" type="tel"  placeholder="Phone number">
-        <input id="c-place" type="text" placeholder="Delivery location (hostel, room no., etc.)">
-      </div>
-      <button class="wa-btn" id="wa-order-btn">💬 Place order on WhatsApp</button>
-      <button class="clear-btn" id="clear-btn">Clear cart</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <p>© 2026 Kalaivani Stores · <a href="tel:7667771101">7667771101</a> · Komarapalayam</p>
-</footer>
-
-<script src="script.js"></script>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
 </body>
 </html>
