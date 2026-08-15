@@ -1,13 +1,17 @@
-// ─────────────────────────────────────────────────────────────
-//  PRODUCT LIST
-//  To add a new product, copy one line and change the values.
-//  Categories: "Snacks" | "Beverages" | "Dairy" | "Groceries"
-//            | "Quick meals" | "Toiletries" | "Stationery"
-// ─────────────────────────────────────────────────────────────
 const PRODUCTS = [
   // SNACKS
+  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 5,  unit: "per pack" },
   { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
+  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 20,  unit: "per pack" },
+  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 50,  unit: "per pack" },
+  { name: "GoodDay Biscuit chocklate",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
+  { name: "Britannia Bourbon",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
+  { name: "Britannia Bourbon",      emoji: "🍪", category: "Snacks",      price: 20,  unit: "per pack" },
+  { name: "marie gold",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
+  { name: "marie gold",      emoji: "🍪", category: "Snacks",      price: 30,  unit: "per pack" },
+  { name: "Parle-G Biscuit",      emoji: "🍘", category: "Snacks",      price: 5,  unit: "per pack" },
   { name: "Parle-G Biscuit",      emoji: "🍘", category: "Snacks",      price: 10,  unit: "per pack" },
+  { name: "sunfest ",      emoji: "🍘", category: "Snacks",      price: 5,  unit: "per pack" },
   { name: "Lays Chips",           emoji: "🥔", category: "Snacks",      price: 20,  unit: "per pack" },
   { name: "Bourbon Biscuit",      emoji: "🍫", category: "Snacks",      price: 20,  unit: "per pack" },
   { name: "Murukku",              emoji: "🌀", category: "Snacks",      price: 30,  unit: "per pack" },
@@ -44,16 +48,17 @@ const PRODUCTS = [
   { name: "Cup Noodles",          emoji: "🍵", category: "Quick meals", price: 30,  unit: "per cup" },
   { name: "MTR Upma Mix",         emoji: "🫕", category: "Quick meals", price: 45,  unit: "per pack" },
   { name: "Poha – 500g",          emoji: "🍚", category: "Quick meals", price: 35,  unit: "per pack" },
+  // BATH & BODY
+  { name: "Bath Soap",          emoji: "🧼", category: "Bath & Body",  price: 40, unit: "per bar" },
+  { name: "Shampoo Sachet",     emoji: "🧴", category: "Bath & Body",  price: 5,  unit: "per sachet" },
+  { name: "Toothpaste – 100g",  emoji: "🦷", category: "Bath & Body",  price: 50, unit: "tube" },
+  { name: "Toothbrush",         emoji: "🪥", category: "Bath & Body",  price: 30, unit: "each" },
+  { name: "Sanitary Pads",      emoji: "🩸", category: "Bath & Body",  price: 55, unit: "per pack" },
 
-  // TOILETRIES
-  { name: "Bath Soap",            emoji: "🧼", category: "Toiletries",  price: 40,  unit: "per bar" },
-  { name: "Shampoo Sachet",       emoji: "🧴", category: "Toiletries",  price: 5,   unit: "per sachet" },
-  { name: "Toothpaste – 100g",    emoji: "🦷", category: "Toiletries",  price: 50,  unit: "tube" },
-  { name: "Toothbrush",           emoji: "🪥", category: "Toiletries",  price: 30,  unit: "each" },
-  { name: "Washing Powder",       emoji: "🧺", category: "Toiletries",  price: 60,  unit: "per pack" },
-  { name: "Dish Soap",            emoji: "🫧", category: "Toiletries",  price: 35,  unit: "per bar" },
-  { name: "Phenyl – 500ml",       emoji: "🧽", category: "Toiletries",  price: 60,  unit: "bottle" },
-  { name: "Sanitary Pads",        emoji: "🩸", category: "Toiletries",  price: 55,  unit: "per pack" },
+  // HOME CLEANING
+  { name: "Washing Powder",     emoji: "🧺", category: "Home Cleaning", price: 60, unit: "per pack" },
+  { name: "Dish Soap",          emoji: "🫧", category: "Home Cleaning", price: 35, unit: "per bar" },
+  { name: "Phenyl – 500ml",     emoji: "🧽", category: "Home Cleaning", price: 60, unit: "bottle" },
 
   // STATIONERY
   { name: "Notebook – 200 pages", emoji: "📓", category: "Stationery",  price: 60,  unit: "each" },
@@ -62,316 +67,259 @@ const PRODUCTS = [
   { name: "Stapler",              emoji: "📌", category: "Stationery",  price: 80,  unit: "each" },
 ];
 
-// ─────────────────────────────────────────────────────────────
-//  SHOP WHATSAPP NUMBER
-//  Write country code + number. No +, spaces, or dashes.
-//  Example: India +91 → "91" + number
-// ─────────────────────────────────────────────────────────────
 const WA_NUMBER = "917667771101";
-
-
-// ─────────────────────────────────────────────────────────────
-//  CART  (object: { productIndex: quantity })
-// ─────────────────────────────────────────────────────────────
 const cart = {};
+let activeCategory = "All";
+let quickFilter = null;
 
+const $ = (id) => document.getElementById(id);
 
-// ─────────────────────────────────────────────────────────────
-//  RENDER PRODUCTS
-//  Filters by category and search text, then draws all cards.
-// ─────────────────────────────────────────────────────────────
-function renderProducts(filterCat, searchText) {
-  const grid = document.getElementById("product-grid");
+function money(value) {
+  return "₹" + Number(value).toLocaleString("en-IN");
+}
+
+function productMatches(product, query) {
+  if (!query) return true;
+  const text = `${product.name} ${product.category} ${product.unit || ""}`.toLowerCase();
+  return text.includes(query.toLowerCase());
+}
+
+function getFilteredProducts() {
+  const query = $("search-input").value.trim();
+  return PRODUCTS.filter((product) => {
+    const categoryOK = activeCategory === "All" || product.category === activeCategory;
+    const searchOK = productMatches(product, query);
+    const quickOK =
+      quickFilter === "under50" ? product.price <= 50 :
+      quickFilter === "popular" ? product.price <= 100 : true;
+    return categoryOK && searchOK && quickOK;
+  });
+}
+
+function renderProducts() {
+  const grid = $("product-grid");
+  const empty = $("empty-state");
+  const products = getFilteredProducts();
   grid.innerHTML = "";
 
-  const query = (searchText || "").toLowerCase();
+  $("result-count").textContent =
+    `${products.length} product${products.length === 1 ? "" : "s"}`;
 
-  PRODUCTS.forEach(function (product, index) {
-    // Check if this product matches the active category
-    const matchCategory =
-      !filterCat || filterCat === "All" || product.category === filterCat;
-
-    // Check if it matches the search text
-    const matchSearch =
-      !query ||
-      product.name.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query);
-
-    if (!matchCategory || !matchSearch) return;
-
+  products.forEach((product) => {
+    const index = PRODUCTS.indexOf(product);
     const qty = cart[index] || 0;
-
-    // Build the card HTML
     const card = document.createElement("article");
     card.className = "product-card";
-    card.dataset.index = index;
-
-    card.innerHTML =
-      '<div class="product-emoji">' + product.emoji + "</div>" +
-      '<div class="product-cat">' + product.category + "</div>" +
-      '<div class="product-name">' + product.name + "</div>" +
-      '<div class="product-price">₹' + product.price +
-        ' <span class="product-unit">' + (product.unit || "") + "</span></div>" +
-      '<div class="add-controls">' +
-        '<div class="qty-box' + (qty > 0 ? " visible" : "") + '" id="qb-' + index + '">' +
-          '<button class="qty-btn" data-action="dec" data-idx="' + index + '">−</button>' +
-          '<span class="qty-num" id="qn-' + index + '">' + qty + "</span>" +
-          '<button class="qty-btn" data-action="inc" data-idx="' + index + '">+</button>' +
-        "</div>" +
-        '<button class="add-btn" id="ab-' + index + '" data-idx="' + index + '"' +
-          (qty > 0 ? ' style="display:none"' : "") + ">+ Add</button>" +
-      "</div>";
-
+    card.innerHTML = `
+      <div class="product-visual">
+        <span class="product-icon">${product.emoji}</span>
+        ${product.price <= 20 ? '<span class="price-badge">Value</span>' : ""}
+      </div>
+      <div class="product-cat">${product.category}</div>
+      <h3>${product.name}</h3>
+      <div class="product-meta">
+        <strong>${money(product.price)}</strong>
+        <span>${product.unit || ""}</span>
+      </div>
+      <div class="add-controls">
+        <div class="qty-box ${qty > 0 ? "visible" : ""}">
+          <button class="qty-btn" data-action="dec" data-idx="${index}" type="button">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" data-action="inc" data-idx="${index}" type="button">+</button>
+        </div>
+        <button class="add-btn" data-idx="${index}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>+ Add</button>
+      </div>
+    `;
     grid.appendChild(card);
   });
 
-  // Attach click events to all qty buttons and add buttons
-  grid.querySelectorAll(".qty-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var idx    = Number(btn.dataset.idx);
-      var action = btn.dataset.action;
-      changeQty(idx, action === "inc" ? 1 : -1);
-    });
-  });
-
-  grid.querySelectorAll(".add-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      changeQty(Number(btn.dataset.idx), 1);
-    });
-  });
+  empty.hidden = products.length !== 0;
 }
 
-
-// ─────────────────────────────────────────────────────────────
-//  CHANGE QUANTITY
-//  Updates cart, updates the card controls, updates badge.
-// ─────────────────────────────────────────────────────────────
 function changeQty(index, delta) {
-  // Update cart count
-  cart[index] = Math.max(0, (cart[index] || 0) + delta);
-  if (cart[index] === 0) {
-    delete cart[index];
-  }
+  const next = Math.max(0, (cart[index] || 0) + delta);
+  if (next === 0) delete cart[index];
+  else cart[index] = next;
+  updateCart();
+}
 
-  // Update the card controls on the page
-  var qtyBox  = document.getElementById("qb-" + index);
-  var qtyNum  = document.getElementById("qn-" + index);
-  var addBtn  = document.getElementById("ab-" + index);
+function getCartTotals() {
+  let items = 0, total = 0;
+  Object.entries(cart).forEach(([idx, qty]) => {
+    items += qty;
+    total += PRODUCTS[idx].price * qty;
+  });
+  return { items, total };
+}
 
-  if (qtyBox && qtyNum && addBtn) {
-    var currentQty = cart[index] || 0;
-    qtyNum.textContent = currentQty;
-
-    if (currentQty > 0) {
-      qtyBox.classList.add("visible");
-      addBtn.style.display = "none";
-    } else {
-      qtyBox.classList.remove("visible");
-      addBtn.style.display = "";
-    }
-  }
-
-  updateCartBadge();
+function updateCart() {
+  const { items, total } = getCartTotals();
+  $("cart-badge").textContent = items;
+  $("cart-badge").style.display = items ? "grid" : "none";
+  $("float-count").textContent = `${items} item${items === 1 ? "" : "s"}`;
+  $("float-total").textContent = money(total);
+  $("float-cart").classList.toggle("show", items > 0);
+  renderProducts();
   renderCartPanel();
 }
 
-
-// ─────────────────────────────────────────────────────────────
-//  CART BADGE (the red number on the cart button)
-// ─────────────────────────────────────────────────────────────
-function updateCartBadge() {
-  var totalItems = 0;
-  var totalPrice = 0;
-
-  for (var idx in cart) {
-    totalItems += cart[idx];
-    totalPrice += PRODUCTS[idx].price * cart[idx];
-  }
-
-  var badge = document.getElementById("cart-badge");
-  badge.textContent = totalItems;
-  badge.style.display = totalItems > 0 ? "grid" : "none";
-
-  // Update floating cart bar
-  var floatCart = document.getElementById("float-cart");
-  document.getElementById("float-count").textContent =
-    totalItems + " item" + (totalItems !== 1 ? "s" : "");
-  document.getElementById("float-total").textContent = "₹" + totalPrice;
-  floatCart.classList.toggle("show", totalItems > 0);
-}
-
-
-// ─────────────────────────────────────────────────────────────
-//  RENDER CART PANEL (the slide-in cart drawer)
-// ─────────────────────────────────────────────────────────────
 function renderCartPanel() {
-  var box     = document.getElementById("cart-items-panel");
-  var entries = Object.entries(cart);
+  const box = $("cart-items-panel");
+  const entries = Object.entries(cart);
 
-  // Empty state
-  if (entries.length === 0) {
-    box.innerHTML =
-      '<div class="cart-empty">' +
-        '<div class="cart-empty-icon">🛒</div>' +
-        "<p>Your cart is empty</p>" +
-        '<p class="cart-empty-sub">Add items to get started</p>' +
-      "</div>";
-    document.getElementById("panel-total").textContent = "₹0";
+  if (!entries.length) {
+    box.innerHTML = `
+      <div class="cart-empty">
+        <div>🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Add products from the shop and they will appear here.</p>
+        <button class="primary-btn" type="button" onclick="closeCart(); document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Start shopping</button>
+      </div>`;
+    $("panel-total").textContent = "₹0";
     return;
   }
 
-  var total = 0;
-  var html  = "";
+  let total = 0;
+  box.innerHTML = entries.map(([idx, qty]) => {
+    const product = PRODUCTS[idx];
+    const subtotal = product.price * qty;
+    total += subtotal;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-emoji">${product.emoji}</div>
+        <div class="cart-item-info">
+          <strong>${product.name}</strong>
+          <small>${money(product.price)} · ${product.unit || ""}</small>
+          <div class="cart-item-qty">
+            <button class="ci-btn" data-action="dec" data-idx="${idx}" type="button">−</button>
+            <span>${qty}</span>
+            <button class="ci-btn" data-action="inc" data-idx="${idx}" type="button">+</button>
+          </div>
+        </div>
+        <strong class="cart-item-subtotal">${money(subtotal)}</strong>
+      </div>`;
+  }).join("");
 
-  entries.forEach(function (entry) {
-    var idx     = entry[0];
-    var qty     = entry[1];
-    var product = PRODUCTS[idx];
-    var sub     = product.price * qty;
-    total += sub;
-
-    html +=
-      '<div class="cart-item">' +
-        '<div class="cart-item-emoji">' + product.emoji + "</div>" +
-        '<div class="cart-item-info">' +
-          '<div class="cart-item-name">' + product.name + "</div>" +
-          '<div class="cart-item-price">₹' + product.price + " each</div>" +
-          '<div class="cart-item-qty">' +
-            '<button class="ci-btn" data-action="dec" data-idx="' + idx + '">−</button>' +
-            '<span class="ci-num">' + qty + "</span>" +
-            '<button class="ci-btn" data-action="inc" data-idx="' + idx + '">+</button>' +
-          "</div>" +
-        "</div>" +
-        '<div class="cart-item-subtotal">₹' + sub + "</div>" +
-      "</div>";
-  });
-
-  box.innerHTML = html;
-  document.getElementById("panel-total").textContent = "₹" + total;
-
-  // Attach events to cart panel qty buttons
-  box.querySelectorAll(".ci-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var idx    = Number(btn.dataset.idx);
-      var action = btn.dataset.action;
-      changeQty(idx, action === "inc" ? 1 : -1);
-    });
-  });
+  $("panel-total").textContent = money(total);
 }
 
-
-// ─────────────────────────────────────────────────────────────
-//  OPEN / CLOSE CART
-// ─────────────────────────────────────────────────────────────
 function openCart() {
   renderCartPanel();
-  document.getElementById("cart-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+  $("cart-overlay").classList.add("open");
+  $("cart-overlay").setAttribute("aria-hidden", "false");
+  document.body.classList.add("cart-open");
 }
 
 function closeCart() {
-  document.getElementById("cart-overlay").classList.remove("open");
-  document.body.style.overflow = "";
+  $("cart-overlay").classList.remove("open");
+  $("cart-overlay").setAttribute("aria-hidden", "true");
+  document.body.classList.remove("cart-open");
 }
 
-document.getElementById("open-cart-btn").addEventListener("click", openCart);
-document.getElementById("close-cart-btn").addEventListener("click", closeCart);
-document.getElementById("overlay-bg").addEventListener("click", closeCart);
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
 
-
-// ─────────────────────────────────────────────────────────────
-//  CLEAR CART
-// ─────────────────────────────────────────────────────────────
-document.getElementById("clear-btn").addEventListener("click", function () {
-  for (var key in cart) {
-    delete cart[key];
-  }
-  updateCartBadge();
-  renderCartPanel();
-  // Re-render products so qty buttons reset
-  renderProducts(
-    activeCategory,
-    document.getElementById("search-input").value
-  );
+$("product-grid").addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-idx]");
+  if (!btn) return;
+  const idx = Number(btn.dataset.idx);
+  changeQty(idx, btn.dataset.action === "dec" ? -1 : 1);
+  if (btn.classList.contains("add-btn")) showToast(`${PRODUCTS[idx].name} added to cart`);
 });
 
-
-// ─────────────────────────────────────────────────────────────
-//  WHATSAPP ORDER
-// ─────────────────────────────────────────────────────────────
-document.getElementById("wa-order-btn").addEventListener("click", function () {
-  var name   = document.getElementById("c-name").value.trim();
-  var phone  = document.getElementById("c-phone").value.trim();
-  var place  = document.getElementById("c-place").value.trim();
-  var entries = Object.entries(cart);
-
-  if (entries.length === 0) {
-    alert("Please add at least one product to your cart.");
-    return;
-  }
-
-  if (!name || !phone || !place) {
-    alert("Please fill in your name, phone number, and delivery location.");
-    return;
-  }
-
-  var total = 0;
-  var lines = entries.map(function (entry) {
-    var idx     = entry[0];
-    var qty     = entry[1];
-    var product = PRODUCTS[idx];
-    var sub     = product.price * qty;
-    total += sub;
-    return "• " + product.name + " × " + qty + " = ₹" + sub;
-  });
-
-  var message =
-    "*New Order – Kalaivani Stores*\n\n" +
-    "*Name:* " + name + "\n" +
-    "*Phone:* " + phone + "\n" +
-    "*Delivery:* " + place + "\n\n" +
-    "*Items:*\n" + lines.join("\n") + "\n\n" +
-    "*Total: ₹" + total + "*\n\n" +
-    "Please confirm this order. Thank you!";
-
-  var link = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(message);
-  window.open(link, "_blank");
+$("cart-items-panel").addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-idx]");
+  if (!btn) return;
+  changeQty(Number(btn.dataset.idx), btn.dataset.action === "inc" ? 1 : -1);
 });
 
-
-// ─────────────────────────────────────────────────────────────
-//  CATEGORY TABS
-// ─────────────────────────────────────────────────────────────
-var activeCategory = "All";
-
-document.getElementById("cat-bar").addEventListener("click", function (event) {
-  var tab = event.target.closest(".cat-tab");
+$("cat-bar").addEventListener("click", (event) => {
+  const tab = event.target.closest(".cat-tab");
   if (!tab) return;
-
-  // Remove active from all tabs, add to clicked one
-  document.querySelectorAll(".cat-tab").forEach(function (t) {
-    t.classList.remove("active");
-  });
+  document.querySelectorAll(".cat-tab").forEach((t) => t.classList.remove("active"));
   tab.classList.add("active");
-
   activeCategory = tab.dataset.cat;
-
-  document.getElementById("section-title").textContent =
-    activeCategory === "All" ? "All Products" : activeCategory;
-
-  renderProducts(activeCategory, document.getElementById("search-input").value);
+  quickFilter = null;
+  renderProducts();
+  $("shop").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-
-// ─────────────────────────────────────────────────────────────
-//  SEARCH
-// ─────────────────────────────────────────────────────────────
-document.getElementById("search-input").addEventListener("input", function (event) {
-  renderProducts(activeCategory, event.target.value);
+$("search-input").addEventListener("input", renderProducts);
+$("clear-search").addEventListener("click", () => {
+  $("search-input").value = "";
+  renderProducts();
+  $("search-input").focus();
 });
 
+document.querySelectorAll("[data-quick]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const type = button.dataset.quick;
+    quickFilter = type === "all" ? null : type;
+    if (type === "all") {
+      activeCategory = "All";
+      document.querySelectorAll(".cat-tab").forEach((t) => t.classList.toggle("active", t.dataset.cat === "All"));
+    }
+    renderProducts();
+  });
+});
 
-// ─────────────────────────────────────────────────────────────
-//  START — render all products when page loads
-// ─────────────────────────────────────────────────────────────
-renderProducts("All", "");
+$("reset-filters").addEventListener("click", () => {
+  activeCategory = "All";
+  quickFilter = null;
+  $("search-input").value = "";
+  document.querySelectorAll(".cat-tab").forEach((t) => t.classList.toggle("active", t.dataset.cat === "All"));
+  renderProducts();
+});
+
+$("shop-now").addEventListener("click", () => {
+  $("shop").scrollIntoView({ behavior: "smooth" });
+});
+
+$("open-cart-btn").addEventListener("click", openCart);
+$("close-cart-btn").addEventListener("click", closeCart);
+$("overlay-bg").addEventListener("click", closeCart);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeCart();
+});
+
+$("clear-btn").addEventListener("click", () => {
+  Object.keys(cart).forEach((key) => delete cart[key]);
+  updateCart();
+  showToast("Cart cleared");
+});
+
+$("wa-order-btn").addEventListener("click", () => {
+  const { items, total } = getCartTotals();
+  const name = $("c-name").value.trim();
+  const phone = $("c-phone").value.trim();
+  const place = $("c-place").value.trim();
+
+  if (!items) return showToast("Please add at least one product.");
+  if (!name || !phone || !place) return showToast("Please fill in all delivery details.");
+
+  const lines = Object.entries(cart).map(([idx, qty]) => {
+    const p = PRODUCTS[idx];
+    return `• ${p.name} × ${qty} = ${money(p.price * qty)}`;
+  });
+
+  const message =
+    `*New Order – Kalaivani Stores*\\n\\n` +
+    `*Name:* ${name}\\n` +
+    `*Phone:* ${phone}\\n` +
+    `*Delivery:* ${place}\\n\\n` +
+    `*Items:*\\n${lines.join("\\n")}\\n\\n` +
+    `*Total: ${money(total)}*\\n\\n` +
+    `Please confirm this order. Thank you!`;
+
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+  showToast("Opening WhatsApp…");
+});
+
+renderProducts();
+updateCart();
