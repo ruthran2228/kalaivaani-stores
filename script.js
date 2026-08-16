@@ -1,76 +1,123 @@
-const PRODUCTS = [
+// ============================================================
+// Kalaivani Stores v3 — products loaded live from Supabase
+// ============================================================
+
+// --- Supabase client (config.js loads first) ---
+let supabaseClient = null;
+
+try {
+  if (
+    typeof window.supabase !== "undefined" &&
+    typeof SUPABASE_URL !== "undefined" &&
+    typeof SUPABASE_ANON_KEY !== "undefined"
+  ) {
+    supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+  }
+} catch (error) {
+  console.warn("Supabase init failed:", error);
+}
+
+const PRODUCT_CACHE_KEY = "ks_products_v1";
+
+// --- Fallback catalog (used offline / while Supabase is empty) ---
+const FALLBACK_PRODUCTS = [
   // SNACKS
-  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 5,  unit: "per pack" },
-  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
-  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 20,  unit: "per pack" },
-  { name: "GoodDay Biscuit",      emoji: "🍪", category: "Snacks",      price: 50,  unit: "per pack" },
-  { name: "GoodDay Biscuit chocklate",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
-  { name: "Britannia Bourbon",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
-  { name: "Britannia Bourbon",      emoji: "🍪", category: "Snacks",      price: 20,  unit: "per pack" },
-  { name: "marie gold",      emoji: "🍪", category: "Snacks",      price: 10,  unit: "per pack" },
-  { name: "marie gold",      emoji: "🍪", category: "Snacks",      price: 30,  unit: "per pack" },
-  { name: "Parle-G Biscuit",      emoji: "🍘", category: "Snacks",      price: 5,  unit: "per pack" },
-  { name: "Parle-G Biscuit",      emoji: "🍘", category: "Snacks",      price: 10,  unit: "per pack" },
-  { name: "sunfest ",      emoji: "🍘", category: "Snacks",      price: 5,  unit: "per pack" },
-  { name: "Lays Chips",           emoji: "🥔", category: "Snacks",      price: 20,  unit: "per pack" },
-  { name: "Bourbon Biscuit",      emoji: "🍫", category: "Snacks",      price: 20,  unit: "per pack" },
-  { name: "Murukku",              emoji: "🌀", category: "Snacks",      price: 30,  unit: "per pack" },
-  { name: "Mixture",              emoji: "🥜", category: "Snacks",      price: 20,  unit: "per pack" },
+  { name: "GoodDay Biscuit", emoji: "🍪", category: "Snacks", price: 5, unit: "per pack", group_key: "GoodDay Biscuit" },
+  { name: "GoodDay Biscuit", emoji: "🍪", category: "Snacks", price: 10, unit: "per pack", group_key: "GoodDay Biscuit" },
+  { name: "GoodDay Biscuit", emoji: "🍪", category: "Snacks", price: 20, unit: "per pack", group_key: "GoodDay Biscuit" },
+  { name: "GoodDay Biscuit", emoji: "🍪", category: "Snacks", price: 50, unit: "per pack", group_key: "GoodDay Biscuit" },
+  { name: "GoodDay Biscuit chocolate", emoji: "🍪", category: "Snacks", price: 10, unit: "per pack", group_key: "GoodDay Biscuit chocolate" },
+  { name: "Britannia Bourbon", emoji: "🍪", category: "Snacks", price: 10, unit: "per pack", group_key: "Britannia Bourbon" },
+  { name: "Britannia Bourbon", emoji: "🍪", category: "Snacks", price: 20, unit: "per pack", group_key: "Britannia Bourbon" },
+  { name: "Marie Gold", emoji: "🍪", category: "Snacks", price: 10, unit: "per pack", group_key: "Marie Gold" },
+  { name: "Marie Gold", emoji: "🍪", category: "Snacks", price: 30, unit: "per pack", group_key: "Marie Gold" },
+  { name: "Parle-G Biscuit", emoji: "🍘", category: "Snacks", price: 5, unit: "per pack", group_key: "Parle-G Biscuit" },
+  { name: "Parle-G Biscuit", emoji: "🍘", category: "Snacks", price: 10, unit: "per pack", group_key: "Parle-G Biscuit" },
+  { name: "Sunfeast Biscuit", emoji: "🍘", category: "Snacks", price: 5, unit: "per pack", group_key: null },
+  { name: "Lay's Chips", emoji: "🥔", category: "Snacks", price: 20, unit: "per pack", group_key: null },
+  { name: "Bourbon Biscuit", emoji: "🍫", category: "Snacks", price: 20, unit: "per pack", group_key: null },
+  { name: "Murukku", emoji: "🌀", category: "Snacks", price: 30, unit: "per pack", group_key: null },
+  { name: "Mixture", emoji: "🥜", category: "Snacks", price: 20, unit: "per pack", group_key: null },
 
   // BEVERAGES
-  { name: "Pepsi – 500ml",        emoji: "🥤", category: "Beverages",   price: 40,  unit: "bottle" },
-  { name: "Frooti – 200ml",       emoji: "🧃", category: "Beverages",   price: 15,  unit: "pack" },
-  { name: "Sprite – 500ml",       emoji: "🍾", category: "Beverages",   price: 40,  unit: "bottle" },
-  { name: "Energy Drink",         emoji: "⚡", category: "Beverages",   price: 80,  unit: "can" },
-  { name: "Buttermilk",           emoji: "🫙", category: "Beverages",   price: 20,  unit: "pack" },
-  { name: "Water Bottle – 1L",    emoji: "💧", category: "Beverages",   price: 20,  unit: "bottle" },
+  { name: "Pepsi – 500ml", emoji: "🥤", category: "Beverages", price: 40, unit: "bottle", group_key: null },
+  { name: "Frooti – 200ml", emoji: "🧃", category: "Beverages", price: 15, unit: "pack", group_key: null },
+  { name: "Sprite – 500ml", emoji: "🍾", category: "Beverages", price: 40, unit: "bottle", group_key: null },
+  { name: "Energy Drink", emoji: "⚡", category: "Beverages", price: 80, unit: "can", group_key: null },
+  { name: "Buttermilk", emoji: "🫙", category: "Beverages", price: 20, unit: "pack", group_key: null },
+  { name: "Water Bottle – 1L", emoji: "💧", category: "Beverages", price: 20, unit: "bottle", group_key: null },
 
   // DAIRY
-  { name: "Milk – 500ml",         emoji: "🥛", category: "Dairy",       price: 27,  unit: "packet" },
-  { name: "Curd – 200g",          emoji: "🍶", category: "Dairy",       price: 25,  unit: "cup" },
-  { name: "Butter – 100g",        emoji: "🧈", category: "Dairy",       price: 55,  unit: "pack" },
-  { name: "Paneer – 200g",        emoji: "🫙", category: "Dairy",       price: 90,  unit: "pack" },
+  { name: "Milk – 500ml", emoji: "🥛", category: "Dairy", price: 27, unit: "packet", group_key: null },
+  { name: "Curd – 200g", emoji: "🍶", category: "Dairy", price: 25, unit: "cup", group_key: null },
+  { name: "Butter – 100g", emoji: "🧈", category: "Dairy", price: 55, unit: "pack", group_key: null },
+  { name: "Paneer – 200g", emoji: "🫙", category: "Dairy", price: 90, unit: "pack", group_key: null },
 
   // GROCERIES
-  { name: "Rice – 1 kg",          emoji: "🍚", category: "Groceries",   price: 70,  unit: "per kg" },
-  { name: "Toor Dal – 500g",      emoji: "🫘", category: "Groceries",   price: 65,  unit: "pack" },
-  { name: "Sugar – 1 kg",         emoji: "🍬", category: "Groceries",   price: 45,  unit: "per kg" },
-  { name: "Cooking Oil – 1L",     emoji: "🫙", category: "Groceries",   price: 140, unit: "bottle" },
-  { name: "Salt – 1 kg",          emoji: "🧂", category: "Groceries",   price: 20,  unit: "pack" },
-  { name: "Atta – 1 kg",          emoji: "🌾", category: "Groceries",   price: 55,  unit: "pack" },
-  { name: "Tomato – 500g",        emoji: "🍅", category: "Groceries",   price: 30,  unit: "500g" },
-  { name: "Onion – 1 kg",         emoji: "🧅", category: "Groceries",   price: 40,  unit: "per kg" },
-  { name: "Potato – 1 kg",        emoji: "🥔", category: "Groceries",   price: 35,  unit: "per kg" },
+  { name: "Rice – 1 kg", emoji: "🍚", category: "Groceries", price: 70, unit: "per kg", group_key: null },
+  { name: "Toor Dal – 500g", emoji: "🫘", category: "Groceries", price: 65, unit: "pack", group_key: null },
+  { name: "Sugar – 1 kg", emoji: "🍬", category: "Groceries", price: 45, unit: "per kg", group_key: null },
+  { name: "Cooking Oil – 1L", emoji: "🫙", category: "Groceries", price: 140, unit: "bottle", group_key: null },
+  { name: "Salt – 1 kg", emoji: "🧂", category: "Groceries", price: 20, unit: "pack", group_key: null },
+  { name: "Atta – 1 kg", emoji: "🌾", category: "Groceries", price: 55, unit: "pack", group_key: null },
+  { name: "Tomato – 500g", emoji: "🍅", category: "Groceries", price: 30, unit: "500g", group_key: null },
+  { name: "Onion – 1 kg", emoji: "🧅", category: "Groceries", price: 40, unit: "per kg", group_key: null },
+  { name: "Potato – 1 kg", emoji: "🥔", category: "Groceries", price: 35, unit: "per kg", group_key: null },
 
   // QUICK MEALS
-  { name: "Maggi Noodles",        emoji: "🍜", category: "Quick meals", price: 15,  unit: "per pack" },
-  { name: "Yippee Noodles",       emoji: "🍜", category: "Quick meals", price: 15,  unit: "per pack" },
-  { name: "Cup Noodles",          emoji: "🍵", category: "Quick meals", price: 30,  unit: "per cup" },
-  { name: "MTR Upma Mix",         emoji: "🫕", category: "Quick meals", price: 45,  unit: "per pack" },
-  { name: "Poha – 500g",          emoji: "🍚", category: "Quick meals", price: 35,  unit: "per pack" },
+  { name: "Maggi Noodles", emoji: "🍜", category: "Quick meals", price: 15, unit: "per pack", group_key: null },
+  { name: "Yippee Noodles", emoji: "🍜", category: "Quick meals", price: 15, unit: "per pack", group_key: null },
+  { name: "Cup Noodles", emoji: "🍵", category: "Quick meals", price: 30, unit: "per cup", group_key: null },
+  { name: "MTR Upma Mix", emoji: "🫕", category: "Quick meals", price: 45, unit: "per pack", group_key: null },
+  { name: "Poha – 500g", emoji: "🍚", category: "Quick meals", price: 35, unit: "per pack", group_key: null },
+
   // BATH & BODY
-  { name: "Bath Soap",          emoji: "🧼", category: "Bath & Body",  price: 40, unit: "per bar" },
-  { name: "Shampoo Sachet",     emoji: "🧴", category: "Bath & Body",  price: 5,  unit: "per sachet" },
-  { name: "Toothpaste – 100g",  emoji: "🦷", category: "Bath & Body",  price: 50, unit: "tube" },
-  { name: "Toothbrush",         emoji: "🪥", category: "Bath & Body",  price: 30, unit: "each" },
-  { name: "Sanitary Pads",      emoji: "🩸", category: "Bath & Body",  price: 55, unit: "per pack" },
+  { name: "Bath Soap", emoji: "🧼", category: "Bath & Body", price: 40, unit: "per bar", group_key: null },
+  { name: "Shampoo Sachet", emoji: "🧴", category: "Bath & Body", price: 5, unit: "per sachet", group_key: null },
+  { name: "Toothpaste – 100g", emoji: "🦷", category: "Bath & Body", price: 50, unit: "tube", group_key: null },
+  { name: "Toothbrush", emoji: "🪥", category: "Bath & Body", price: 30, unit: "each", group_key: null },
+  { name: "Sanitary Pads", emoji: "🩸", category: "Bath & Body", price: 55, unit: "per pack", group_key: null },
 
   // HOME CLEANING
-  { name: "Washing Powder",     emoji: "🧺", category: "Home Cleaning", price: 60, unit: "per pack" },
-  { name: "Dish Soap",          emoji: "🫧", category: "Home Cleaning", price: 35, unit: "per bar" },
-  { name: "Phenyl – 500ml",     emoji: "🧽", category: "Home Cleaning", price: 60, unit: "bottle" },
+  { name: "Washing Powder", emoji: "🧺", category: "Home Cleaning", price: 60, unit: "per pack", group_key: null },
+  { name: "Dish Soap", emoji: "🫧", category: "Home Cleaning", price: 35, unit: "per bar", group_key: null },
+  { name: "Phenyl – 500ml", emoji: "🧽", category: "Home Cleaning", price: 60, unit: "bottle", group_key: null },
 
   // STATIONERY
-  { name: "Notebook – 200 pages", emoji: "📓", category: "Stationery",  price: 60,  unit: "each" },
-  { name: "Pen (Blue)",           emoji: "🖊️", category: "Stationery",  price: 10,  unit: "each" },
-  { name: "Pencil Set",           emoji: "✏️", category: "Stationery",  price: 20,  unit: "per pack" },
-  { name: "Stapler",              emoji: "📌", category: "Stationery",  price: 80,  unit: "each" },
-];
+  { name: "Notebook – 200 pages", emoji: "📓", category: "Stationery", price: 60, unit: "each", group_key: null },
+  { name: "Pen (Blue)", emoji: "🖊️", category: "Stationery", price: 10, unit: "each", group_key: null },
+  { name: "Pencil Set", emoji: "✏️", category: "Stationery", price: 20, unit: "per pack", group_key: null },
+  { name: "Stapler", emoji: "📌", category: "Stationery", price: 80, unit: "each", group_key: null }
+].map((p, i) => ({
+  ...p,
+  image_url: null,
+  in_stock: true,
+  featured: false,
+  sort_order: i
+}));
 
 const WA_NUMBER = "917667771101";
+
+const CATEGORY_EMOJIS = {
+  All: "✨",
+  Snacks: "🍪",
+  Beverages: "🥤",
+  Dairy: "🥛",
+  Groceries: "🍚",
+  "Quick meals": "🍜",
+  "Bath & Body": "🧴",
+  "Home Cleaning": "🧹",
+  Stationery: "📚"
+};
+
 const cart = {};
+let PRODUCTS = [];
 let activeCategory = "All";
 let quickFilter = null;
+let sortBy = "default";
 
 const $ = (id) => document.getElementById(id);
 
@@ -78,28 +125,109 @@ function money(value) {
   return "₹" + Number(value).toLocaleString("en-IN");
 }
 
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+function normalizeProducts(list) {
+  return (list || []).map((p) => ({
+    ...p,
+    price: Number(p.price),
+    emoji: p.emoji || "🛒",
+    category: p.category || "Other",
+    unit: p.unit || "",
+    image_url: p.image_url || null,
+    group_key: p.group_key || null,
+    in_stock: p.in_stock !== false,
+    featured: p.featured === true
+  }));
+}
+
+function getCachedProducts() {
+  try {
+    const raw = localStorage.getItem(PRODUCT_CACHE_KEY);
+    return raw ? normalizeProducts(JSON.parse(raw)) : [];
+  } catch (error) {
+    return [];
+  }
+}
+
 function productMatches(product, query) {
   if (!query) return true;
-  const text = `${product.name} ${product.category} ${product.unit || ""}`.toLowerCase();
+
+  const text =
+    `${product.name} ${product.category} ${product.unit || ""}`.toLowerCase();
+
   return text.includes(query.toLowerCase());
 }
 
 function getFilteredProducts() {
   const query = $("search-input").value.trim();
-  return PRODUCTS.filter((product) => {
-    const categoryOK = activeCategory === "All" || product.category === activeCategory;
+
+  let products = PRODUCTS.filter((product) => {
+    const categoryOK =
+      activeCategory === "All" || product.category === activeCategory;
+
     const searchOK = productMatches(product, query);
+
     const quickOK =
-      quickFilter === "under50" ? product.price <= 50 :
-      quickFilter === "popular" ? product.price <= 100 : true;
+      quickFilter === "under50"
+        ? product.price <= 50
+        : quickFilter === "popular"
+          ? product.price <= 100
+          : true;
+
     return categoryOK && searchOK && quickOK;
   });
+
+  switch (sortBy) {
+    case "price-asc":
+      products.sort((a, b) => a.price - b.price);
+      break;
+    case "price-desc":
+      products.sort((a, b) => b.price - a.price);
+      break;
+    case "name-asc":
+      products.sort((a, b) =>
+        a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+      );
+      break;
+  }
+
+  return products;
+}
+
+function buildCategoryTabs() {
+  const categories = [
+    "All",
+    ...new Set(PRODUCTS.map((p) => p.category).filter(Boolean))
+  ];
+
+  if (!categories.includes(activeCategory)) {
+    activeCategory = "All";
+  }
+
+  $("cat-bar").innerHTML = categories
+    .map((cat) => {
+      const emoji = CATEGORY_EMOJIS[cat] || "🛒";
+      return `<button class="cat-tab${
+        cat === activeCategory ? " active" : ""
+      }" data-cat="${esc(cat)}" type="button">${emoji} ${esc(cat)}</button>`;
+    })
+    .join("");
 }
 
 function renderProducts() {
   const grid = $("product-grid");
   const empty = $("empty-state");
   const products = getFilteredProducts();
+
   grid.innerHTML = "";
 
   $("result-count").textContent =
@@ -108,28 +236,77 @@ function renderProducts() {
   products.forEach((product) => {
     const index = PRODUCTS.indexOf(product);
     const qty = cart[index] || 0;
+    const inStock = product.in_stock;
+
     const card = document.createElement("article");
-    card.className = "product-card";
+    card.className = "product-card" + (inStock ? "" : " card-oos");
+
+    const visual = product.image_url
+      ? `<img class="product-img" src="${esc(
+          product.image_url
+        )}" alt="${esc(product.name)}" loading="lazy">`
+      : `<span class="product-icon">${product.emoji || "🛒"}</span>`;
+
+    const badges = [
+      product.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
+      product.price <= 20 ? '<span class="price-badge">Value</span>' : ""
+    ].join("");
+
     card.innerHTML = `
       <div class="product-visual">
-        <span class="product-icon">${product.emoji}</span>
-        ${product.price <= 20 ? '<span class="price-badge">Value</span>' : ""}
+        ${visual}
+
+        ${badges}
+
+        ${
+          inStock
+            ? ""
+            : '<span class="oos-stamp">Out of stock</span>'
+        }
       </div>
-      <div class="product-cat">${product.category}</div>
-      <h3>${product.name}</h3>
+
+      <div class="product-cat">${esc(product.category)}</div>
+
+      <h3>${esc(product.name)}</h3>
+
       <div class="product-meta">
         <strong>${money(product.price)}</strong>
-        <span>${product.unit || ""}</span>
+        <span>${esc(product.unit)}</span>
       </div>
+
       <div class="add-controls">
-        <div class="qty-box ${qty > 0 ? "visible" : ""}">
-          <button class="qty-btn" data-action="dec" data-idx="${index}" type="button">−</button>
-          <span class="qty-num">${qty}</span>
-          <button class="qty-btn" data-action="inc" data-idx="${index}" type="button">+</button>
-        </div>
-        <button class="add-btn" data-idx="${index}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>+ Add</button>
+        ${
+          inStock
+            ? `
+          <div class="qty-box ${qty > 0 ? "visible" : ""}">
+            <button
+              class="qty-btn"
+              data-action="dec"
+              data-idx="${index}"
+              type="button"
+            >−</button>
+
+            <span class="qty-num">${qty}</span>
+
+            <button
+              class="qty-btn"
+              data-action="inc"
+              data-idx="${index}"
+              type="button"
+            >+</button>
+          </div>
+
+          <button
+            class="add-btn"
+            data-idx="${index}"
+            type="button"
+            ${qty > 0 ? 'style="display:none"' : ""}
+          >+ Add</button>`
+            : ""
+        }
       </div>
     `;
+
     grid.appendChild(card);
   });
 
@@ -138,27 +315,41 @@ function renderProducts() {
 
 function changeQty(index, delta) {
   const next = Math.max(0, (cart[index] || 0) + delta);
-  if (next === 0) delete cart[index];
-  else cart[index] = next;
+
+  if (next === 0) {
+    delete cart[index];
+  } else {
+    cart[index] = next;
+  }
+
   updateCart();
 }
 
 function getCartTotals() {
-  let items = 0, total = 0;
+  let items = 0;
+  let total = 0;
+
   Object.entries(cart).forEach(([idx, qty]) => {
     items += qty;
     total += PRODUCTS[idx].price * qty;
   });
+
   return { items, total };
 }
 
 function updateCart() {
   const { items, total } = getCartTotals();
+
   $("cart-badge").textContent = items;
   $("cart-badge").style.display = items ? "grid" : "none";
-  $("float-count").textContent = `${items} item${items === 1 ? "" : "s"}`;
+
+  $("float-count").textContent =
+    `${items} item${items === 1 ? "" : "s"}`;
+
   $("float-total").textContent = money(total);
+
   $("float-cart").classList.toggle("show", items > 0);
+
   renderProducts();
   renderCartPanel();
 }
@@ -171,155 +362,350 @@ function renderCartPanel() {
     box.innerHTML = `
       <div class="cart-empty">
         <div>🛒</div>
+
         <h3>Your cart is empty</h3>
-        <p>Add products from the shop and they will appear here.</p>
-        <button class="primary-btn" type="button" onclick="closeCart(); document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Start shopping</button>
-      </div>`;
+
+        <p>
+          Add products from the shop and they will appear here.
+        </p>
+
+        <button
+          class="primary-btn"
+          type="button"
+          onclick="closeCart(); smoothScroll('shop')"
+        >
+          Start shopping
+        </button>
+      </div>
+    `;
+
     $("panel-total").textContent = "₹0";
+
     return;
   }
 
   let total = 0;
-  box.innerHTML = entries.map(([idx, qty]) => {
-    const product = PRODUCTS[idx];
-    const subtotal = product.price * qty;
-    total += subtotal;
-    return `
-      <div class="cart-item">
-        <div class="cart-item-emoji">${product.emoji}</div>
-        <div class="cart-item-info">
-          <strong>${product.name}</strong>
-          <small>${money(product.price)} · ${product.unit || ""}</small>
-          <div class="cart-item-qty">
-            <button class="ci-btn" data-action="dec" data-idx="${idx}" type="button">−</button>
-            <span>${qty}</span>
-            <button class="ci-btn" data-action="inc" data-idx="${idx}" type="button">+</button>
+
+  box.innerHTML = entries
+    .map(([idx, qty]) => {
+      const product = PRODUCTS[idx];
+      const subtotal = product.price * qty;
+
+      total += subtotal;
+
+      return `
+        <div class="cart-item">
+
+          <div class="cart-item-emoji">
+            ${product.emoji || "🛒"}
           </div>
+
+          <div class="cart-item-info">
+
+            <strong>${esc(product.name)}</strong>
+
+            <small>
+              ${money(product.price)} · ${esc(product.unit)}
+            </small>
+
+            <div class="cart-item-qty">
+
+              <button
+                class="ci-btn"
+                data-action="dec"
+                data-idx="${idx}"
+                type="button"
+              >−</button>
+
+              <span>${qty}</span>
+
+              <button
+                class="ci-btn"
+                data-action="inc"
+                data-idx="${idx}"
+                type="button"
+              >+</button>
+
+            </div>
+
+          </div>
+
+          <strong class="cart-item-subtotal">
+            ${money(subtotal)}
+          </strong>
+
         </div>
-        <strong class="cart-item-subtotal">${money(subtotal)}</strong>
-      </div>`;
-  }).join("");
+      `;
+    })
+    .join("");
 
   $("panel-total").textContent = money(total);
 }
 
 function openCart() {
   renderCartPanel();
+
   $("cart-overlay").classList.add("open");
   $("cart-overlay").setAttribute("aria-hidden", "false");
+
   document.body.classList.add("cart-open");
 }
 
 function closeCart() {
   $("cart-overlay").classList.remove("open");
   $("cart-overlay").setAttribute("aria-hidden", "true");
+
   document.body.classList.remove("cart-open");
 }
 
 function showToast(message) {
   const toast = $("toast");
+
   toast.textContent = message;
   toast.classList.add("show");
+
   clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+
+  showToast.timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
 }
 
+function smoothScroll(id) {
+  const el = $(id);
+
+  if (el && el.scrollIntoView) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+// ------------------------------------------------------------
+// Product loading (Supabase live -> localStorage cache -> fallback)
+// ------------------------------------------------------------
+async function loadProducts() {
+  const note = $("sync-note");
+  if (note) note.textContent = "⏳ Syncing products…";
+
+  let fresh = null;
+
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .order("sort_order", { ascending: true, nullsFirst: false })
+        .order("id", { ascending: true });
+
+      if (!error && data && data.length) {
+        fresh = normalizeProducts(data);
+      } else if (error) {
+        console.warn("Supabase fetch failed:", error.message);
+      }
+    } catch (error) {
+      console.warn("Supabase fetch failed:", error);
+    }
+  }
+
+  if (fresh) {
+    PRODUCTS = fresh;
+    try {
+      localStorage.setItem(PRODUCT_CACHE_KEY, JSON.stringify(fresh));
+    } catch (error) {
+      /* storage unavailable */
+    }
+  } else {
+    const cached = getCachedProducts();
+    PRODUCTS = cached.length ? cached : FALLBACK_PRODUCTS;
+  }
+
+  refreshUI();
+
+  if (note) note.textContent = "";
+}
+
+function refreshUI() {
+  buildCategoryTabs();
+  renderProducts();
+}
+
+// ------------------------------------------------------------
+// Events
+// ------------------------------------------------------------
+
+// PRODUCT GRID
 $("product-grid").addEventListener("click", (event) => {
   const btn = event.target.closest("[data-idx]");
+
   if (!btn) return;
+
   const idx = Number(btn.dataset.idx);
+
   changeQty(idx, btn.dataset.action === "dec" ? -1 : 1);
-  if (btn.classList.contains("add-btn")) showToast(`${PRODUCTS[idx].name} added to cart`);
+
+  if (btn.classList.contains("add-btn")) {
+    showToast(`${PRODUCTS[idx].name} added to cart`);
+  }
 });
 
+// CART
 $("cart-items-panel").addEventListener("click", (event) => {
   const btn = event.target.closest("[data-idx]");
+
   if (!btn) return;
-  changeQty(Number(btn.dataset.idx), btn.dataset.action === "inc" ? 1 : -1);
+
+  changeQty(
+    Number(btn.dataset.idx),
+    btn.dataset.action === "inc" ? 1 : -1
+  );
 });
 
+// CATEGORIES
 $("cat-bar").addEventListener("click", (event) => {
   const tab = event.target.closest(".cat-tab");
+
   if (!tab) return;
-  document.querySelectorAll(".cat-tab").forEach((t) => t.classList.remove("active"));
+
+  document
+    .querySelectorAll(".cat-tab")
+    .forEach((t) => t.classList.remove("active"));
+
   tab.classList.add("active");
+
   activeCategory = tab.dataset.cat;
   quickFilter = null;
+
   renderProducts();
-  $("shop").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  smoothScroll("shop");
 });
 
+// SEARCH
 $("search-input").addEventListener("input", renderProducts);
+
 $("clear-search").addEventListener("click", () => {
   $("search-input").value = "";
   renderProducts();
   $("search-input").focus();
 });
 
-document.querySelectorAll("[data-quick]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const type = button.dataset.quick;
-    quickFilter = type === "all" ? null : type;
-    if (type === "all") {
-      activeCategory = "All";
-      document.querySelectorAll(".cat-tab").forEach((t) => t.classList.toggle("active", t.dataset.cat === "All"));
-    }
-    renderProducts();
-  });
-});
-
-$("reset-filters").addEventListener("click", () => {
-  activeCategory = "All";
-  quickFilter = null;
-  $("search-input").value = "";
-  document.querySelectorAll(".cat-tab").forEach((t) => t.classList.toggle("active", t.dataset.cat === "All"));
+// SORT
+$("sort-select").addEventListener("change", (event) => {
+  sortBy = event.target.value;
   renderProducts();
 });
 
-$("shop-now").addEventListener("click", () => {
-  $("shop").scrollIntoView({ behavior: "smooth" });
+// QUICK FILTERS
+document
+  .querySelectorAll("[data-quick]")
+  .forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.dataset.quick;
+
+      quickFilter = type === "all" ? null : type;
+
+      if (type === "all") {
+        activeCategory = "All";
+
+        document
+          .querySelectorAll(".cat-tab")
+          .forEach((t) => {
+            t.classList.toggle("active", t.dataset.cat === "All");
+          });
+      }
+
+      renderProducts();
+    });
+  });
+
+// RESET FILTERS
+$("reset-filters").addEventListener("click", () => {
+  activeCategory = "All";
+  quickFilter = null;
+  sortBy = "default";
+
+  $("search-input").value = "";
+  $("sort-select").value = "default";
+
+  document
+    .querySelectorAll(".cat-tab")
+    .forEach((t) => {
+      t.classList.toggle("active", t.dataset.cat === "All");
+    });
+
+  renderProducts();
 });
 
+// SHOP NOW
+$("shop-now").addEventListener("click", () => {
+  smoothScroll("shop");
+});
+
+// CART OPEN/CLOSE
 $("open-cart-btn").addEventListener("click", openCart);
 $("close-cart-btn").addEventListener("click", closeCart);
 $("overlay-bg").addEventListener("click", closeCart);
 
+// ESCAPE KEY
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeCart();
+  if (event.key === "Escape") {
+    closeCart();
+  }
 });
 
+// CLEAR CART
 $("clear-btn").addEventListener("click", () => {
-  Object.keys(cart).forEach((key) => delete cart[key]);
+  Object.keys(cart).forEach((key) => {
+    delete cart[key];
+  });
+
   updateCart();
   showToast("Cart cleared");
 });
 
+// WHATSAPP ORDER
 $("wa-order-btn").addEventListener("click", () => {
   const { items, total } = getCartTotals();
+
   const name = $("c-name").value.trim();
   const phone = $("c-phone").value.trim();
   const place = $("c-place").value.trim();
 
-  if (!items) return showToast("Please add at least one product.");
-  if (!name || !phone || !place) return showToast("Please fill in all delivery details.");
+  if (!items) {
+    showToast("Please add at least one product.");
+    return;
+  }
+
+  if (!name || !phone || !place) {
+    showToast("Please fill in all delivery details.");
+    return;
+  }
 
   const lines = Object.entries(cart).map(([idx, qty]) => {
-    const p = PRODUCTS[idx];
-    return `• ${p.name} × ${qty} = ${money(p.price * qty)}`;
+    const product = PRODUCTS[idx];
+    return `• ${product.name} × ${qty} = ${money(product.price * qty)}`;
   });
 
   const message =
-    `*New Order – Kalaivani Stores*\\n\\n` +
-    `*Name:* ${name}\\n` +
-    `*Phone:* ${phone}\\n` +
-    `*Delivery:* ${place}\\n\\n` +
-    `*Items:*\\n${lines.join("\\n")}\\n\\n` +
-    `*Total: ${money(total)}*\\n\\n` +
+    `New Order – Kalaivani Stores\n\n` +
+    `Name: ${name}\n` +
+    `Phone: ${phone}\n` +
+    `Delivery: ${place}\n\n` +
+    `Items:\n` +
+    `${lines.join("\n")}\n\n` +
+    `Total: ${money(total)}\n\n` +
     `Please confirm this order. Thank you!`;
 
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+  const whatsappURL =
+    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappURL, "_blank");
+
   showToast("Opening WhatsApp…");
 });
 
-renderProducts();
+// ------------------------------------------------------------
+// INITIAL LOAD
+// ------------------------------------------------------------
+refreshUI();
 updateCart();
+loadProducts();

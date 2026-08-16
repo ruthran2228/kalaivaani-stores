@@ -71,21 +71,20 @@
           <span class="section-kicker">SHOP</span>
           <h2>Browse our essentials</h2>
         </div>
-        <span class="result-count" id="result-count"></span>
+        <div class="section-tools">
+          <span class="result-count" id="result-count"></span>
+          <span class="sync-note" id="sync-note"></span>
+          <select class="sort-select" id="sort-select" aria-label="Sort products">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="name-asc">Name: A → Z</option>
+          </select>
+        </div>
       </div>
 
       <div class="category-wrap">
-        <div class="category-bar" id="cat-bar" aria-label="Product categories">
-          <button class="cat-tab active" data-cat="All" type="button">✨ All</button>
-          <button class="cat-tab" data-cat="Snacks" type="button">🍪 Snacks</button>
-          <button class="cat-tab" data-cat="Beverages" type="button">🥤 Beverages</button>
-          <button class="cat-tab" data-cat="Dairy" type="button">🥛 Dairy</button>
-          <button class="cat-tab" data-cat="Groceries" type="button">🍚 Groceries</button>
-          <button class="cat-tab" data-cat="Quick meals" type="button">🍜 Quick meals</button>
-          <button class="cat-tab" data-cat="Bath & Body" type="button">🧴 Bath & Body</button>
-          <button class="cat-tab" data-cat="Home Cleaning" type="button">🧹 Home Cleaning</button>
-          <button class="cat-tab" data-cat="Stationery" type="button">📚 Stationery</button>
-        </div>
+        <div class="category-bar" id="cat-bar" aria-label="Product categories"></div>
       </div>
 
       <div class="quick-links">
@@ -180,6 +179,8 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
