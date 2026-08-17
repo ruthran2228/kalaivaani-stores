@@ -118,6 +118,7 @@ let PRODUCTS = [];
 let activeCategory = "All";
 let quickFilter = null;
 let sortBy = "default";
+let lastFocused = null;
 
 const $ = (id) => document.getElementById(id);
 
@@ -133,6 +134,61 @@ function esc(value) {
     '"': "&quot;",
     "'": "&#39;"
   })[c]);
+}
+
+function normalizeCat(cat) {
+  if (!cat) return cat;
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+function applyURLState() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+
+    const cat = params.get("cat");
+    if (cat) activeCategory = normalizeCat(cat);
+
+    const sort = params.get("sort");
+    if (
+      sort &&
+      ["price-asc", "price-desc", "name-asc", "default"].includes(sort)
+    ) {
+      sortBy = sort;
+    }
+
+    $("sort-select").value = sortBy;
+
+    const q = params.get("q");
+    if (q != null) $("search-input").value = q;
+  } catch (error) {
+    /* ignore */
+  }
+}
+
+function syncURLState() {
+  try {
+    const params = new URLSearchParams();
+
+    if (activeCategory && activeCategory !== "All") {
+      params.set("cat", activeCategory);
+    }
+
+    if (sortBy && sortBy !== "default") {
+      params.set("sort", sortBy);
+    }
+
+    const q = $("search-input").value.trim();
+    if (q) params.set("q", q);
+
+    const query = params.toString();
+    history.replaceState(
+      null,
+      "",
+      window.location.pathname + (query ? `?${query}` : "")
+    );
+  } catch (error) {
+    /* ignore */
+  }
 }
 
 function normalizeProducts(list) {
@@ -172,7 +228,7 @@ function getFilteredProducts() {
 
   let products = PRODUCTS.filter((product) => {
     const categoryOK =
-      activeCategory === "All" || product.category === activeCategory;
+      activeCategory === "All" || normalizeCat(product.category) === activeCategory;
 
     const searchOK = productMatches(product, query);
 
@@ -206,10 +262,10 @@ function getFilteredProducts() {
 function buildCategoryTabs() {
   const categories = [
     "All",
-    ...new Set(PRODUCTS.map((p) => p.category).filter(Boolean))
+    ...new Set(PRODUCTS.map((p) => normalizeCat(p.category)).filter(Boolean))
   ];
 
-  if (!categories.includes(activeCategory)) {
+  if (PRODUCTS.length && !categories.includes(activeCategory)) {
     activeCategory = "All";
   }
 
@@ -284,6 +340,7 @@ function renderProducts() {
               data-action="dec"
               data-idx="${index}"
               type="button"
+              aria-label="Decrease quantity"
             >−</button>
 
             <span class="qty-num">${qty}</span>
@@ -293,6 +350,7 @@ function renderProducts() {
               data-action="inc"
               data-idx="${index}"
               type="button"
+              aria-label="Increase quantity"
             >+</button>
           </div>
 
@@ -311,6 +369,8 @@ function renderProducts() {
   });
 
   empty.hidden = products.length !== 0;
+
+  syncURLState();
 }
 
 function changeQty(index, delta) {
@@ -323,6 +383,36 @@ function changeQty(index, delta) {
   }
 
   updateCart();
+}
+
+function validateCheckout() {
+  const fields = [
+    { input: $("c-name"), message: "Please enter your name." },
+    { input: $("c-phone"), message: "Please enter your phone number." },
+    { input: $("c-place"), message: "Please enter your delivery location." }
+  ];
+
+  document.querySelectorAll(".field-error").forEach((el) => el.remove());
+  document
+    .querySelectorAll(".checkout-fields input")
+    .forEach((el) => el.classList.remove("invalid"));
+
+  const invalid = [];
+
+  fields.forEach(({ input, message }) => {
+    if (input && !input.value.trim()) {
+      input.classList.add("invalid");
+
+      const error = document.createElement("span");
+      error.className = "field-error";
+      error.textContent = message;
+      input.insertAdjacentElement("afterend", error);
+
+      invalid.push(input);
+    }
+  });
+
+  return invalid;
 }
 
 function getCartTotals() {
@@ -371,8 +461,8 @@ function renderCartPanel() {
 
         <button
           class="primary-btn"
+          data-action="start-shopping"
           type="button"
-          onclick="closeCart(); smoothScroll('shop')"
         >
           Start shopping
         </button>
@@ -415,6 +505,7 @@ function renderCartPanel() {
                 data-action="dec"
                 data-idx="${idx}"
                 type="button"
+                aria-label="Decrease quantity"
               >−</button>
 
               <span>${qty}</span>
@@ -424,6 +515,7 @@ function renderCartPanel() {
                 data-action="inc"
                 data-idx="${idx}"
                 type="button"
+                aria-label="Increase quantity"
               >+</button>
 
             </div>
@@ -449,6 +541,9 @@ function openCart() {
   $("cart-overlay").setAttribute("aria-hidden", "false");
 
   document.body.classList.add("cart-open");
+
+  lastFocused = document.activeElement;
+  $("close-cart-btn").focus();
 }
 
 function closeCart() {
@@ -456,6 +551,36 @@ function closeCart() {
   $("cart-overlay").setAttribute("aria-hidden", "true");
 
   document.body.classList.remove("cart-open");
+
+  if (lastFocused && typeof lastFocused.focus === "function") {
+    lastFocused.focus();
+  }
+}
+
+function trapCartFocus(event) {
+  if (event.key !== "Tab") return;
+
+  const panel = $("cart-overlay");
+  const focusables = panel.querySelectorAll(
+    'button, input, select, a[href], [tabindex]:not([tabindex="-1"])'
+  );
+
+  const list = Array.from(focusables).filter(
+    (el) => el.offsetParent !== null || el === document.activeElement
+  );
+
+  if (!list.length) return;
+
+  const first = list[0];
+  const last = list[list.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 function showToast(message) {
@@ -549,6 +674,14 @@ $("product-grid").addEventListener("click", (event) => {
 
 // CART
 $("cart-items-panel").addEventListener("click", (event) => {
+  const start = event.target.closest("[data-action='start-shopping']");
+
+  if (start) {
+    closeCart();
+    smoothScroll("shop");
+    return;
+  }
+
   const btn = event.target.closest("[data-idx]");
 
   if (!btn) return;
@@ -644,6 +777,22 @@ $("shop-now").addEventListener("click", () => {
 $("open-cart-btn").addEventListener("click", openCart);
 $("close-cart-btn").addEventListener("click", closeCart);
 $("overlay-bg").addEventListener("click", closeCart);
+$("float-cart").addEventListener("click", openCart);
+$("cart-overlay").addEventListener("keydown", trapCartFocus);
+
+document
+  .querySelectorAll(".checkout-fields input")
+  .forEach((input) => {
+    input.addEventListener("input", () => {
+      input.classList.remove("invalid");
+
+      const error = input.nextElementSibling;
+
+      if (error && error.classList.contains("field-error")) {
+        error.remove();
+      }
+    });
+  });
 
 // ESCAPE KEY
 document.addEventListener("keydown", (event) => {
@@ -654,6 +803,13 @@ document.addEventListener("keydown", (event) => {
 
 // CLEAR CART
 $("clear-btn").addEventListener("click", () => {
+  if (!Object.keys(cart).length) {
+    showToast("Cart is already empty");
+    return;
+  }
+
+  if (!window.confirm("Clear your cart?")) return;
+
   Object.keys(cart).forEach((key) => {
     delete cart[key];
   });
@@ -666,19 +822,22 @@ $("clear-btn").addEventListener("click", () => {
 $("wa-order-btn").addEventListener("click", () => {
   const { items, total } = getCartTotals();
 
-  const name = $("c-name").value.trim();
-  const phone = $("c-phone").value.trim();
-  const place = $("c-place").value.trim();
-
   if (!items) {
     showToast("Please add at least one product.");
     return;
   }
 
-  if (!name || !phone || !place) {
-    showToast("Please fill in all delivery details.");
+  const invalid = validateCheckout();
+
+  if (invalid.length) {
+    invalid[0].focus();
+    showToast("Please fix the highlighted fields.");
     return;
   }
+
+  const name = $("c-name").value.trim();
+  const phone = $("c-phone").value.trim();
+  const place = $("c-place").value.trim();
 
   const lines = Object.entries(cart).map(([idx, qty]) => {
     const product = PRODUCTS[idx];
@@ -706,6 +865,7 @@ $("wa-order-btn").addEventListener("click", () => {
 // ------------------------------------------------------------
 // INITIAL LOAD
 // ------------------------------------------------------------
+applyURLState();
 refreshUI();
 updateCart();
 loadProducts();
