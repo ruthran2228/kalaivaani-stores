@@ -141,6 +141,36 @@ function normalizeCat(cat) {
   return cat.charAt(0).toUpperCase() + cat.slice(1);
 }
 
+function groupProducts(products) {
+  const groups = {};
+  products.forEach((p) => {
+    const key = p.group_key || p.name;
+    if (!groups[key]) {
+      groups[key] = {
+        name: p.name,
+        category: p.category,
+        emoji: p.emoji,
+        image_url: p.image_url,
+        featured: p.featured,
+        in_stock: p.in_stock,
+        variants: []
+      };
+    }
+    groups[key].variants.push(p);
+  });
+  return Object.values(groups);
+}
+
+function setQty(index, qty) {
+  qty = Math.max(0, Number(qty) || 0);
+  if (qty === 0) {
+    delete cart[index];
+  } else {
+    cart[index] = qty;
+  }
+  updateCart();
+}
+
 function applyURLState() {
   try {
     const params = new URLSearchParams(window.location.search);
@@ -289,45 +319,51 @@ function renderProducts() {
   $("result-count").textContent =
     `${products.length} product${products.length === 1 ? "" : "s"}`;
 
-  products.forEach((product) => {
-    const index = PRODUCTS.indexOf(product);
-    const qty = cart[index] || 0;
-    const inStock = product.in_stock;
+  const groups = groupProducts(products);
+
+  groups.forEach((group) => {
+    const firstVariant = group.variants[0];
+    const activeIdx = PRODUCTS.indexOf(firstVariant);
+    const qty = cart[activeIdx] || 0;
+    const inStock = group.in_stock;
+    const hasVariants = group.variants.length > 1;
+
+    const visual = firstVariant.image_url
+      ? `<img class="product-img" src="${esc(firstVariant.image_url)}" alt="${esc(firstVariant.name)}" loading="lazy">`
+      : `<span class="product-icon">${firstVariant.emoji || "🛒"}</span>`;
+
+    const badges = [
+      firstVariant.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
+      firstVariant.price <= 20 ? '<span class="price-badge">Value</span>' : ""
+    ].join("");
+
+    const variantChips = hasVariants
+      ? `<div class="variant-row">${group.variants.map((v, vi) => {
+          const vIdx = PRODUCTS.indexOf(v);
+          return `<button class="variant-chip${vi === 0 ? " active" : ""}" data-idx="${vIdx}" type="button">₹${v.price}</button>`;
+        }).join("")}</div>`
+      : "";
 
     const card = document.createElement("article");
     card.className = "product-card" + (inStock ? "" : " card-oos");
-
-    const visual = product.image_url
-      ? `<img class="product-img" src="${esc(
-          product.image_url
-        )}" alt="${esc(product.name)}" loading="lazy">`
-      : `<span class="product-icon">${product.emoji || "🛒"}</span>`;
-
-    const badges = [
-      product.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
-      product.price <= 20 ? '<span class="price-badge">Value</span>' : ""
-    ].join("");
+    card.dataset.activeIdx = activeIdx;
 
     card.innerHTML = `
       <div class="product-visual">
         ${visual}
-
         ${badges}
-
-        ${
-          inStock
-            ? ""
-            : '<span class="oos-stamp">Out of stock</span>'
-        }
+        ${inStock ? "" : '<span class="oos-stamp">Out of stock</span>'}
       </div>
 
-      <div class="product-cat">${esc(product.category)}</div>
+      <div class="product-cat">${esc(firstVariant.category)}</div>
 
-      <h3>${esc(product.name)}</h3>
+      <h3>${esc(group.name)}</h3>
+
+      ${variantChips}
 
       <div class="product-meta">
-        <strong>${money(product.price)}</strong>
-        <span>${esc(product.unit)}</span>
+        <strong class="price-val">${money(firstVariant.price)}</strong>
+        <span class="unit-val">${esc(firstVariant.unit)}</span>
       </div>
 
       <div class="add-controls">
@@ -335,31 +371,12 @@ function renderProducts() {
           inStock
             ? `
           <div class="qty-box ${qty > 0 ? "visible" : ""}">
-            <button
-              class="qty-btn"
-              data-action="dec"
-              data-idx="${index}"
-              type="button"
-              aria-label="Decrease quantity"
-            >−</button>
-
-            <span class="qty-num">${qty}</span>
-
-            <button
-              class="qty-btn"
-              data-action="inc"
-              data-idx="${index}"
-              type="button"
-              aria-label="Increase quantity"
-            >+</button>
+            <button class="qty-btn" data-action="dec" data-idx="${activeIdx}" type="button" aria-label="Decrease quantity">−</button>
+            <input type="number" class="qty-input" data-idx="${activeIdx}" min="0" step="1" value="${qty || 1}">
+            <button class="qty-btn" data-action="inc" data-idx="${activeIdx}" type="button" aria-label="Increase quantity">+</button>
           </div>
 
-          <button
-            class="add-btn"
-            data-idx="${index}"
-            type="button"
-            ${qty > 0 ? 'style="display:none"' : ""}
-          >+ Add</button>`
+          <button class="add-btn" data-idx="${activeIdx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>+ Add</button>`
             : ""
         }
       </div>
@@ -368,7 +385,7 @@ function renderProducts() {
     grid.appendChild(card);
   });
 
-  empty.hidden = products.length !== 0;
+  empty.hidden = groups.length !== 0;
 
   syncURLState();
 }
@@ -659,16 +676,83 @@ function refreshUI() {
 
 // PRODUCT GRID
 $("product-grid").addEventListener("click", (event) => {
-  const btn = event.target.closest("[data-idx]");
+  const chip = event.target.closest(".variant-chip");
+  if (chip) {
+    const card = chip.closest(".product-card");
+    const idx = Number(chip.dataset.idx);
+    const product = PRODUCTS[idx];
 
-  if (!btn) return;
+    card.querySelectorAll(".variant-chip").forEach((c) => c.classList.remove("active"));
+    chip.classList.add("active");
 
-  const idx = Number(btn.dataset.idx);
+    card.dataset.activeIdx = idx;
+    card.querySelector(".price-val").textContent = money(product.price);
+    card.querySelector(".unit-val").textContent = product.unit || "";
 
-  changeQty(idx, btn.dataset.action === "dec" ? -1 : 1);
+    card.querySelectorAll(".qty-btn, .qty-input, .add-btn").forEach((el) => {
+      el.dataset.idx = idx;
+    });
 
-  if (btn.classList.contains("add-btn")) {
+    const qty = cart[idx] || 0;
+    const qtyBox = card.querySelector(".qty-box");
+    const addBtn = card.querySelector(".add-btn");
+    if (qtyBox) qtyBox.classList.toggle("visible", qty > 0);
+    if (addBtn) addBtn.style.display = qty > 0 ? "none" : "";
+    const input = card.querySelector(".qty-input");
+    if (input) input.value = qty || 1;
+
+    return;
+  }
+
+  const addBtn = event.target.closest(".add-btn");
+  if (addBtn) {
+    const idx = Number(addBtn.dataset.idx);
+    const card = addBtn.closest(".product-card");
+    const input = card ? card.querySelector(".qty-input") : null;
+    const qty = input ? Math.max(1, Number(input.value) || 1) : 1;
+
+    setQty(idx, qty);
     showToast(`${PRODUCTS[idx].name} added to cart`);
+    return;
+  }
+
+  const btn = event.target.closest(".qty-btn");
+  if (btn) {
+    const idx = Number(btn.dataset.idx);
+    const card = btn.closest(".product-card");
+    const input = card ? card.querySelector(".qty-input") : null;
+    const current = input ? Number(input.value) || 0 : (cart[idx] || 0);
+    const next = Math.max(0, current + (btn.dataset.action === "dec" ? -1 : 1));
+
+    if (input) input.value = next || 1;
+    setQty(idx, next);
+
+    if (card) {
+      const qtyBox = card.querySelector(".qty-box");
+      const addBtnEl = card.querySelector(".add-btn");
+      if (qtyBox) qtyBox.classList.toggle("visible", next > 0);
+      if (addBtnEl) addBtnEl.style.display = next > 0 ? "none" : "";
+    }
+
+    return;
+  }
+});
+
+$("product-grid").addEventListener("change", (event) => {
+  const input = event.target.closest(".qty-input");
+  if (!input) return;
+
+  const idx = Number(input.dataset.idx);
+  const val = Math.max(0, Number(input.value) || 0);
+  input.value = val || 1;
+  setQty(idx, val);
+
+  const card = input.closest(".product-card");
+  if (card) {
+    const qtyBox = card.querySelector(".qty-box");
+    const addBtn = card.querySelector(".add-btn");
+    if (qtyBox) qtyBox.classList.toggle("visible", val > 0);
+    if (addBtn) addBtn.style.display = val > 0 ? "none" : "";
   }
 });
 
