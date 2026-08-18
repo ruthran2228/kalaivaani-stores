@@ -340,7 +340,15 @@ function renderProducts() {
     const variantChips = hasVariants
       ? `<div class="variant-row">${group.variants.map((v, vi) => {
           const vIdx = PRODUCTS.indexOf(v);
-          return `<button class="variant-chip${vi === 0 ? " active" : ""}" data-idx="${vIdx}" type="button">₹${v.price}</button>`;
+          const diff = v.name.replace(group.name, "").trim();
+          let label;
+          if (diff) {
+            label = diff.replace(/^\(|\)$/g, "").trim();
+            label = label.charAt(0).toUpperCase() + label.slice(1);
+          } else {
+            label = "₹" + v.price;
+          }
+          return `<button class="variant-chip${vi === 0 ? " active" : ""}" data-idx="${vIdx}" type="button">${esc(label)}</button>`;
         }).join("")}</div>`
       : "";
 
