@@ -1,0 +1,316 @@
+﻿name,emoji,category,price,unit,image_url,group_key,in_stock,featured,sort_order
+GoodDay Biscuit,,Snacks,5,per pack,,GoodDay Biscuit,TRUE,FALSE,1
+GoodDay Biscuit,,Snacks,10,per pack,,GoodDay Biscuit,TRUE,FALSE,2
+GoodDay Biscuit,,Snacks,20,per pack,,GoodDay Biscuit,TRUE,FALSE,3
+GoodDay Biscuit,,Snacks,50,per pack,,GoodDay Biscuit,TRUE,FALSE,4
+GoodDay Biscuit chocolate,,Snacks,10,per pack,,GoodDay Biscuit chocolate,TRUE,FALSE,5
+Britannia Bourbon,,Snacks,10,per pack,,Britannia Bourbon,TRUE,FALSE,6
+Britannia Bourbon,,Snacks,20,per pack,,Britannia Bourbon,TRUE,FALSE,7
+milk bikies,,snacks,5,per pack,,milk bikies,TRUE,FALSE,8
+milk bikies,,snacks,10,per pack,,milk bikies,TRUE,FALSE,9
+milk bikies,,snacks,30,per pack,,milk bikies,TRUE,FALSE,10
+milk bikies cream,,snacks,10,per pack,,milk bikies cream,TRUE,FALSE,11
+Marie Gold,,Snacks,5,per pack,,Marie Gold,TRUE,FALSE,12
+Marie Gold,,Snacks,10,per pack,,Marie Gold,TRUE,FALSE,13
+Marie Gold,,Snacks,30,per pack,,Marie Gold,TRUE,FALSE,14
+tiger krunch,,snacks,5,per pack,,tiger krunch,TRUE,FALSE,15
+tiger cream(yellow),,snacks,5,per pack,,tiger cream,TRUE,FALSE,16
+tiger cream(orrange),,snacks,5,per pack,,tiger cream,TRUE,FALSE,17
+tiger cream(chocklate),,snacks,5,per pack,,tiger cream,TRUE,FALSE,18
+tiger cream(elichi),,snacks,5,per pack,,tiger cream,TRUE,FALSE,19
+Parle-G Biscuit,,Snacks,5,per pack,,Parle-G Biscuit,TRUE,FALSE,20
+Parle-G Biscuit,,Snacks,10,per pack,,Parle-G Biscuit,TRUE,FALSE,21
+50-50,,Snacks,5,per pack,,50-50,TRUE,FALSE,22
+50-50,,Snacks,10,per pack,,50-50,TRUE,FALSE,23
+jim jam,,snacks,10,per pack,,jim jam,TRUE,FALSE,24
+britania treat ,,snacks,10,per pack,,britania treat,TRUE,FALSE,25
+toastea (rusk),,snacks,10,per pack,,toastea (rusk),TRUE,FALSE,26
+britania cake(chocklate),,snacks,15,per pack,,britania cake(chocklate),TRUE,FALSE,27
+britania cake(milk),,snacks,15,per pack,,britania cake(milk),TRUE,FALSE,28
+britania cake(butter),,snacks,15,per pack,,britania cake(butter),TRUE,FALSE,29
+britania cake(orange),,snacks,15,per pack,,britania cake(orange),TRUE,FALSE,30
+britania cake(pineapple),,snacks,15,per pack,,britania cake(pineapple),TRUE,FALSE,31
+happy happy,,Snacks,5,per pack,,happy happy,TRUE,FALSE,32
+happy happy,,Snacks,10,per pack,,happy happy,TRUE,FALSE,33
+crack jack,,Snacks,10,per pack,,crack jack,TRUE,FALSE,34
+hide&seek,,snacks,30,per pack,,hide&seek,TRUE,FALSE,35
+sunfeast bounce (chocklate),,snacks,5,per pack,,sunfeast bounce (chocklate),TRUE,FALSE,36
+sunfeast bounce (orange),,snacks,5,per pack,,sunfeast bounce (orange),TRUE,FALSE,37
+sunfeast bounce (pineapple),,snacks,5,per pack,,sunfeast bounce (pineapple),TRUE,FALSE,38
+britania treat ,,Snacks,10,per pack,,britania treat,TRUE,FALSE,39
+mom's magic,,Snacks,10,per pack,,mom's magic,TRUE,FALSE,40
+Dark fantacy ,,Snacks,10,per pack,,Dark fantacy ,TRUE,FALSE,41
+Dark fantacy ,,snacks,40,per pack,,Dark fantacy ,TRUE,FALSE,42
+Dark fantacy cream,,snacks,10,per pack,,Dark fantacy cream,TRUE,FALSE,43
+marie light,,snacks,10,per pack,,marie light,TRUE,FALSE,44
+marie light orange,,snacks,10,per pack,,marie light orange,TRUE,FALSE,45
+cadbury oreo,,snacks,10,per pack,,cadbury oreo,TRUE,FALSE,46
+lays magic masala,,Snacks,5,per pack,,lays magic masala,TRUE,FALSE,47
+lays creamy onion,,Snacks,5,per pack,,lays creamy onion,TRUE,FALSE,48
+lays tomato,,Snacks,5,per pack,,lays tomato,TRUE,FALSE,49
+lays sweet&chilly,,snacks,5,per pack,,lays sweet&chilly,TRUE,FALSE,50
+lays salt,,snacks,5,per pack,,lays salt,TRUE,FALSE,51
+kurkure masala munch,,snacks,5,per pack,,kurkure masala munch,TRUE,FALSE,52
+kurkure tomato,,snacks,5,per pack,,kurkure tomato,TRUE,FALSE,53
+bingo tedhe medhe,,Snacks,5,per pack,,bingo tedhe medhe,TRUE,FALSE,54
+Murukku,,Snacks,20,per pack,,Murukku,TRUE,FALSE,55
+Mixture,,Snacks,20,per pack,,Mixture,TRUE,FALSE,56
+kaaraboonthi,,snacks,20,per pack,,kaaraboonthi,TRUE,FALSE,57
+banana chips,,snacks,20,per pack,,banana chips,TRUE,FALSE,58
+pacha pattani,,snacks,20,per pack,,pacha pattani,TRUE,FALSE,59
+arisi murukku,,snacks,20,per pack,,arisi murukku,TRUE,FALSE,60
+potato chips,,snacks,20,per pack,,potato chips,TRUE,FALSE,61
+kaarasevu,,Snacks,20,per pack,,kaarasevu,TRUE,FALSE,62
+masaal kadalai,,Snacks,20,per pack,,masaal kadalai,TRUE,FALSE,63
+kuchi chips,,Snacks,20,per pack,,kuchi chips,TRUE,FALSE,64
+patta chips,,Snacks,20,per pack,,patta chips,TRUE,FALSE,65
+potato chilly,,snacks,20,per pack,,potato chilly,TRUE,FALSE,66
+tilo(green)-100ml,,Beverages,10,bottle,,tilo(green)-100ml,TRUE,FALSE,67
+tilo(black)-100ml,,Beverages,10,bottle,,tilo(black)-100ml,TRUE,FALSE,68
+tilo(orange)-100ml,,Beverages,10,bottle,,tilo(orange)-100ml,TRUE,FALSE,69
+sprit-250ml,,Beverages,20,bottle,,sprit-250ml,TRUE,FALSE,70
+sprit-750ml,,Beverages,35,bottle,,sprit-750ml,TRUE,FALSE,71
+sprit-2.2l,,Beverages,100,bottle,,sprit-2.2l,TRUE,FALSE,72
+cocacola-250ml,,Beverages,20,bottle,,cocacola-250ml,TRUE,FALSE,73
+cocacola-750ml,,Beverages,35,bottle,,cocacola-750ml,TRUE,FALSE,74
+cocacola-2.2l,,Beverages,100,bottle,,cocacola-2.2l,TRUE,FALSE,75
+fanta-250ml,,Beverages,20,bottle,,fanta-250ml,TRUE,FALSE,76
+fanta-750ml,,Beverages,35,bottle,,fanta-750ml,TRUE,FALSE,77
+fanta-2.2l,,Beverages,100,bottle,,fanta-2.2l,TRUE,FALSE,78
+maaza-600ml,,Beverages,40,bottle,,maaza-600ml,TRUE,FALSE,79
+Pepsi -250ml,,Beverages,20,bottle,,Pepsi -250ml,TRUE,FALSE,80
+Pepsi -750ml,,Beverages,40,bottle,,Pepsi -750ml,TRUE,FALSE,81
+Pepsi -2.2l,,Beverages,100,bottle,,Pepsi -2.2l,TRUE,FALSE,82
+7up-250ml,,Beverages,20,bottle,,7up-250ml,TRUE,FALSE,83
+7up-750ml,,Beverages,40,bottle,,7up-750ml,TRUE,FALSE,84
+7up-2.2ml,,Beverages,100,bottle,,7up-2.2ml,TRUE,FALSE,85
+mirinda-250ml,,Beverages,20,bottle,,mirinda-250ml,TRUE,FALSE,86
+mirinda-750ml,,Beverages,40,bottle,,mirinda-750ml,TRUE,FALSE,87
+mirinda-2.2ml,,Beverages,100,bottle,,mirinda-2.2ml,TRUE,FALSE,88
+slice-500ml,,Beverages,40,bottle,,slice-500ml,TRUE,FALSE,89
+string-200ml,,Beverages,20,bottle,,string-200ml,TRUE,FALSE,90
+mounten dew-250ml,,Beverages,20,bottle,,mounten dew-250ml,TRUE,FALSE,91
+mounten dew-750ml,,Beverages,40,bottle,,mounten dew-750ml,TRUE,FALSE,92
+water bottle-500ml,,Beverages,10,bottle,,water bottle-500ml,TRUE,FALSE,93
+water bottle-1l,,Beverages,20,bottle,,water bottle-1l,TRUE,FALSE,94
+Milk - 200ml,,Dairy,10,packet,,Milk - 200ml,TRUE,FALSE,95
+Milk - 500ml,,Dairy,30,packet,,Milk - 500ml,TRUE,FALSE,96
+curd-100ml,,Dairy,10,packet,,curd-100ml,TRUE,FALSE,97
+curd-500ml,,Dairy,35,packet,,curd-100ml,TRUE,FALSE,98
+huston curd,,Dairy,30,cup,,huston curd,TRUE,FALSE,99
+huston buttermilk,,Dairy,10,cup,,huston buttermilk,TRUE,FALSE,100
+Sugar,,Dairy,57,per kg,,Sugar,TRUE,FALSE,101
+Butter-100g,,Dairy,85,pack,,Butter -100g,TRUE,FALSE,102
+Paneer - 200g,,Dairy,90,pack,,Paneer-200g,TRUE,FALSE,103
+cheese-50g,,Dairy,20,pack,,cheese-50g,TRUE,FALSE,104
+3 Roses,,Dairy,5,packet,,3 Roses,TRUE,FALSE,105
+3 Roses,,Dairy,10,packet,,3 Roses,TRUE,FALSE,106
+3 Roses,,Dairy,45,packet,,3 Roses,TRUE,FALSE,107
+3 Roses,,Dairy,90,packet,,3 Roses,TRUE,FALSE,108
+3 Roses Nature Care,,Dairy,10,packet,,3 Roses Nature Care,TRUE,FALSE,109
+3 Roses Nature Care,,Dairy,100,packet,,3 Roses Nature Care,TRUE,FALSE,110
+AVT Gold Cup,,Dairy,5,packet,,AVT Gold Cup,TRUE,FALSE,111
+AVT Gold Cup,,Dairy,10,packet,,AVT Gold Cup,TRUE,FALSE,112
+AVT Gold Cup,,Dairy,90,packet,,AVT Gold Cup,TRUE,FALSE,113
+Chakra Gold,,Dairy,5,packet,,Chakra Gold,TRUE,FALSE,114
+Chakra Gold,,Dairy,10,packet,,Chakra Gold,TRUE,FALSE,115
+Chakra Gold,,Dairy,45,packet,,Chakra Gold,TRUE,FALSE,116
+Chakra Gold,,Dairy,90,packet,,Chakra Gold,TRUE,FALSE,117
+Bru ,,Dairy,2,packet,,Bru ,TRUE,FALSE,118
+Bru,,Dairy,5,packet,,Bru,TRUE,FALSE,119
+Bru,,Dairy,10,packet,,Bru,TRUE,FALSE,120
+Sunrises,,Dairy,2,packet,,Sunrises,TRUE,FALSE,121
+Sunrises,,Dairy,5,packet,,Sunrises,TRUE,FALSE,122
+Sunrises,,Dairy,10,packet,,Sunrises,TRUE,FALSE,123
+Sugam Coffee,,Dairy,35,packet,,Sugam Coffee,TRUE,FALSE,124
+Boost,,Dairy,5,packet,,Boost,TRUE,FALSE,125
+Horlicks,,Dairy,5,packet,,Horlicks,TRUE,FALSE,126
+Badham milk powder(20g),,Dairy,10,packet,,Badham milk powder(20g),TRUE,FALSE,127
+bread,,Dairy,25,packet,,bread,TRUE,FALSE,128
+bread,,Dairy,40,packet,,bread,TRUE,FALSE,129
+ghee,,Dairy,10,packet,,ghee,TRUE,FALSE,130
+ghee,,Dairy,50,packet,,ghee,TRUE,FALSE,131
+ghee,,Dairy,100,packet,,ghee,TRUE,FALSE,132
+ghee,,Dairy,470,packet,,ghee,TRUE,FALSE,133
+IR20 Boiled rice,,Groceries,60,per kg,,IR20 Rice-1kg,TRUE,FALSE,134
+Ponni Boiled rice,,Groceries,70,per kg,,ponni boiled rice-1kg,TRUE,FALSE,135
+Idly rice,,Groceries,55,per kg,,idly rice-1kg,TRUE,FALSE,136
+Raw rice,,Groceries,55,per kg,,raw rice,TRUE,FALSE,137
+India gate  ROZZONA Basmathi rice ,,Groceries,55,per kg,,India gate  ROZZONA Basmathi rice ,TRUE,FALSE,138
+Indiagate DUBAR  Basmathi rice ,,Groceries,100,pack,,Indiagate DUBAR  Basmathi rice ,TRUE,FALSE,139
+Kadalai paruppu,,Groceries,55,pack,,Kadalai paruppu,TRUE,FALSE,140
+Thovaram paruppu,,Groceries,130,per kg,,Thovaram paruppu,TRUE,FALSE,141
+Paasi paruppu,,Groceries,140,per kg,,Paasi paruppu,TRUE,FALSE,142
+Maysoor paruppu,,Groceries,130,per kg,,Maysoor paruppu,TRUE,FALSE,143
+Black channa,,Groceries,100,per kg,,Black channa,TRUE,FALSE,144
+White channa,,Groceries,100,per kg,,White channa,TRUE,FALSE,145
+Pacha pairu,,Groceries,140,per kg,,Pacha pairu,TRUE,FALSE,146
+Thatta pairu,,Groceries,140,per kg,,Thatta pairu,TRUE,FALSE,147
+Kollu,,Groceries,130,per kg,,Kollu,TRUE,FALSE,148
+Arara paruppu,,Groceries,140,per kg,,Arara paruppu,TRUE,FALSE,149
+Ulutham paruppu,,Groceries,110,per kg,,Ulutham paruppu,TRUE,FALSE,150
+Pattu kadalai,,Groceries,90,per kg,,Pattu kadalai,TRUE,FALSE,151
+Vadai paruppu,,Groceries,380,per kg,,Vadai paruppu,TRUE,FALSE,152
+Puli,,Groceries,,per kg,,Puli,TRUE,FALSE,153
+Kadagu,,Groceries,,per pack,,Kadagu,TRUE,FALSE,154
+Jeeragam,,Groceries,,per pack,,Jeeragam,TRUE,FALSE,155
+Sombu,,Groceries,,per pack,,Sombu,TRUE,FALSE,156
+Venthaigam,,Groceries,,per pack,,Venthaigam,TRUE,FALSE,157
+Pattai,,Groceries,,per pack,,Pattai,TRUE,FALSE,158
+Krambu,,Groceries,,per pack,,Krambu,TRUE,FALSE,159
+Elachi,,Groceries,,per pack,,Elachi,TRUE,FALSE,160
+Biriyani Selavu,,Groceries,,per pack,,Biriyani Selavu,TRUE,FALSE,161
+Gundu vellam,,Groceries,,,,Gundu vellam,TRUE,FALSE,162
+Country sugar,,Groceries,,,,Country sugar,TRUE,FALSE,163
+Cashew,,Groceries,,per pack,,Cashew,TRUE,FALSE,164
+Dry grapes,,Groceries,,per pack,,Dry grapes,TRUE,FALSE,165
+Red chilli,,Groceries,,,,Red chilli,TRUE,FALSE,166
+Avul,,Groceries,,,,Avul,TRUE,FALSE,167
+Tata Salt ,,Groceries,,per pack,,Tata Salt ,TRUE,FALSE,168
+Tata Salt ,,Groceries,,per pack,,Tata Salt ,TRUE,FALSE,169
+Salt,,Groceries,,per pack,,Salt,TRUE,FALSE,170
+Rock Salt ,,Groceries,,per pack,,Rock Salt ,TRUE,FALSE,171
+Rock Salt,,Groceries,,per pack,,Rock Salt,TRUE,FALSE,172
+Tata rock salt,,Groceries,,per pack,,Tata rock salt,TRUE,FALSE,173
+Green peas,,Groceries,,per pack,,Green peas,TRUE,FALSE,174
+Fried peanut,,Groceries,,,,Fried peanut,TRUE,FALSE,175
+Nonfried peanut,,Groceries,,,,Nonfried peanut,TRUE,FALSE,176
+Raw pepper,,Groceries,,,,Raw pepper,TRUE,FALSE,177
+Tamarind powder,,Groceries,10,per pack,,Tamarind powder,TRUE,FALSE,178
+Tamarind powder,,Groceries,15,per pack,,Tamarind powder,TRUE,FALSE,179
+Tamarind powder,,Groceries,140,per pack,,Tamarind powder,TRUE,FALSE,180
+Coriander powder,,Groceries,10,per pack,,Coriander powder,TRUE,FALSE,181
+Coriander powder,,Groceries,20,per pack,,Coriander powder,TRUE,FALSE,182
+Coriander powder,,Groceries,140,per pack,,Coriander powder,TRUE,FALSE,183
+Chicken masala,,Groceries,10,per pack,,Chicken masala,TRUE,FALSE,184
+Chicken masala,,Groceries,20,per pack,,Chicken masala,TRUE,FALSE,185
+Chicken masala,,Groceries,140,per pack,,Chicken masala,TRUE,FALSE,186
+Sambar masala,,Groceries,10,per pack,,Sambar masala,TRUE,FALSE,187
+Sambar masala,,Groceries,20,per pack,,Sambar masala,TRUE,FALSE,188
+Sambar masala,,Groceries,180,per pack,,Sambar masala,TRUE,FALSE,189
+Chilli powder,,Groceries,10,per pack,,Chilli powder,TRUE,FALSE,190
+Chilli powder,,Groceries,20,per pack,,Chilli powder,TRUE,FALSE,191
+Chilli powder,,Groceries,165,per pack,,Chilli powder,TRUE,FALSE,192
+Garam masala,,Groceries,10,per pack,,Garam masala,TRUE,FALSE,193
+Garam masala,,Groceries,30,per pack,,Garam masala,TRUE,FALSE,194
+Pepper powder,,Groceries,10,per pack,,Pepper powder,TRUE,FALSE,195
+Pepper powder,,Groceries,65,per pack,,Pepper powder,TRUE,FALSE,196
+Curry masala,,Groceries,10,per pack,,Curry masala,TRUE,FALSE,197
+Curry masala,,Groceries,25,per pack,,Curry masala,TRUE,FALSE,198
+Curry masala,,Groceries,210,per pack,,Curry masala,TRUE,FALSE,199
+Mutton masala,,Groceries,10,per pack,,Mutton masala,TRUE,FALSE,200
+Mutton masala,,Groceries,25,per pack,,Mutton masala,TRUE,FALSE,201
+Mutton masala,,Groceries,210,per pack,,Mutton masala,TRUE,FALSE,202
+Rasa powder,,Groceries,10,per pack,,Rasa powder,TRUE,FALSE,203
+Rasa powder,,Groceries,30,per pack,,Rasa powder,TRUE,FALSE,204
+Kashmir chilli,,Groceries,20,per pack,,Kashmir chilli,TRUE,FALSE,205
+Biriyani masala(20g),,Groceries,15,per pack,,Biriyani masala(20g),TRUE,FALSE,206
+Biriyani masala(50g),,Groceries,30,per pack,,Biriyani masala(50g),TRUE,FALSE,207
+Chicken 65 masala(50g),,Groceries,25,per pack,,Chicken 65 masala(50g),TRUE,FALSE,208
+Sunfood chilli powder(100g),,Groceries,20,per pack,,Sunfood chilli powder(100g),TRUE,FALSE,209
+Sunfood fish fry masala(100g),,Groceries,20,per pack,,Sunfood fish fry masala(100g),TRUE,FALSE,210
+Saravana 65 masala(50g),,Groceries,20,per pack,,Saravana 65 masala(50g),TRUE,FALSE,211
+Fish curry masala(20g),,Groceries,10,per pack,,Fish curry masala(20g),TRUE,FALSE,212
+Fish curry masala(50g),,Groceries,20,per pack,,Fish curry masala(50g),TRUE,FALSE,213
+Idly powder(20g),,Groceries,10,per pack,,Idly powder(20g),TRUE,FALSE,214
+Idly powder(50),,Groceries,20,per pack,,Idly powder(50),TRUE,FALSE,215
+Puli kolambu masala(50g),,Groceries,20,per pack,,Puli kolambu masala(50g),TRUE,FALSE,216
+Lemon rice powder(20g),,Groceries,10,per pack,,Lemon rice powder(20g),TRUE,FALSE,217
+Tamarind rice powder(20g),,Groceries,10,per pack,,Tamarind rice powder(20g),TRUE,FALSE,218
+Tomato rice powder(20g),,Groceries,10,per pack,,Tomato rice powder(20g),TRUE,FALSE,219
+Happyma fried rice powder,,Groceries,10,per pack,,Happyma fried rice powder,TRUE,FALSE,220
+Egg curry masala(20g),,Groceries,10,per pack,,Egg curry masala(20g),TRUE,FALSE,221
+Egg curry masala(50g),,Groceries,30,per pack,,Egg curry masala(50g),TRUE,FALSE,222
+Cumin powder(50g),,Groceries,35,per pack,,Cumin powder(50g),TRUE,FALSE,223
+Sunflower oil (100ml),,Groceries,20,,,Sunflower oil (100ml),TRUE,FALSE,224
+Sunflower oil (ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½ l),,Groceries,95,,,Sunflower oil (ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½ l),TRUE,FALSE,225
+Sunflower oil (1 l),,Groceries,180,,,Sunflower oil (1 l),TRUE,FALSE,226
+Groundnut oil(500ml),,Groceries,90,,,Groundnut oil(500ml),TRUE,FALSE,227
+Mustard oil (200ml),,Groceries,55,,,Mustard oil (200ml),TRUE,FALSE,228
+Mustard oil (500ml),,Groceries,115,,,Mustard oil (500ml),TRUE,FALSE,229
+Mustard oil (1 l),,Groceries,230,,,Mustard oil (1 l),TRUE,FALSE,230
+Parashut oil(38ml),,Groceries,20,,,Parashut oil(38ml),TRUE,FALSE,231
+Parashut oil(100ml),,Groceries,63,,,Parashut oil(100ml),TRUE,FALSE,232
+Parashut oil(250ml),,Groceries,145,,,Parashut oil(250ml),TRUE,FALSE,233
+Mr. Gold coconut oil,,Groceries,230,,,Mr. Gold coconut oil,TRUE,FALSE,234
+Idhayam gingely oil(50g),,Groceries,23,,,Idhayam gingely oil(50g),TRUE,FALSE,235
+Idhayam gingely oil(500ml),,Groceries,211,,,Idhayam gingely oil(500ml),TRUE,FALSE,236
+Manthra groundnut oil(500ml),,Groceries,135,,,Manthra groundnut oil(500ml),TRUE,FALSE,237
+VVD hair oil,,Groceries,20,,,VVD hair oil,TRUE,FALSE,238
+VVD hair oil,,Groceries,70,,,VVD hair oil,TRUE,FALSE,239
+Ashwini hair oil,,Groceries,75,,,Ashwini hair oil,TRUE,FALSE,240
+Navarathna oil,,Groceries,44,,,Navarathna oil,TRUE,FALSE,241
+Navarathna oil,,Groceries,155,,,Navarathna oil,TRUE,FALSE,242
+Jasmin oil,,Groceries,20,,,Jasmin oil,TRUE,FALSE,243
+Jasmin oil,,Groceries,43,,,Jasmin oil,TRUE,FALSE,244
+Maggi Noodles,,Quick meals,15,per pack,,Maggi Noodles,TRUE,FALSE,245
+Maggi Noodles,,Quick meals,60,per pack,,Maggi Noodles,TRUE,FALSE,246
+Yippee Noodles,,Quick meals,15,per pack,,Yippee Noodles,TRUE,FALSE,247
+Yippee Noodles,,Quick meals,60,per pack,,Yippee Noodles,TRUE,FALSE,248
+Anil Samiya,,Quick meals,20,per cup,,Anil Samiya,TRUE,FALSE,249
+Ragi Samiya,,Quick meals,25,per pack,,Ragi Samiya,TRUE,FALSE,250
+Savarot pasta,,Quick meals,10,per pack,,Savarot pasta,TRUE,FALSE,251
+Yippee pasta (Cheese),,Quick meals,10,per pack,,Yippee pasta (Cheese),TRUE,FALSE,252
+Yippee pasta (C),,Quick meals,10,per pack,,Yippee pasta (C),TRUE,FALSE,253
+Tomato sauce,,Quick meals,15,per pack,,Tomato sauce,TRUE,FALSE,254
+Red chilli sauce,,Quick meals,25,per pack,,Red chilli sauce,TRUE,FALSE,255
+Soya sauce,,Quick meals,25,per pack,,Soya sauce,TRUE,FALSE,256
+Green chilli sauce,,Quick meals,25,per pack,,Green chilli sauce,TRUE,FALSE,257
+Tomato,,Vegetables,25,per kg,,Tomato,TRUE,FALSE,258
+Onion,,Vegetables,60,per kg,,Onion,TRUE,FALSE,259
+Beans,,Vegetables,90,per kg,,Beans,TRUE,FALSE,260
+Carrot,,Vegetables,90,per kg,,Carrot,TRUE,FALSE,261
+Beetroot,,Vegetables,100,per kg,,Beetroot,TRUE,FALSE,262
+Ladies Finger,,Vegetables,60,per kg,,Ladies Finger,TRUE,FALSE,263
+Brinjal,,Vegetables,70,per kg,,Brinjal,TRUE,FALSE,264
+Pumpkin,,Vegetables,20,per kg,,Pumpkin,TRUE,FALSE,265
+Indian Broad Bean,,Vegetables,70,per kg,,Indian Broad Bean,TRUE,FALSE,266
+Radish,,Vegetables,50,per kg,,Radish,TRUE,FALSE,267
+Bitter Gourd,,Vegetables,70,per kg,,Bitter Gourd,TRUE,FALSE,268
+Bottle Gourd,,Vegetables,60,per kg,,Bottle Gourd,TRUE,FALSE,269
+Peerkangai,,Vegetables,60,per kg,,Peerkangai,TRUE,FALSE,270
+Lemon,,Vegetables,8,per piece,,Lemon,TRUE,FALSE,271
+Capsicum,,Vegetables,80,per kg,,Capsicum,TRUE,FALSE,272
+Kothavarangai,,Vegetables,50,per kg,,Kothavarangai,TRUE,FALSE,273
+Sow Sow,,Vegetables,50,per kg,,Sow Sow,TRUE,FALSE,274
+Kovakai,,Vegetables,80,per kg,,Kovakai,TRUE,FALSE,275
+Ginger,,Vegetables,140,per kg,,Ginger,TRUE,FALSE,276
+Green Chilli,,Vegetables,80,per kg,,Green Chilli,TRUE,FALSE,277
+Potato,,Vegetables,35,per kg,,Potato,TRUE,FALSE,278
+Small Onion,,Vegetables,70,per kg,,Small Onion,TRUE,FALSE,279
+Cabbage,,Vegetables,35,per kg,,Cabbage,TRUE,FALSE,280
+Cauliflower,,Vegetables,20,per piece,,Cauliflower,TRUE,FALSE,281
+Cauliflower,,Vegetables,30,per piece,,Cauliflower,TRUE,FALSE,282
+Cauliflower,,Vegetables,40,per piece,,Cauliflower,TRUE,FALSE,283
+Cucumber,,Vegetables,70,per kg,,Cucumber,TRUE,FALSE,284
+Sweetcorn,,Vegetables,30,per piece,,Sweetcorn,TRUE,FALSE,285
+Drumstick,,Vegetables,5,per piece,,Drumstick,TRUE,FALSE,286
+Coconut,,Vegetables,25,per piece,,Coconut,TRUE,FALSE,287
+Coriander Leaf,,Vegetables,5,per bunch,,Coriander Leaf,TRUE,FALSE,288
+Coriander Leaf,,Vegetables,10,per bunch,,Coriander Leaf,TRUE,FALSE,289
+Mint Leaf,,Vegetables,5,per bunch,,Mint Leaf,TRUE,FALSE,290
+Mint Leaf,,Vegetables,10,per bunch,,Mint Leaf,TRUE,FALSE,291
+Curry Leaf,,Vegetables,5,per bunch,,Curry Leaf,TRUE,FALSE,292
+Curry Leaf,,Vegetables,10,per bunch,,Curry Leaf,TRUE,FALSE,293
+Pumpkin,,Vegetables,35,per kg,,Pumpkin,TRUE,FALSE,294
+Garlic,,Vegetables,250,per kg,,Garlic,TRUE,FALSE,295
+Banana,,Vegetables,3,per piece,,Banana,TRUE,FALSE,296
+Red Banana,,Vegetables,10,per piece,,Red Banana,TRUE,FALSE,297
+Hamam soap ,,,,,,,,,
+cinthol original,,,,,,,,,
+cinthol lemon ,,,,,,,,,
+cinthol charcoal,,,,,,,,,
+Lifeboy,,,,,,,,,
+Medimix,,,,,,,,,
+Bath Soap,,Bath & Body,40,per bar,,Bath Soap,TRUE,FALSE,298
+Shampoo Sachet,,Bath & Body,5,per sachet,,Shampoo Sachet,TRUE,FALSE,299
+Toothpaste-100g,,Bath & Body,50,tube,,Toothpaste-100g,TRUE,FALSE,300
+Toothbrush,,Bath & Body,30,each,,Toothbrush,TRUE,FALSE,301
+Sanitary Pads,,Bath & Body,55,per pack,,Sanitary Pads,TRUE,FALSE,302
+Washing Powder,,Home Cleaning,60,per pack,,Washing Powder,TRUE,FALSE,303
+Dish Soap,,Home Cleaning,35,per bar,,Dish Soap,TRUE,FALSE,304
+Phenyl- 500ml,,Home Cleaning,60,bottle,,Phenyl- 500ml,TRUE,FALSE,305
+Notebook-200 pages,,Stationery,60,each,,Notebook-200 pages,TRUE,FALSE,306
+Pen (Blue),,Stationery,10,each,,Pen (Blue),TRUE,FALSE,307
+Pencil Set,,Stationery,20,per pack,,Pencil Set,TRUE,FALSE,308
+Stapler,,Stationery,80,each,,Stapler,TRUE,FALSE,309

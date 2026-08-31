@@ -108,10 +108,23 @@ const CATEGORY_EMOJIS = {
   Dairy: "🥛",
   Groceries: "🍚",
   "Quick meals": "🍜",
+  Vegetables: "🥦",
   "Bath & Body": "🧴",
   "Home Cleaning": "🧹",
   Stationery: "📚"
 };
+
+const CATEGORY_ORDER = [
+  "Snacks",
+  "Beverages",
+  "Dairy",
+  "Groceries",
+  "Vegetables",
+  "Quick meals",
+  "Bath & Body",
+  "Home Cleaning",
+  "Stationery"
+];
 
 const cart = {};
 let PRODUCTS = [];
@@ -290,9 +303,11 @@ function getFilteredProducts() {
 }
 
 function buildCategoryTabs() {
+  const cats = new Set(PRODUCTS.map((p) => normalizeCat(p.category)).filter(Boolean));
   const categories = [
     "All",
-    ...new Set(PRODUCTS.map((p) => normalizeCat(p.category)).filter(Boolean))
+    ...CATEGORY_ORDER.filter((c) => cats.has(c)),
+    ...[...cats].filter((c) => !CATEGORY_ORDER.includes(c))
   ];
 
   if (PRODUCTS.length && !categories.includes(activeCategory)) {
@@ -328,9 +343,10 @@ function renderProducts() {
     const inStock = group.in_stock;
     const hasVariants = group.variants.length > 1;
 
+    const emojiFallback = `<span class="product-icon"${firstVariant.image_url ? ' style="display:none"' : ""}>${firstVariant.emoji || "🛒"}</span>`;
     const visual = firstVariant.image_url
-      ? `<img class="product-img" src="${esc(firstVariant.image_url)}" alt="${esc(firstVariant.name)}" loading="lazy">`
-      : `<span class="product-icon">${firstVariant.emoji || "🛒"}</span>`;
+      ? `<img class="product-img" src="${esc(firstVariant.image_url)}" alt="${esc(firstVariant.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">${emojiFallback}`
+      : emojiFallback;
 
     const badges = [
       firstVariant.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
