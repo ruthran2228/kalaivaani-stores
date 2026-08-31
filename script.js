@@ -656,11 +656,20 @@ async function loadProducts() {
 
   if (supabaseClient) {
     try {
-      const { data, error } = await supabaseClient
+      let { data, error } = await supabaseClient
         .from("products")
         .select("*")
         .order("sort_order", { ascending: true, nullsFirst: false })
         .order("id", { ascending: true });
+
+      if ((error && String(error.message).includes("id does not exist")) || (error && error.code === "42703")) {
+        const retry = await supabaseClient
+          .from("products")
+          .select("*")
+          .order("sort_order", { ascending: true, nullsFirst: false });
+        data = retry.data;
+        error = retry.error;
+      }
 
       if (!error && data && data.length) {
         fresh = normalizeProducts(data);
