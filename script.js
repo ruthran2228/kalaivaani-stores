@@ -20,7 +20,7 @@ try {
   console.warn("Supabase init failed:", error);
 }
 
-const PRODUCT_CACHE_KEY = "ks_products_v1";
+const PRODUCT_CACHE_KEY = "ks_products_v2";
 
 // --- Fallback catalog (used offline / while Supabase is empty) ---
 const FALLBACK_PRODUCTS = [
@@ -237,7 +237,7 @@ function syncURLState() {
 function normalizeProducts(list) {
   return (list || []).map((p) => ({
     ...p,
-    price: Number(p.price),
+    price: p.price == null ? null : Number(p.price),
     emoji: p.emoji || "🛒",
     category: p.category || "Other",
     unit: p.unit || "",
@@ -277,9 +277,9 @@ function getFilteredProducts() {
 
     const quickOK =
       quickFilter === "under50"
-        ? product.price <= 50
+        ? product.price != null && product.price <= 50
         : quickFilter === "popular"
-          ? product.price <= 100
+          ? product.price != null && product.price <= 100
           : true;
 
     return categoryOK && searchOK && quickOK;
@@ -342,6 +342,7 @@ function renderProducts() {
     const qty = cart[activeIdx] || 0;
     const inStock = group.in_stock;
     const hasVariants = group.variants.length > 1;
+    const hasPrice = firstVariant.price != null;
 
     const emojiFallback = `<span class="product-icon"${firstVariant.image_url ? ' style="display:none"' : ""}>${firstVariant.emoji || "🛒"}</span>`;
     const visual = firstVariant.image_url
@@ -350,7 +351,7 @@ function renderProducts() {
 
     const badges = [
       firstVariant.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
-      firstVariant.price <= 20 ? '<span class="price-badge">Value</span>' : ""
+      firstVariant.price != null && firstVariant.price <= 20 ? '<span class="price-badge">Value</span>' : ""
     ].join("");
 
     const variantChips = hasVariants
@@ -361,8 +362,10 @@ function renderProducts() {
           if (diff) {
             label = diff.replace(/^\(|\)$/g, "").trim();
             label = label.charAt(0).toUpperCase() + label.slice(1);
-          } else {
+          } else if (v.price != null) {
             label = "₹" + v.price;
+          } else {
+            label = "price soon";
           }
           return `<button class="variant-chip${vi === 0 ? " active" : ""}" data-idx="${vIdx}" type="button">${esc(label)}</button>`;
         }).join("")}</div>`
@@ -386,13 +389,13 @@ function renderProducts() {
       ${variantChips}
 
       <div class="product-meta">
-        <strong class="price-val">${money(firstVariant.price)}</strong>
-        <span class="unit-val">${esc(firstVariant.unit)}</span>
+        <strong class="price-val">${hasPrice ? money(firstVariant.price) : "Price soon"}</strong>
+        <span class="unit-val">${hasPrice ? esc(firstVariant.unit) : ""}</span>
       </div>
 
       <div class="add-controls">
         ${
-          inStock
+          inStock && hasPrice
             ? `
           <div class="qty-box ${qty > 0 ? "visible" : ""}">
             <button class="qty-btn" data-action="dec" data-idx="${activeIdx}" type="button" aria-label="Decrease quantity">−</button>
@@ -956,6 +959,16 @@ $("wa-order-btn").addEventListener("click", () => {
   const phone = $("c-phone").value.trim();
   const place = $("c-place").value.trim();
 
+  const orderItems = Object.entries(cart).map(([idx, qty]) => {
+    const product = PRODUCTS[idx];
+    return {
+      name: product.name,
+      qty,
+      price: product.price,
+      total: Number((product.price * qty).toFixed(2))
+    };
+  });
+
   const lines = Object.entries(cart).map(([idx, qty]) => {
     const product = PRODUCTS[idx];
     return `• ${product.name} × ${qty} = ${money(product.price * qty)}`;
@@ -977,6 +990,22 @@ $("wa-order-btn").addEventListener("click", () => {
   window.open(whatsappURL, "_blank");
 
   showToast("Opening WhatsApp…");
+
+  // Fire-and-forget: save the order to Supabase for the admin page
+  if (supabaseClient) {
+    supabaseClient
+      .from("orders")
+      .insert({
+        customer_name: name,
+        phone,
+        delivery: place,
+        items: orderItems,
+        total
+      })
+      .then(({ error }) => {
+        if (error) console.warn("Could not save order:", error.message);
+      });
+  }
 });
 
 // ------------------------------------------------------------

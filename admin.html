@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b3a">
+  <meta name="robots" content="noindex">
+  <title>Kalaivani Stores – Admin</title>
+  <link rel="stylesheet" href="adminstyle.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app" id="app" hidden></div>
+
+  <div class="auth-screen" id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="logo-mark">KS</span>
+        <div>
+          <strong>Kalaivani Stores</strong>
+          <small>Store admin</small>
+        </div>
+      </div>
+      <form id="login-form" class="auth-form">
+        <h1>Sign in</h1>
+        <p class="auth-sub">Use your store admin account to manage products and orders.</p>
+        <label>Email
+          <input id="login-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </label>
+        <label>Password
+          <input id="login-password" type="password" autocomplete="current-password" placeholder="Your password" required>
+        </label>
+        <p class="auth-error" id="login-error" hidden></p>
+        <button class="primary-btn" id="login-btn" type="submit">Sign in</button>
+        <a class="auth-link" id="back-to-site" href="./">← Back to the store</a>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
