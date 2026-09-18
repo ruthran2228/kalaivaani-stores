@@ -121,12 +121,36 @@ async function handleLogin(event) {
   btn.textContent = "Sign in";
 
   if (error) {
-    showLoginError("Sign in failed: " + error.message);
+    showLoginError(error.message);
+    showEmailConfirmHelp(error);
     return;
   }
 
   AUTH = data.session;
   bootAdmin();
+}
+
+function showEmailConfirmHelp(error) {
+  const msg = String(error.code + " " + error.message).toLowerCase();
+  const hint = document.getElementById("login-hint");
+  if (!hint) return;
+
+  if (msg.includes("email not confirmed")) {
+    hint.innerHTML =
+      "Your email has not been confirmed yet. In <strong>Supabase &rarr; Authentication &rarr; Users</strong>, " +
+      "click the <strong>&hellip;</strong> for your user and choose <strong>Confirm email</strong>. " +
+      "Then sign in again.";
+    hint.hidden = false;
+    return;
+  }
+
+  if (msg.includes("invalid login")) {
+    hint.innerHTML =
+      "No account with this password. Create your admin user first in " +
+      "<strong>Supabase &rarr; Authentication &rarr; Users &rarr; Add user</strong> (add to <code>admin_users</code> too), " +
+      "or reset the password.";
+    hint.hidden = false;
+  }
 }
 
 async function bootAdmin() {

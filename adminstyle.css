@@ -112,6 +112,23 @@ button { font-family: inherit; }
   font-size: 13px;
 }
 
+.auth-hint {
+  color: var(--warn);
+  background: var(--warn-bg);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-top: 10px;
+  line-height: 1.55;
+}
+
+.auth-hint code {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
 .auth-link {
   display: block;
   text-align: center;
