@@ -1154,7 +1154,7 @@ function renderOrdersPanel() {
       </div>
     </div>
 
-    ${ORDERS.length ? "" : "<div class='bulk-empty'>No orders yet. Shoppers' WhatsApp orders will appear here automatically.</div>"}
+    ${ORDERS.length ? "" : "<div class='bulk-empty'>No orders yet. Orders placed on the store will appear here automatically.</div>"}
 
     ${ORDERS.length ? `<div class="table-wrap" id="orders-table"></div>` : ""}
   `;

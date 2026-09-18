@@ -99,8 +99,6 @@ const FALLBACK_PRODUCTS = [
   sort_order: i
 }));
 
-const WA_NUMBER = "917667771101";
-
 const CATEGORY_EMOJIS = {
   All: "✨",
   Snacks: "🍪",
@@ -938,8 +936,8 @@ $("clear-btn").addEventListener("click", () => {
   showToast("Cart cleared");
 });
 
-// WHATSAPP ORDER
-$("wa-order-btn").addEventListener("click", () => {
+// PLACE ORDER
+$("wa-order-btn").addEventListener("click", async () => {
   const { items, total } = getCartTotals();
 
   if (!items) {
@@ -969,43 +967,42 @@ $("wa-order-btn").addEventListener("click", () => {
     };
   });
 
-  const lines = Object.entries(cart).map(([idx, qty]) => {
-    const product = PRODUCTS[idx];
-    return `• ${product.name} × ${qty} = ${money(product.price * qty)}`;
-  });
+  const submitBtn = $("wa-order-btn");
 
-  const message =
-    `New Order – Kalaivani Stores\n\n` +
-    `Name: ${name}\n` +
-    `Phone: ${phone}\n` +
-    `Delivery: ${place}\n\n` +
-    `Items:\n` +
-    `${lines.join("\n")}\n\n` +
-    `Total: ${money(total)}\n\n` +
-    `Please confirm this order. Thank you!`;
-
-  const whatsappURL =
-    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
-
-  window.open(whatsappURL, "_blank");
-
-  showToast("Opening WhatsApp…");
-
-  // Fire-and-forget: save the order to Supabase for the admin page
+  // Save the order directly to Supabase for the admin page
   if (supabaseClient) {
-    supabaseClient
-      .from("orders")
-      .insert({
-        customer_name: name,
-        phone,
-        delivery: place,
-        items: orderItems,
-        total
-      })
-      .then(({ error }) => {
-        if (error) console.warn("Could not save order:", error.message);
-      });
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Placing order…";
+
+    const { error } = await supabaseClient.from("orders").insert({
+      customer_name: name,
+      phone,
+      delivery: place,
+      items: orderItems,
+      total
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Place order";
+
+    if (error) {
+      console.warn("Could not save order:", error.message);
+      showToast("Order failed to send. Please try again.");
+      return;
+    }
+  } else {
+    showToast("Orders are unavailable right now. Please try again later.");
+    return;
   }
+
+  // Confirm, clear the cart and close the panel so the next order is fresh
+  showToast("✅ Order placed! We'll confirm shortly.");
+
+  Object.keys(cart).forEach((key) => {
+    delete cart[key];
+  });
+  updateCart();
+  closeCart();
 });
 
 // ------------------------------------------------------------
