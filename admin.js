@@ -606,7 +606,7 @@ function renderProductTable() {
       if (searchInput) searchInput.value = groupBtn.dataset.group;
       renderProductTable();
     }
-  });
+  };
 }
 
 // ------------------------------------------------------------
@@ -1237,7 +1237,7 @@ function renderOrdersTable() {
       updateTabCounts();
       renderOrdersTable();
     }
-  });
+  };
 
   wrap.onclick = (ev) => {
     const delBtn = ev.target.closest("[data-del-order]");
@@ -1258,7 +1258,7 @@ function renderOrdersTable() {
         updateTabCounts();
         renderOrdersPanel();
       });
-  });
+  };
 }
 
 // ------------------------------------------------------------
