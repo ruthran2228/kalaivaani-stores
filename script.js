@@ -927,6 +927,11 @@ $("track-link").addEventListener("click", (event) => {
   openTracker();
 });
 
+$("track-btn").addEventListener("click", (event) => {
+  event.preventDefault();
+  openTracker();
+});
+
 // CLEAR CART
 $("clear-btn").addEventListener("click", () => {
   if (!Object.keys(cart).length) {
