@@ -155,6 +155,12 @@ footer{background:#062d19;color:#bce6c9;padding:38px 24px 16px}.footer-main{max-
 .tl-step small{font-size:10px;color:var(--muted)}
 .track-divider{border-top:1px solid var(--line);margin:14px 0 8px}
 .track-pay{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;font-size:12px;border-bottom:1px solid var(--line);margin-bottom:6px}.track-pay span{color:var(--muted)}.track-pay strong{color:var(--muted);font-variant-numeric:tabular-nums;font-weight:800}.track-pay strong small{display:block;font-size:10px;color:var(--muted);font-weight:600}.track-pay.paid strong{color:var(--green)}
+.track-pay-cta{text-align:center;background:#fff;border:1px solid #dfe8e2;border-radius:14px;padding:14px;margin:14px 0 6px;animation:ocFadeUp .35s ease both}
+.track-pay-head{margin-bottom:10px}
+.track-pay-head strong{font-size:13px;display:block}
+.track-pay-head small{color:var(--muted);font-size:10px}
+.track-qr{display:grid;place-items:center;margin-bottom:10px}
+.track-qr canvas{width:160px!important;height:160px!important;border-radius:10px;border:1px solid var(--line)}
 .track-items .oc-item{padding:6px 0}
 
 @media(max-width:640px){

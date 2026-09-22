@@ -4,5 +4,5 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // UPI payment (public — shown in the order confirmation QR)
 // Replace with the UPI VPA linked to the shop's bank account, e.g. 7667771101@ybl
-const UPI_ID = "7667771101@pthdfc";                          // ← fill this with your UPI VPA
+const UPI_ID = "7667771101@pthdfc";                         // ← fill this with your UPI VPA
 const STORE_UPI_NAME = "Kalaivani Stores";

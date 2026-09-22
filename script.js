@@ -1144,6 +1144,37 @@ function renderUpiPayment(order) {
   };
 }
 
+// Render the same UPI QR + pay button inside the tracker result
+// so customers can pay any time before the order is delivered.
+function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
+  const uri = buildUpiUri(order.total, order.orderNumber);
+  if (!uri || !qrBox) return;
+
+  qrBox.innerHTML = "";
+  btn.href = uri;
+  vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+
+  try {
+    if (typeof QRCode === "function") {
+      const canvas = document.createElement("canvas");
+      QRCode.toCanvas(canvas, uri, {
+        width: 160,
+        margin: 1,
+        color: { dark: "#062d19", light: "#ffffff" }
+      }).then(() => {
+        qrBox.appendChild(canvas);
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.warn("QR render failed:", err);
+  }
+
+  btn.onclick = (event) => {
+    event.preventDefault();
+    window.location.href = uri;
+  };
+}
+
 let __revealId = 0;
 function revealOrderNumber(el, finalText, duration) {
   const id = ++__revealId;
@@ -1228,6 +1259,11 @@ $("tr-submit").addEventListener("click", async () => {
   }
 
   result.innerHTML = renderTrackResult(order);
+
+  const payCta = $("tr-pay-cta");
+  if (payCta) {
+    renderUpiIntoBox(order, $("tr-pay-qr"), $("tr-pay-btn"), $("tr-pay-vpa"));
+  }
 });
 
 function statusLabel(status) {
@@ -1303,6 +1339,17 @@ function renderTrackResult(order) {
         <span>Payment</span>
         <strong>${order.paid ? "Paid" : "Pending"}${order.paid && order.paid_at ? `<small> · ${new Date(order.paid_at).toLocaleString()}</small>` : ""}</strong>
       </div>
+      ${
+        !order.paid && status !== "delivered" && status !== "cancelled"
+          ? `
+        <div class="track-pay-cta" id="tr-pay-cta">
+          <div class="track-pay-head"><strong>Pay with UPI</strong><small>Scan to pay for this order</small></div>
+          <div class="track-qr" id="tr-pay-qr"></div>
+          <a class="pay-upi-btn" id="tr-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
+          <small class="oc-vpa" id="tr-pay-vpa"></small>
+        </div>`
+          : ""
+      }
       <div class="track-divider"></div>
       <div class="track-items">${itemRows || "<p>No items.</p>"}</div>
       <div class="oc-item oc-total">
