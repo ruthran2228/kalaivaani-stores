@@ -916,7 +916,15 @@ document
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeCart();
+    closeTracker();
+    closeOrderConfirmation();
   }
+});
+
+// TRACK ORDER
+$("track-link").addEventListener("click", (event) => {
+  event.preventDefault();
+  openTracker();
 });
 
 // CLEAR CART
@@ -937,6 +945,14 @@ $("clear-btn").addEventListener("click", () => {
 });
 
 // PLACE ORDER
+const ORDER_NUMBER_PREFIX = "KS";
+
+function makeOrderNumber() {
+  const time = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 5).toUpperCase();
+  return `${ORDER_NUMBER_PREFIX}-${time}${rand}`;
+}
+
 $("wa-order-btn").addEventListener("click", async () => {
   const { items, total } = getCartTotals();
 
@@ -968,6 +984,7 @@ $("wa-order-btn").addEventListener("click", async () => {
   });
 
   const submitBtn = $("wa-order-btn");
+  const orderNumber = makeOrderNumber();
 
   // Save the order directly to Supabase for the admin page
   if (supabaseClient) {
@@ -979,7 +996,8 @@ $("wa-order-btn").addEventListener("click", async () => {
       phone,
       delivery: place,
       items: orderItems,
-      total
+      total,
+      order_number: orderNumber
     });
 
     submitBtn.disabled = false;
@@ -996,14 +1014,194 @@ $("wa-order-btn").addEventListener("click", async () => {
   }
 
   // Confirm, clear the cart and close the panel so the next order is fresh
-  showToast("✅ Order placed! We'll confirm shortly.");
+  clearCartQuiet();
+  closeCart();
+  showOrderConfirmation({ orderNumber, name, phone, place, items: orderItems, total });
+});
 
+function clearCartQuiet() {
   Object.keys(cart).forEach((key) => {
     delete cart[key];
   });
   updateCart();
-  closeCart();
+}
+
+// ------------------------------------------------------------
+// Order confirmation screen
+// ------------------------------------------------------------
+function showOrderConfirmation(order) {
+  const overlay = $("order-confirm-overlay");
+  if (!overlay) return;
+
+  const itemRows = order.items
+    .map(
+      (it) => `
+      <div class="oc-item">
+        <span>${esc(it.name)} × ${it.qty}</span>
+        <strong>${money(it.total)}</strong>
+      </div>`
+    )
+    .join("");
+
+  $("oc-number").textContent = order.orderNumber;
+  $("oc-name").textContent = order.name;
+  $("oc-phone").textContent = order.phone;
+  $("oc-place").textContent = order.place;
+  $("oc-items").innerHTML = itemRows;
+  $("oc-total").textContent = money(order.total);
+
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden", "false");
+  $("oc-track-btn").onclick = () => {
+    closeOrderConfirmation();
+    openTracker(order.orderNumber);
+  };
+  $("oc-continue-btn").onclick = closeOrderConfirmation;
+}
+
+function closeOrderConfirmation() {
+  const overlay = $("order-confirm-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+}
+
+// ------------------------------------------------------------
+// Order tracker
+// ------------------------------------------------------------
+function openTracker(prefillNumber) {
+  const modal = $("track-modal");
+  if (!modal) return;
+
+  $("tr-number").value = prefillNumber || $("tr-number").value;
+  $("tr-phone").value = "";
+  $("tr-result").innerHTML = "";
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  if (!prefillNumber) $("tr-number").focus();
+}
+
+function closeTracker() {
+  const modal = $("track-modal");
+  if (!modal) return;
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+}
+
+$("tr-submit").addEventListener("click", async () => {
+  const orderNumber = $("tr-number").value.trim();
+  const phone = $("tr-phone").value.trim();
+
+  if (!orderNumber || !phone) {
+    $("tr-result").innerHTML = `<p class="track-error">Enter your order number and phone number.</p>`;
+    return;
+  }
+
+  const result = $("tr-result");
+  result.innerHTML = `<p class="track-loading">Looking up your order…</p>`;
+
+  if (!supabaseClient) {
+    result.innerHTML = `<p class="track-error">Order tracking is unavailable right now.</p>`;
+    return;
+  }
+
+  const { data, error } = await supabaseClient.rpc("get_order_status", {
+    p_order_number: orderNumber,
+    p_phone: phone
+  });
+
+  if (error) {
+    console.warn("Track error:", error.message);
+    result.innerHTML = `<p class="track-error">Could not check your order. Please try again.</p>`;
+    return;
+  }
+
+  const order = Array.isArray(data) ? data[0] : data;
+
+  if (!order || !order.order_number) {
+    result.innerHTML = `<p class="track-error">No order found. Check the order number and phone number and try again.</p>`;
+    return;
+  }
+
+  result.innerHTML = renderTrackResult(order);
 });
+
+function statusLabel(status) {
+  return (
+    {
+      new: "Placed",
+      confirmed: "Confirmed",
+      delivered: "Delivered",
+      cancelled: "Cancelled"
+    }[status] || "Placed"
+  );
+}
+
+function renderTrackResult(order) {
+  const status = order.status || "new";
+  const steps = ["new", "confirmed", "delivered"];
+  const currentIndex = steps.indexOf(status);
+  const isCancelled = status === "cancelled";
+
+  const itemRows = (Array.isArray(order.items) ? order.items : [])
+    .map(
+      (it) => `
+      <div class="oc-item">
+        <span>${esc(it.name || "Item")} × ${it.qty ?? 1}</span>
+        <strong>${money((it.price || 0) * (it.qty || 1))}</strong>
+      </div>`
+    )
+    .join("");
+
+  const timeline = isCancelled
+    ? `
+      <div class="tl-step cancelled">
+        <span class="tl-dot">✕</span>
+        <div>
+          <strong>Cancelled</strong>
+          <small>${new Date(order.updated_at || order.created_at).toLocaleString()}</small>
+        </div>
+      </div>`
+    : steps
+        .map((step, i) => {
+          const done = i <= currentIndex;
+          const label = statusLabel(step);
+          const time =
+            i === 0
+              ? order.created_at
+              : i === currentIndex
+                ? order.updated_at
+                : null;
+          return `
+        <div class="tl-step ${done ? "done" : ""}">
+          <span class="tl-dot">${done ? "✓" : i + 1}</span>
+          <div>
+            <strong>${label}</strong>
+            ${time ? `<small>${new Date(time).toLocaleString()}</small>` : ""}
+          </div>
+        </div>`;
+        })
+        .join("");
+
+  return `
+    <div class="track-card status-${status}">
+      <div class="track-head">
+        <div>
+          <span class="track-label">Order</span>
+          <strong>${esc(order.order_number)}</strong>
+        </div>
+        <span class="track-badge">${esc(statusLabel(status))}</span>
+      </div>
+      <p class="track-placed">Placed ${new Date(order.created_at).toLocaleString()}</p>
+      <div class="track-timeline">${timeline}</div>
+      <div class="track-divider"></div>
+      <div class="track-items">${itemRows || "<p>No items.</p>"}</div>
+      <div class="oc-item oc-total">
+        <span>Total</span>
+        <strong>${money(order.total)}</strong>
+      </div>
+    </div>`;
+}
 
 // ------------------------------------------------------------
 // INITIAL LOAD

@@ -289,11 +289,6 @@ Pumpkin,,Vegetables,35,per kg,,Pumpkin,TRUE,FALSE,294,294
 Garlic,,Vegetables,250,per kg,,Garlic,TRUE,FALSE,295,295
 Banana,,Vegetables,3,per piece,,Banana,TRUE,FALSE,296,296
 Red Banana,,Vegetables,10,per piece,,Red Banana,TRUE,FALSE,297,297
-Bath Soap,,Bath & Body,40,per bar,,Bath Soap,TRUE,FALSE,298,310
-Shampoo Sachet,,Bath & Body,5,per sachet,,Shampoo Sachet,TRUE,FALSE,299,311
-Toothpaste-100g,,Bath & Body,50,tube,,Toothpaste-100g,TRUE,FALSE,300,312
-Toothbrush,,Bath & Body,30,each,,Toothbrush,TRUE,FALSE,301,313
-Sanitary Pads,,Bath & Body,55,per pack,,Sanitary Pads,TRUE,FALSE,302,314
 Washing Powder,,Home Cleaning,60,per pack,,Washing Powder,TRUE,FALSE,303,315
 Dish Soap,,Home Cleaning,35,per bar,,Dish Soap,TRUE,FALSE,304,316
 Phenyl- 500ml,,Home Cleaning,60,bottle,,Phenyl- 500ml,TRUE,FALSE,305,317
@@ -303,7 +298,6 @@ Pencil Set,,Stationery,20,per pack,,Pencil Set,TRUE,FALSE,308,320
 Stapler,,Stationery,80,each,,Stapler,TRUE,FALSE,309,321
 Cinthol Cool (40g),,Bath & Body,,per bar,,,TRUE,FALSE,310,322
 Cinthol Original (40g),,Bath & Body,,per bar,,,TRUE,FALSE,311,323
-Godrej No.1 (40g),,Bath & Body,,per bar,,,TRUE,FALSE,312,324
 Lifebuoy (40g),,Bath & Body,,per bar,,,TRUE,FALSE,313,325
 Lux (40g),,Bath & Body,,per bar,,,TRUE,FALSE,314,326
 Hamam (40g),,Bath & Body,,per bar,,,TRUE,FALSE,315,327
@@ -311,9 +305,6 @@ Vivel (40g),,Bath & Body,,per bar,,,TRUE,FALSE,316,328
 Santoor (40g),,Bath & Body,,per bar,,,TRUE,FALSE,317,329
 Dettol (40g),,Bath & Body,,per bar,,,TRUE,FALSE,318,330
 Margo (40g),,Bath & Body,,per bar,,,TRUE,FALSE,319,331
-Godrej No.1 Rose (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,320,332
-Godrej No.1 Sandal (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,321,333
-Godrej No.1 Lime (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,322,334
 Lifebuoy Total (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,323,335
 Lifebuoy Lemon Fresh (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,324,336
 Lux Soft Touch (50-75g),,Bath & Body,,per bar,,,TRUE,FALSE,325,337
@@ -353,9 +344,6 @@ Dove Sensitive Beauty Bar (100g),,Bath & Body,,per bar,,,TRUE,FALSE,358,370
 Pears Pure and Gentle (100g),,Bath & Body,,per bar,,,TRUE,FALSE,359,371
 Pears Oil Clear (100g),,Bath & Body,,per bar,,,TRUE,FALSE,360,372
 Pears Soft and Fresh (100g),,Bath & Body,,per bar,,,TRUE,FALSE,361,373
-Fiama Gel Bar (100g),,Bath & Body,,per bar,,,TRUE,FALSE,362,374
-Fiama Peach and Avocado (100g),,Bath & Body,,per bar,,,TRUE,FALSE,363,375
-Fiama Blackcurrant and Bearberry (100g),,Bath & Body,,per bar,,,TRUE,FALSE,364,376
 Rexona Bathing Bar (100g),,Bath & Body,,per bar,,,TRUE,FALSE,365,377
 Camay Soap (100g),,Bath & Body,,per bar,,,TRUE,FALSE,366,378
 Johnson's Baby Soap (75g),,Bath & Body,,per bar,,,TRUE,FALSE,367,379

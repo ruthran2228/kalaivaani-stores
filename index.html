@@ -150,7 +150,7 @@
       </div>
       <div>
         <strong>Order</strong>
-        <a href="https://wa.me/917667771101" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#" id="track-link">Track your order</a>
         <a href="tel:7667771101">Call the shop</a>
       </div>
     </div>
@@ -182,6 +182,56 @@
         <button class="clear-btn" id="clear-btn" type="button">Clear cart</button>
       </div>
     </aside>
+  </div>
+
+  <!-- Order confirmation screen -->
+  <div class="order-confirm" id="order-confirm-overlay" aria-hidden="true">
+    <button class="overlay-bg" type="button" aria-label="Close confirmation" onclick="closeOrderConfirmation()"></button>
+    <div class="oc-card" role="dialog" aria-modal="true" aria-labelledby="oc-title">
+      <div class="oc-hero">
+        <span class="oc-check">✓</span>
+        <h2 id="oc-title">Order placed!</h2>
+        <p>We've got your order and the shop will confirm shortly.</p>
+      </div>
+      <div class="oc-body">
+        <div class="oc-number-box">
+          <span>Your order number</span>
+          <strong id="oc-number"></strong>
+          <small>Keep this safe — use it to track your order.</small>
+        </div>
+        <div class="oc-meta">
+          <div><span>Name</span><strong id="oc-name"></strong></div>
+          <div><span>Phone</span><strong id="oc-phone"></strong></div>
+          <div><span>Delivery</span><strong id="oc-place"></strong></div>
+        </div>
+        <div class="oc-items" id="oc-items"></div>
+        <div class="oc-item oc-total">
+          <span>Total</span>
+          <strong id="oc-total"></strong>
+        </div>
+      </div>
+      <div class="oc-actions">
+        <button class="wa-btn" id="oc-track-btn" type="button">Track order</button>
+        <a class="secondary-btn" id="oc-continue-btn" href="#main">Continue shopping</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order tracker modal -->
+  <div class="tracker" id="track-modal" aria-hidden="true">
+    <button class="overlay-bg" type="button" aria-label="Close tracker" onclick="closeTracker()"></button>
+    <div class="tracker-card" role="dialog" aria-modal="true" aria-labelledby="tr-title">
+      <div class="tracker-head">
+        <div><span class="section-kicker">KALAIVANI STORES</span><h2 id="tr-title">Track your order</h2></div>
+        <button class="cart-close" type="button" aria-label="Close tracker" onclick="closeTracker()">×</button>
+      </div>
+      <div class="tracker-body">
+        <label>Order number<input id="tr-number" type="text" inputmode="text" autocomplete="off" placeholder="e.g. KS-1A2B3C4D" spellcheck="false"></label>
+        <label>Phone number<input id="tr-phone" type="tel" inputmode="tel" autocomplete="tel" spellcheck="false" placeholder="The phone used for the order…"></label>
+        <button class="wa-btn" id="tr-submit" type="button">Track order</button>
+        <div id="tr-result"></div>
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast" role="status"></div>

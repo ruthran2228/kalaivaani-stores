@@ -389,7 +389,7 @@ function renderMiniOrders(orders) {
     .map((o) => {
       const status = o.status || "new";
       return `<tr>
-        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+        <td>${new Date(o.created_at).toLocaleDateString()}<div style="color:var(--muted);font-size:11px;margin-top:2px;font-weight:700;letter-spacing:.4px">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</div></td>
         <td class="p-name">${esc(o.customer_name)}</td>
         <td class="price">${money(o.total)}</td>
         <td><span class="badge status-${status}">${esc(status)}</span></td>
@@ -1176,7 +1176,7 @@ function renderOrdersTable() {
     return `<tr>
       <td style="white-space:nowrap">
         <div>${new Date(o.created_at).toLocaleString()}</div>
-        <div style="color:var(--muted);font-size:11.5px">Id #${o.id}</div>
+        <div style="color:var(--green-800);font-weight:800;font-size:11.5px;letter-spacing:.4px">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</div>
       </td>
       <td class="p-name">${esc(o.customer_name)}</td>
       <td style="white-space:nowrap;color:var(--muted)">${esc(o.phone)}</td>
@@ -1227,7 +1227,10 @@ function renderOrdersTable() {
     if (!sel) return;
     const id = +sel.dataset.orderId;
     const status = sel.value;
-    const res = await supabaseClient.from("orders").update({ status }).eq("id", id);
+    const res = await supabaseClient
+      .from("orders")
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq("id", id);
     if (res.error) {
       console.error("status update error", res.error);
       showToast("Status update failed.");

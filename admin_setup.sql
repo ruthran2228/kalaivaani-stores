@@ -4,7 +4,7 @@
 -- ============================================================
 
 -- ------------------------------------------------------------
--- 1. Orders table (WhatsApp orders are also saved here)
+-- 1. Orders table (orders placed from the store are saved here)
 -- ------------------------------------------------------------
 create table if not exists orders (
   id bigint generated always as identity primary key,
@@ -15,8 +15,20 @@ create table if not exists orders (
   items jsonb not null,
   total numeric not null,
   status text not null default 'new'
-    check (status in ('new', 'confirmed', 'delivered', 'cancelled'))
+    check (status in ('new', 'confirmed', 'delivered', 'cancelled')),
+  order_number text,
+  updated_at timestamptz not null default now()
 );
+
+-- Customer-facing order number and status-changed timestamp for the tracker
+alter table orders add column if not exists order_number text;
+alter table orders add column if not exists updated_at timestamptz not null default now();
+create unique index if not exists orders_order_number_key on orders(order_number);
+
+-- Backfill a friendly order number for existing rows: KS-000001, KS-000002, ...
+update orders
+set order_number = 'KS-' || lpad(id::text, 6, '0')
+where order_number is null;
 
 alter table orders enable row level security;
 
@@ -119,7 +131,36 @@ create policy "Admin delete orders"
   using (is_admin());
 
 -- ------------------------------------------------------------
--- 5. First admin account
+-- 5. Order tracking for shoppers (safe public read)
+-- Shoppers call this function with their order number + phone.
+-- security definer => bypasses RLS (postgres owns it), and it only
+-- ever returns the matching row when BOTH pieces match.
+-- ------------------------------------------------------------
+create or replace function get_order_status(
+  p_order_number text,
+  p_phone text
+)
+returns table (
+  order_number text,
+  status text,
+  created_at timestamptz,
+  updated_at timestamptz,
+  total numeric,
+  items jsonb
+)
+language sql stable security definer as $$
+  select orders.order_number, orders.status, orders.created_at,
+         orders.updated_at, orders.total, orders.items
+  from orders
+  where orders.order_number = p_order_number
+    and orders.phone = p_phone
+$$;
+
+revoke all on function get_order_status(text, text) from public;
+grant execute on function get_order_status(text, text) to anon, authenticated;
+
+-- ------------------------------------------------------------
+-- 6. First admin account
 -- Run this after creating your login user in Authentication > Users.
 -- Replace 'you@example.com' with the email you signed up with.
 -- ------------------------------------------------------------
