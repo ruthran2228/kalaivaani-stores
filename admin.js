@@ -179,6 +179,32 @@ async function bootAdmin() {
 
   buildShell();
   await refreshData();
+  subscribeOrderUpdates();
+}
+
+// Realtime: refresh the orders list the moment a customer places an order
+function subscribeOrderUpdates() {
+  if (!supabaseClient) return;
+
+  const channel = supabaseClient
+    .channel("orders-live")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "orders" },
+      () => refreshOrders("🛒 New order received!")
+    )
+    .subscribe((status, err) => {
+      if (status === "SUBSCRIBED") console.log("Live orders: connected");
+      if (err) console.warn("Live orders: subscribe error", err);
+    });
+}
+
+async function refreshOrders(toastMsg) {
+  await loadOrders();
+  updateTabCounts();
+  if (currentTab === "dashboard") renderDashboard();
+  if (currentTab === "orders") renderOrdersPanel();
+  if (toastMsg) showToast(toastMsg);
 }
 
 async function handleLogout() {

@@ -160,6 +160,22 @@ revoke all on function get_order_status(text, text) from public;
 grant execute on function get_order_status(text, text) to anon, authenticated;
 
 -- ------------------------------------------------------------
+-- 5b. Realtime: let the admin page refresh instantly when a
+-- customer places an order (Supabase broadcasts INSERTs on orders)
+-- ------------------------------------------------------------
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'orders'
+  ) then
+    alter publication supabase_realtime add table orders;
+  end if;
+end $$;
+
+-- ------------------------------------------------------------
 -- 6. First admin account
 -- Run this after creating your login user in Authentication > Users.
 -- Replace 'you@example.com' with the email you signed up with.

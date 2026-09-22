@@ -1043,12 +1043,30 @@ function showOrderConfirmation(order) {
     )
     .join("");
 
-  $("oc-number").textContent = order.orderNumber;
   $("oc-name").textContent = order.name;
   $("oc-phone").textContent = order.phone;
   $("oc-place").textContent = order.place;
   $("oc-items").innerHTML = itemRows;
   $("oc-total").textContent = money(order.total);
+
+  // Replay the ring + tick animation on every order
+  const ring = overlay.querySelector(".oc-ring-circle");
+  const tick = overlay.querySelector(".oc-tick");
+  const check = overlay.querySelector(".oc-check");
+  ring.classList.remove("drawn");
+  tick.classList.remove("drawn");
+  check.classList.remove("popped");
+  void ring.getBoundingClientRect();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ring.classList.add("drawn");
+      tick.classList.add("drawn");
+      check.classList.add("popped");
+    });
+  });
+
+  // Zomato-style order number reveal (scramble then settle)
+  revealOrderNumber($("oc-number"), order.orderNumber, 900);
 
   overlay.classList.add("open");
   overlay.setAttribute("aria-hidden", "false");
@@ -1057,6 +1075,27 @@ function showOrderConfirmation(order) {
     openTracker(order.orderNumber);
   };
   $("oc-continue-btn").onclick = closeOrderConfirmation;
+
+  window.__lastOrder = order.orderNumber;
+}
+
+let __revealId = 0;
+function revealOrderNumber(el, finalText, duration) {
+  const id = ++__revealId;
+  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const start = performance.now();
+  const frame = (now) => {
+    if (id !== __revealId) return;
+    const t = Math.min((now - start) / duration, 1);
+    const settled = Math.floor(t * finalText.length);
+    let out = "";
+    for (let i = 0; i < finalText.length; i++) {
+      out += i < settled ? finalText[i] : chars[Math.floor(Math.random() * chars.length)];
+    }
+    el.textContent = out;
+    if (t < 1) requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
 }
 
 function closeOrderConfirmation() {
