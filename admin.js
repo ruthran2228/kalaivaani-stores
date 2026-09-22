@@ -1168,6 +1168,7 @@ function renderOrdersPanel() {
   const counts = {
     new: ORDERS.filter((o) => o.status === "new").length,
     confirmed: ORDERS.filter((o) => o.status === "confirmed").length,
+    out_for_delivery: ORDERS.filter((o) => o.status === "out_for_delivery").length,
     delivered: ORDERS.filter((o) => o.status === "delivered").length,
     cancelled: ORDERS.filter((o) => o.status === "cancelled").length
   };
@@ -1176,7 +1177,7 @@ function renderOrdersPanel() {
     <div class="page-head">
       <div>
         <h2>Orders</h2>
-        <p>${ORDERS.length} total · ${counts.new} new · ${counts.confirmed} confirmed · ${counts.delivered} delivered · ${counts.cancelled} cancelled</p>
+        <p>${ORDERS.length} total · ${counts.new} new · ${counts.confirmed} confirmed · ${counts.out_for_delivery} out for delivery · ${counts.delivered} delivered · ${counts.cancelled} cancelled</p>
       </div>
     </div>
 
@@ -1212,6 +1213,7 @@ function renderOrdersTable() {
         <select class="status-select status-${status}" data-order-id="${o.id}">
           <option value="new" ${status === "new" ? "selected" : ""}>New</option>
           <option value="confirmed" ${status === "confirmed" ? "selected" : ""}>Confirmed</option>
+          <option value="out_for_delivery" ${status === "out_for_delivery" ? "selected" : ""}>Out for delivery</option>
           <option value="delivered" ${status === "delivered" ? "selected" : ""}>Delivered</option>
           <option value="cancelled" ${status === "cancelled" ? "selected" : ""}>Cancelled</option>
         </select>
@@ -1261,7 +1263,7 @@ function renderOrdersTable() {
       console.error("status update error", res.error);
       showToast("Status update failed.");
     } else {
-      showToast("Order marked " + status + ".");
+      showToast("Order marked " + (status || "new").replace(/_/g, " ") + ".");
       await loadOrders();
       updateTabCounts();
       renderOrdersTable();

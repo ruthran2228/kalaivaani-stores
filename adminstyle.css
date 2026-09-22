@@ -496,6 +496,7 @@ table.data tr:hover td { background: #fafcf8; }
 
 .status-new { color: #7a5b11; background: #fdf6e3; }
 .status-confirmed { color: #085cae; background: #e8f1fd; }
+.status-out_for_delivery { color: #7a4c08; background: #fdf0e0; }
 .status-delivered { color: #1f8f4e; background: #e6f4ec; }
 .status-cancelled { color: #b4232c; background: #fdebed; }
 

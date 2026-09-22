@@ -1170,6 +1170,7 @@ function statusLabel(status) {
     {
       new: "Placed",
       confirmed: "Confirmed",
+      out_for_delivery: "Out for delivery",
       delivered: "Delivered",
       cancelled: "Cancelled"
     }[status] || "Placed"
@@ -1178,7 +1179,7 @@ function statusLabel(status) {
 
 function renderTrackResult(order) {
   const status = order.status || "new";
-  const steps = ["new", "confirmed", "delivered"];
+  const steps = ["new", "confirmed", "out_for_delivery", "delivered"];
   const currentIndex = steps.indexOf(status);
   const isCancelled = status === "cancelled";
 

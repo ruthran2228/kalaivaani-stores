@@ -15,7 +15,7 @@ create table if not exists orders (
   items jsonb not null,
   total numeric not null,
   status text not null default 'new'
-    check (status in ('new', 'confirmed', 'delivered', 'cancelled')),
+    check (status in ('new', 'confirmed', 'out_for_delivery', 'delivered', 'cancelled')),
   order_number text,
   updated_at timestamptz not null default now()
 );
@@ -24,6 +24,11 @@ create table if not exists orders (
 alter table orders add column if not exists order_number text;
 alter table orders add column if not exists updated_at timestamptz not null default now();
 create unique index if not exists orders_order_number_key on orders(order_number);
+
+-- Order lifecycle: new -> confirmed -> out for delivery -> delivered (or cancelled)
+alter table orders drop constraint if exists orders_status_check;
+alter table orders add constraint orders_status_check
+  check (status in ('new', 'confirmed', 'out_for_delivery', 'delivered', 'cancelled'));
 
 -- Backfill a friendly order number for existing rows: KS-000001, KS-000002, ...
 update orders
