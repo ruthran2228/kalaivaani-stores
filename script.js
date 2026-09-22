@@ -1038,48 +1038,54 @@ function showOrderConfirmation(order) {
   const overlay = $("order-confirm-overlay");
   if (!overlay) return;
 
-  const itemRows = order.items
-    .map(
-      (it) => `
+  try {
+    const itemRows = order.items
+      .map(
+        (it) => `
       <div class="oc-item">
         <span>${esc(it.name)} × ${it.qty}</span>
         <strong>${money(it.total)}</strong>
       </div>`
-    )
-    .join("");
+      )
+      .join("");
 
-  $("oc-name").textContent = order.name;
-  $("oc-phone").textContent = order.phone;
-  $("oc-place").textContent = order.place;
-  $("oc-items").innerHTML = itemRows;
-  $("oc-total").textContent = money(order.total);
+    $("oc-name").textContent = order.name;
+    $("oc-phone").textContent = order.phone;
+    $("oc-place").textContent = order.place;
+    $("oc-items").innerHTML = itemRows;
+    $("oc-total").textContent = money(order.total);
 
-  // Replay the ring + tick animation on every order
-  const ring = overlay.querySelector(".oc-ring-circle");
-  const tick = overlay.querySelector(".oc-tick");
-  const check = overlay.querySelector(".oc-check");
-  if (ring) ring.classList.remove("drawn");
-  if (tick) tick.classList.remove("drawn");
-  if (check) check.classList.remove("popped");
-  if (ring) void ring.getBoundingClientRect();
-  requestAnimationFrame(() => {
+    // Replay the ring + tick animation on every order
+    const ring = overlay.querySelector(".oc-ring-circle");
+    const tick = overlay.querySelector(".oc-tick");
+    const check = overlay.querySelector(".oc-check");
+    if (ring) ring.classList.remove("drawn");
+    if (tick) tick.classList.remove("drawn");
+    if (check) check.classList.remove("popped");
+    if (ring) void ring.getBoundingClientRect();
     requestAnimationFrame(() => {
-      if (ring) ring.classList.add("drawn");
-      if (tick) tick.classList.add("drawn");
-      if (check) check.classList.add("popped");
+      requestAnimationFrame(() => {
+        if (ring) ring.classList.add("drawn");
+        if (tick) tick.classList.add("drawn");
+        if (check) check.classList.add("popped");
+      });
     });
-  });
 
-  // Zomato-style order number reveal (scramble then settle)
-  revealOrderNumber($("oc-number"), order.orderNumber, 900);
+    // Zomato-style order number reveal (scramble then settle)
+    revealOrderNumber($("oc-number"), order.orderNumber, 900);
 
+    $("oc-track-btn").onclick = () => {
+      closeOrderConfirmation();
+      openTracker(order.orderNumber);
+    };
+    $("oc-continue-btn").onclick = closeOrderConfirmation;
+  } catch (err) {
+    console.warn("Confirmation content failed:", err);
+  }
+
+  // ALWAYS show the screen — nothing above can stop it now.
   overlay.classList.add("open");
   overlay.setAttribute("aria-hidden", "false");
-  $("oc-track-btn").onclick = () => {
-    closeOrderConfirmation();
-    openTracker(order.orderNumber);
-  };
-  $("oc-continue-btn").onclick = closeOrderConfirmation;
 
   // Render the payment block AFTER the screen is visible and never
   // let a QR error break the confirmation screen.
