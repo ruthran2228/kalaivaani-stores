@@ -200,6 +200,12 @@
         <p>We've got your order and the shop will confirm shortly.</p>
       </div>
       <div class="oc-body">
+        <div class="oc-pay" id="oc-pay">
+          <div class="oc-pay-head"><span>💳</span><strong>Pay with UPI</strong><small>Scan or tap to pay for this order</small></div>
+          <div class="oc-qr" id="oc-qr"></div>
+          <a class="pay-upi-btn" id="oc-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
+          <small class="oc-vpa" id="oc-vpa"></small>
+        </div>
         <div class="oc-number-box">
           <span>Your order number</span>
           <strong id="oc-number"></strong>
@@ -242,6 +248,7 @@
 
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="config.js"></script>
   <script src="script.js"></script>
 </body>

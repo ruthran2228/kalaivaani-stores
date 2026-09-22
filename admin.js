@@ -352,6 +352,7 @@ function renderDashboard() {
   const todayStart = firstDayLocal(Date.now());
   const ordersToday = ORDERS.filter((o) => firstDayLocal(o.created_at) === todayStart).length;
   const pendingOrders = ORDERS.filter((o) => o.status === "new").length;
+  const paidOrders = ORDERS.filter((o) => o.paid).length;
 
   const categories = uniqueCategories(PRODUCTS);
   const catRows = categories
@@ -392,6 +393,11 @@ function renderDashboard() {
         <div class="stat-label">Orders today</div>
         <div class="stat-value">${ordersToday}</div>
         <div class="stat-sub">${pendingOrders} new to review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Paid</div>
+        <div class="stat-value">${paidOrders}</div>
+        <div class="stat-sub">UPI / payment received</div>
       </div>
     </div>
 
@@ -1218,6 +1224,12 @@ function renderOrdersTable() {
           <option value="cancelled" ${status === "cancelled" ? "selected" : ""}>Cancelled</option>
         </select>
       </td>
+      <td style="white-space:nowrap">
+        <button class="pay-toggle ${o.paid ? "paid" : ""}" data-pay-order="${o.id}" type="button">
+          ${o.paid ? "Paid" : "Unpaid"}
+        </button>
+        ${o.paid_at ? `<div class="pay-at">${new Date(o.paid_at).toLocaleString()}</div>` : ""}
+      </td>
       <td>
         <details class="order-detail">
           <summary>Items (${items.length})</summary>
@@ -1243,6 +1255,7 @@ function renderOrdersTable() {
         <th>Delivery</th>
         <th>Total</th>
         <th>Status</th>
+        <th>Payment</th>
         <th>Details</th>
         <th></th>
       </tr>
@@ -1270,7 +1283,30 @@ function renderOrdersTable() {
     }
   };
 
-  wrap.onclick = (ev) => {
+  wrap.onclick = async (ev) => {
+    const payBtn = ev.target.closest("[data-pay-order]");
+    if (payBtn) {
+      const id = +payBtn.dataset.payOrder;
+      const order = ORDERS.find((o) => o.id === id);
+      const paid = !(order && order.paid);
+      const res = await supabaseClient
+        .from("orders")
+        .update({
+          paid,
+          paid_at: paid ? new Date().toISOString() : null
+        })
+        .eq("id", id);
+      if (res.error) {
+        showToast("Payment update failed.");
+        return;
+      }
+      showToast(paid ? "Marked as paid." : "Marked as unpaid.");
+      await loadOrders();
+      updateTabCounts();
+      renderOrdersTable();
+      return;
+    }
+
     const delBtn = ev.target.closest("[data-del-order]");
     if (!delBtn) return;
     const id = +delBtn.dataset.delOrder;

@@ -500,6 +500,22 @@ table.data tr:hover td { background: #fafcf8; }
 .status-delivered { color: #1f8f4e; background: #e6f4ec; }
 .status-cancelled { color: #b4232c; background: #fdebed; }
 
+.pay-toggle {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  background: #f4f6f4;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.pay-toggle:hover { border-color: #9bd2ae; }
+.pay-toggle.paid { background: var(--ok); color: #fff; border-color: transparent; }
+.pay-at { color: var(--muted); font-size: 10.5px; margin-top: 4px; white-space: nowrap; }
+
 .order-detail summary {
   cursor: pointer;
   font-size: 12px;

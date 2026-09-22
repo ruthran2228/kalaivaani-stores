@@ -25,6 +25,10 @@ alter table orders add column if not exists order_number text;
 alter table orders add column if not exists updated_at timestamptz not null default now();
 create unique index if not exists orders_order_number_key on orders(order_number);
 
+-- UPI payment tracking (shop marks an order as paid)
+alter table orders add column if not exists paid boolean not null default false;
+alter table orders add column if not exists paid_at timestamptz;
+
 -- Order lifecycle: new -> confirmed -> out for delivery -> delivered (or cancelled)
 alter table orders drop constraint if exists orders_status_check;
 alter table orders add constraint orders_status_check
@@ -141,6 +145,10 @@ create policy "Admin delete orders"
 -- security definer => bypasses RLS (postgres owns it), and it only
 -- ever returns the matching row when BOTH pieces match.
 -- ------------------------------------------------------------
+-- The function's return type changed as columns were added, and
+-- create or replace cannot alter OUT parameters. Drop first.
+drop function if exists get_order_status(text, text);
+
 create or replace function get_order_status(
   p_order_number text,
   p_phone text
@@ -151,11 +159,14 @@ returns table (
   created_at timestamptz,
   updated_at timestamptz,
   total numeric,
-  items jsonb
+  items jsonb,
+  paid boolean,
+  paid_at timestamptz
 )
 language sql stable security definer as $$
   select orders.order_number, orders.status, orders.created_at,
-         orders.updated_at, orders.total, orders.items
+         orders.updated_at, orders.total, orders.items,
+         orders.paid, orders.paid_at
   from orders
   where orders.order_number = p_order_number
     and orders.phone = p_phone

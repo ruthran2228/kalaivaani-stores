@@ -1049,6 +1049,8 @@ function showOrderConfirmation(order) {
   $("oc-items").innerHTML = itemRows;
   $("oc-total").textContent = money(order.total);
 
+  renderUpiPayment(order);
+
   // Replay the ring + tick animation on every order
   const ring = overlay.querySelector(".oc-ring-circle");
   const tick = overlay.querySelector(".oc-tick");
@@ -1077,6 +1079,64 @@ function showOrderConfirmation(order) {
   $("oc-continue-btn").onclick = closeOrderConfirmation;
 
   window.__lastOrder = order.orderNumber;
+}
+
+// Build the upi:// URI, render the QR code and link for this specific order
+function buildUpiUri(amount, orderNumber) {
+  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+  if (!vpa) return null;
+
+  const params = new URLSearchParams({
+    pa: vpa,
+    pn: typeof STORE_UPI_NAME === "string" ? STORE_UPI_NAME : "Kalaivani Stores",
+    am: Number(amount).toFixed(2),
+    cu: "INR",
+    tn: "Order " + orderNumber
+  });
+
+  return "upi://pay?" + params.toString();
+}
+
+function renderUpiPayment(order) {
+  const payCard = $("oc-pay");
+  const qrBox = $("oc-qr");
+  const btn = $("oc-pay-btn");
+  const vpaEl = $("oc-vpa");
+  if (!payCard) return;
+
+  const uri = buildUpiUri(order.total, order.orderNumber);
+  qrBox.innerHTML = "";
+  btn.href = uri;
+
+  if (!uri) {
+    payCard.style.display = "none";
+    return;
+  }
+
+  payCard.style.display = "block";
+
+  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+  vpaEl.textContent = vpa;
+
+  try {
+    if (typeof QRCode === "function") {
+      const canvas = document.createElement("canvas");
+      QRCode.toCanvas(canvas, uri, {
+        width: 168,
+        margin: 1,
+        color: { dark: "#062d19", light: "#ffffff" }
+      }).then(() => {
+        qrBox.appendChild(canvas);
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.warn("QR render failed:", err);
+  }
+
+  btn.onclick = (event) => {
+    event.preventDefault();
+    window.location.href = uri;
+  };
 }
 
 let __revealId = 0;
@@ -1234,6 +1294,10 @@ function renderTrackResult(order) {
       </div>
       <p class="track-placed">Placed ${new Date(order.created_at).toLocaleString()}</p>
       <div class="track-timeline">${timeline}</div>
+      <div class="track-pay ${order.paid ? "paid" : ""}">
+        <span>Payment</span>
+        <strong>${order.paid ? "Paid" : "Pending"}${order.paid && order.paid_at ? `<small> · ${new Date(order.paid_at).toLocaleString()}</small>` : ""}</strong>
+      </div>
       <div class="track-divider"></div>
       <div class="track-items">${itemRows || "<p>No items.</p>"}</div>
       <div class="oc-item oc-total">
