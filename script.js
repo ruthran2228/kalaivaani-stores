@@ -303,7 +303,6 @@ function getFilteredProducts() {
 function buildCategoryTabs() {
   const cats = new Set(PRODUCTS.map((p) => normalizeCat(p.category)).filter(Boolean));
   const categories = [
-    "All",
     ...CATEGORY_ORDER.filter((c) => cats.has(c)),
     ...[...cats].filter((c) => !CATEGORY_ORDER.includes(c))
   ];
@@ -860,7 +859,7 @@ document
         document
           .querySelectorAll(".cat-tab")
           .forEach((t) => {
-            t.classList.toggle("active", t.dataset.cat === "All");
+            t.classList.remove("active");
           });
       }
 
@@ -880,7 +879,7 @@ $("reset-filters").addEventListener("click", () => {
   document
     .querySelectorAll(".cat-tab")
     .forEach((t) => {
-      t.classList.toggle("active", t.dataset.cat === "All");
+      t.classList.remove("active");
     });
 
   renderProducts();
