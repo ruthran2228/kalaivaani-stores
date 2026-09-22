@@ -1114,6 +1114,7 @@ function renderUpiPayment(order) {
   const qrBox = $("oc-qr");
   const btn = $("oc-pay-btn");
   const vpaEl = $("oc-vpa");
+  const amountEl = $("oc-pay-amount");
   if (!payCard) return;
 
   const uri = buildUpiUri(order.total, order.orderNumber);
@@ -1128,9 +1129,19 @@ function renderUpiPayment(order) {
 
   payCard.style.display = "block";
 
-  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-  if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
-  if (btn && !vpa) btn.style.display = "none";
+  if (amountEl) amountEl.textContent = "₹" + Number(order.total).toFixed(2);
+
+  if (qrImg) {
+    // Shop's own bank QR: customers scan it and type the amount — the most
+    // reliable path (avoids bank-side "limit" failures from the VPA link).
+    if (btn) btn.style.display = "none";
+    if (vpaEl) vpaEl.textContent = UPI_QR_AMOUNT_NOTE || "Open any UPI app and scan this QR.";
+  } else {
+    const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+    if (btn) btn.style.display = "";
+    if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
+    if (btn && !vpa) btn.style.display = "none";
+  }
 
   try {
     if (qrImg) {
@@ -1140,6 +1151,9 @@ function renderUpiPayment(order) {
       img.className = "pay-qr-img";
       img.loading = "lazy";
       img.onerror = () => {
+        // Static image missing — fall back to the generated VPA QR.
+        if (btn) btn.style.display = "";
+        if (vpaEl) vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
         implodePayHtml(qrBox, btn, uri);
       };
       if (qrBox) qrBox.appendChild(img);
@@ -1157,7 +1171,7 @@ function renderUpiPayment(order) {
     console.warn("QR render failed:", err);
   }
 
-  if (btn && uri) {
+  if (btn && !qrImg && uri) {
     btn.onclick = (event) => {
       event.preventDefault();
       window.location.href = uri;
@@ -1189,9 +1203,18 @@ function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
 
   qrBox.innerHTML = "";
   if (btn) btn.href = uri;
-  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-  if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
-  if (btn && !vpa) btn.style.display = "none";
+  const amountEl = $("tr-pay-amount");
+  if (amountEl) amountEl.textContent = "₹" + Number(order.total).toFixed(2);
+
+  if (qrImg) {
+    if (btn) btn.style.display = "none";
+    if (vpaEl) vpaEl.textContent = UPI_QR_AMOUNT_NOTE || "Open any UPI app and scan this QR.";
+  } else {
+    const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+    if (btn) btn.style.display = "";
+    if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
+    if (btn && !vpa) btn.style.display = "none";
+  }
 
   try {
     if (qrImg) {
@@ -1201,6 +1224,8 @@ function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
       img.className = "pay-qr-img";
       img.loading = "lazy";
       img.onerror = () => {
+        if (btn) btn.style.display = "";
+        if (vpaEl) vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
         implodePayHtml(qrBox, btn, uri);
       };
       qrBox.appendChild(img);
@@ -1218,7 +1243,7 @@ function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
     console.warn("QR render failed:", err);
   }
 
-  if (btn && uri) {
+  if (btn && !qrImg && uri) {
     btn.onclick = (event) => {
       event.preventDefault();
       window.location.href = uri;
@@ -1399,6 +1424,7 @@ function renderTrackResult(order) {
           ? `
         <div class="track-pay-cta" id="tr-pay-cta">
           <div class="track-pay-head"><strong>Pay with UPI</strong><small>Scan to pay for this order</small></div>
+          <div class="track-pay-amount" id="tr-pay-amount"></div>
           <div class="track-qr" id="tr-pay-qr"></div>
           <a class="pay-upi-btn" id="tr-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
           <small class="oc-vpa" id="tr-pay-vpa"></small>
