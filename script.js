@@ -1054,21 +1054,19 @@ function showOrderConfirmation(order) {
   $("oc-items").innerHTML = itemRows;
   $("oc-total").textContent = money(order.total);
 
-  renderUpiPayment(order);
-
   // Replay the ring + tick animation on every order
   const ring = overlay.querySelector(".oc-ring-circle");
   const tick = overlay.querySelector(".oc-tick");
   const check = overlay.querySelector(".oc-check");
-  ring.classList.remove("drawn");
-  tick.classList.remove("drawn");
-  check.classList.remove("popped");
-  void ring.getBoundingClientRect();
+  if (ring) ring.classList.remove("drawn");
+  if (tick) tick.classList.remove("drawn");
+  if (check) check.classList.remove("popped");
+  if (ring) void ring.getBoundingClientRect();
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      ring.classList.add("drawn");
-      tick.classList.add("drawn");
-      check.classList.add("popped");
+      if (ring) ring.classList.add("drawn");
+      if (tick) tick.classList.add("drawn");
+      if (check) check.classList.add("popped");
     });
   });
 
@@ -1083,6 +1081,14 @@ function showOrderConfirmation(order) {
   };
   $("oc-continue-btn").onclick = closeOrderConfirmation;
 
+  // Render the payment block AFTER the screen is visible and never
+  // let a QR error break the confirmation screen.
+  try {
+    renderUpiPayment(order);
+  } catch (err) {
+    console.warn("Payment render failed:", err);
+  }
+
   window.__lastOrder = order.orderNumber;
 }
 
@@ -1096,7 +1102,8 @@ function buildUpiUri(amount, orderNumber) {
     pn: typeof STORE_UPI_NAME === "string" ? STORE_UPI_NAME : "Kalaivani Stores",
     am: Number(amount).toFixed(2),
     cu: "INR",
-    tn: "Order " + orderNumber
+    tn: "Order " + orderNumber,
+    mode: "02"
   });
 
   return "upi://pay?" + params.toString();
@@ -1110,10 +1117,11 @@ function renderUpiPayment(order) {
   if (!payCard) return;
 
   const uri = buildUpiUri(order.total, order.orderNumber);
-  qrBox.innerHTML = "";
-  btn.href = uri;
+  const qrImg = (typeof UPI_QR_IMAGE === "string" ? UPI_QR_IMAGE : "").trim();
+  if (qrBox) qrBox.innerHTML = "";
+  if (btn) btn.href = uri;
 
-  if (!uri) {
+  if (!uri && !qrImg) {
     payCard.style.display = "none";
     return;
   }
@@ -1121,10 +1129,21 @@ function renderUpiPayment(order) {
   payCard.style.display = "block";
 
   const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-  vpaEl.textContent = vpa;
+  if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
+  if (btn && !vpa) btn.style.display = "none";
 
   try {
-    if (typeof QRCode === "function") {
+    if (qrImg) {
+      const img = document.createElement("img");
+      img.src = qrImg;
+      img.alt = "Scan to pay with UPI";
+      img.className = "pay-qr-img";
+      img.loading = "lazy";
+      img.onerror = () => {
+        implodePayHtml(qrBox, btn, uri);
+      };
+      if (qrBox) qrBox.appendChild(img);
+    } else if (typeof QRCode === "function" && qrBox) {
       const canvas = document.createElement("canvas");
       QRCode.toCanvas(canvas, uri, {
         width: 168,
@@ -1138,24 +1157,54 @@ function renderUpiPayment(order) {
     console.warn("QR render failed:", err);
   }
 
-  btn.onclick = (event) => {
-    event.preventDefault();
-    window.location.href = uri;
-  };
+  if (btn && uri) {
+    btn.onclick = (event) => {
+      event.preventDefault();
+      window.location.href = uri;
+    };
+  }
+}
+
+// Fallback: if the static QR image is missing, generate the QR from the VPA.
+function implodePayHtml(qrBox, btn, uri) {
+  if (!qrBox || !uri || typeof QRCode !== "function") return;
+  qrBox.innerHTML = "";
+  const canvas = document.createElement("canvas");
+  QRCode.toCanvas(canvas, uri, {
+    width: 168,
+    margin: 1,
+    color: { dark: "#062d19", light: "#ffffff" }
+  }).then(() => {
+    qrBox.appendChild(canvas);
+  }).catch(() => {});
+  if (btn) btn.style.display = "";
 }
 
 // Render the same UPI QR + pay button inside the tracker result
 // so customers can pay any time before the order is delivered.
 function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
   const uri = buildUpiUri(order.total, order.orderNumber);
-  if (!uri || !qrBox) return;
+  const qrImg = (typeof UPI_QR_IMAGE === "string" ? UPI_QR_IMAGE : "").trim();
+  if ((!uri && !qrImg) || !qrBox) return;
 
   qrBox.innerHTML = "";
-  btn.href = uri;
-  vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+  if (btn) btn.href = uri;
+  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
+  if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
+  if (btn && !vpa) btn.style.display = "none";
 
   try {
-    if (typeof QRCode === "function") {
+    if (qrImg) {
+      const img = document.createElement("img");
+      img.src = qrImg;
+      img.alt = "Scan to pay with UPI";
+      img.className = "pay-qr-img";
+      img.loading = "lazy";
+      img.onerror = () => {
+        implodePayHtml(qrBox, btn, uri);
+      };
+      qrBox.appendChild(img);
+    } else if (typeof QRCode === "function") {
       const canvas = document.createElement("canvas");
       QRCode.toCanvas(canvas, uri, {
         width: 160,
@@ -1169,10 +1218,12 @@ function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
     console.warn("QR render failed:", err);
   }
 
-  btn.onclick = (event) => {
-    event.preventDefault();
-    window.location.href = uri;
-  };
+  if (btn && uri) {
+    btn.onclick = (event) => {
+      event.preventDefault();
+      window.location.href = uri;
+    };
+  }
 }
 
 let __revealId = 0;
@@ -1262,7 +1313,11 @@ $("tr-submit").addEventListener("click", async () => {
 
   const payCta = $("tr-pay-cta");
   if (payCta) {
-    renderUpiIntoBox(order, $("tr-pay-qr"), $("tr-pay-btn"), $("tr-pay-vpa"));
+    try {
+      renderUpiIntoBox(order, $("tr-pay-qr"), $("tr-pay-btn"), $("tr-pay-vpa"));
+    } catch (err) {
+      console.warn("Tracker payment render failed:", err);
+    }
   }
 });
 
