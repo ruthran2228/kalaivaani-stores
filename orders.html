@@ -8,8 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#176b3a">
   <meta name="robots" content="noindex">
-  <title>My Orders – Kalaivani Stores</title>
-  <link rel="stylesheet" href="orders.css?v=20260923b">
+  <title>My Orders â€“ Kalaivani Stores</title>
+  <link rel="stylesheet" href="orders.css?v=20260923c">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
     </a>
     <div class="header-right">
       <a class="back-btn" href="./profile.html">Profile</a>
-      <a class="back-btn" href="./index.html">← Back to store</a>
+      <a class="back-btn" href="./index.html">â† Back to store</a>
       <button class="logout-btn" id="logout-btn" type="button" hidden>Log out</button>
     </div>
   </header>
@@ -37,13 +37,13 @@
           <p id="history-count"></p>
         </div>
         <button class="track-own-btn" id="track-own-btn" type="button">
-          🔎 Track by order number
+          ðŸ”Ž Track by order number
         </button>
       </div>
 
       <div class="orders-list" id="orders-list"></div>
       <div class="empty-state" id="history-empty" hidden>
-        <div class="empty-icon">📦</div>
+        <div class="empty-icon">ðŸ“¦</div>
         <h3>No orders yet</h3>
         <p>When you place an order while signed in, it will show up here.</p>
         <a class="primary-btn" href="./index.html">Start shopping</a>
@@ -54,14 +54,14 @@
           Track a past order by order number
         </button>
         <form class="guest-form" id="guest-form" novalidate hidden>
-          <div class="guest-head"><span>🔎</span><strong>Track a past order</strong></div>
+          <div class="guest-head"><span>ðŸ”Ž</span><strong>Track a past order</strong></div>
           <label>Order number
             <input id="guest-number" type="text" autocomplete="off" spellcheck="false"
               placeholder="e.g. KS-1A2B3C4D" aria-label="Order number">
           </label>
           <label>Phone number used for the order
             <input id="guest-phone" type="tel" inputmode="tel" autocomplete="tel" spellcheck="false"
-              placeholder="The phone used when ordering…" aria-label="Phone number">
+              placeholder="The phone used when orderingâ€¦" aria-label="Phone number">
           </label>
           <button class="primary-btn" id="guest-submit" type="submit">Track order</button>
           <div id="guest-result"></div>
@@ -71,18 +71,18 @@
 
     <!-- TRACK VIEW -->
     <section class="track-view" id="track-view" hidden>
-      <button class="back-to-list" id="back-to-list" type="button">← Back to my orders</button>
+      <button class="back-to-list" id="back-to-list" type="button">â† Back to my orders</button>
       <div class="track-current" id="track-current"></div>
     </section>
   </main>
 
-  <footer class="page-footer">© 2026 Kalaivani Stores · <a href="./index.html">Back to the store</a></footer>
+  <footer class="page-footer">Â© 2026 Kalaivani Stores Â· <a href="./index.html">Back to the store</a></footer>
 
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="config.js?v=20260923d"></script>
-  <script src="orders.js?v=20260923d"></script>
+  <script src="orders.js?v=20260923e"></script>
 </body>
 </html>

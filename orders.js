@@ -372,6 +372,13 @@ function renderTrackCard(order) {
       </div>
 
       <div class="track-divider"></div>
+      <div class="seg-title">Deliver to</div>
+      <div class="oc-delivery">
+        <span>📍 ${esc(order.delivery || "Delivery address not recorded")}</span>
+        ${order.phone ? `<small>📞 ${esc(order.phone)}</small>` : ""}
+      </div>
+
+      <div class="track-divider"></div>
       <div class="seg-title">Items</div>
       ${itemRows || "<p style='color:var(--muted);font-size:13px'>No items.</p>"}
       <div class="oc-item oc-total">
