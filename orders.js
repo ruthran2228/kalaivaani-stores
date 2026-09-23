@@ -584,14 +584,20 @@ function readParams() {
 
 async function init() {
   if (!supabaseClient) {
-    showAuthError("Orders are unavailable right now. Please try again later.");
+    window.location.replace(
+      new URL("login.html", window.location.href).href
+    );
     return;
   }
 
   readParams();
 
   supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_OUT") window.location.assign("./orders.html");
+    if (event === "SIGNED_OUT" && !session) {
+      window.location.replace(
+        new URL("login.html", window.location.href).href
+      );
+    }
   });
 
   const { data } = await supabaseClient.auth.getSession();
@@ -599,12 +605,12 @@ async function init() {
   if (data.session) {
     bootLoggedIn(data.session.user);
   } else {
-    // Deep link from the order confirmation: prefill the guest form.
-    if (deepLinkOrder) {
-      $("guest-number").value = deepLinkOrder;
-      $("guest-form").hidden = false;
-    }
-    showView("auth");
+    // Not signed in → send them to the login gate, then back here
+    // (preserving any ?track= deep link).
+    const here = window.location.pathname + window.location.search;
+    const url = new URL("login.html", window.location.href);
+    url.searchParams.set("next", here);
+    window.location.replace(url.toString());
   }
 }
 

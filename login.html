@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b3a">
+  <meta name="robots" content="noindex">
+  <title>Sign in – Kalaivani Stores</title>
+  <link rel="stylesheet" href="orders.css?v=20260922n">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .login-wrap{min-height:100vh;display:grid;place-items:center;padding:32px 16px}
+    .login-brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:16px}
+    .login-note{color:var(--muted);font-size:12px;margin-top:16px;line-height:1.5}
+    .login-back{display:inline-block;margin-top:14px;color:var(--green);font-size:12.5px;font-weight:800;text-decoration:none}
+    .sent-box{background:#e9f8ef;border:1px solid #bce0c9;border-radius:12px;padding:14px 16px;color:var(--green-900);font-size:13px;font-weight:700;line-height:1.5;margin-top:4px}
+  </style>
+</head>
+<body>
+  <main class="login-wrap">
+    <div class="auth-card">
+      <a class="login-brand" href="./index.html" aria-label="Kalaivani Stores home">
+        <span class="logo-mark">KS</span>
+        <span style="text-align:left"><strong style="font-size:16px">Kalaivani Stores</strong></span>
+      </a>
+
+      <div class="auth-icon" aria-hidden="true">🔐</div>
+      <h1>Sign in to shop</h1>
+      <p class="auth-sub">Enter your email and we'll send you a secure sign-in link. No password needed.</p>
+
+      <form id="login-form" novalidate>
+        <label>Email
+          <input id="login-email" type="email" autocomplete="email" placeholder="you@example.com"
+            aria-label="Email address">
+        </label>
+        <p class="form-error" id="login-error" hidden></p>
+        <div class="form-hint" id="login-hint" hidden></div>
+        <div class="sent-box" id="sent-box" hidden>
+          ✅ Sign-in link sent! Check <strong id="sent-email"></strong> and tap the link. You'll be signed in automatically.
+        </div>
+        <button class="primary-btn" id="login-btn" type="submit">Send sign-in link</button>
+      </form>
+
+      <p class="login-note">Signing in links your orders to your account so you can track them anytime from <strong>My Orders</strong> — no phone number needed.</p>
+      <a class="login-back" href="index.html">← Back to the store</a>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js?v=20260922n"></script>
+  <script src="login.js?v=20260922n"></script>
+</body>
+</html>

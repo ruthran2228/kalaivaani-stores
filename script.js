@@ -1227,13 +1227,67 @@ function closeOrderConfirmation() {
 }
 
 // ------------------------------------------------------------
-// INITIAL LOAD
+// AUTH GATE & INITIAL LOAD
 // ------------------------------------------------------------
-applyURLState();
-refreshUI();
-updateCart();
-loadProducts();
-prefillSignedInDetails();
+// The whole store is behind a sign-in wall. If there's no session we
+// send the visitor to login.html and bring them back when they're in.
+function redirectToLogin() {
+  const url = new URL("login.html", window.location.href);
+  url.searchParams.set(
+    "next",
+    window.location.pathname + window.location.search + window.location.hash
+  );
+  window.location.replace(url.toString());
+}
+
+async function requireAuth() {
+  if (!supabaseClient) {
+    redirectToLogin();
+    return false;
+  }
+  try {
+    const { data } = await supabaseClient.auth.getSession();
+    if (data && data.session) return true;
+  } catch (error) {
+    console.warn("getSession failed:", error);
+  }
+  redirectToLogin();
+  return false;
+}
+
+(function bootStore() {
+  const gate = document.createElement("div");
+  gate.id = "auth-gate";
+  gate.style.cssText =
+    "position:fixed;inset:0;z-index:99999;background:#f5f7f2;display:flex;" +
+    "align-items:center;justify-content:center;";
+  gate.setAttribute("aria-hidden", "true");
+  document.body.appendChild(gate);
+
+  async function start() {
+    const ok = await requireAuth();
+    gate.remove();
+    if (!ok) return;
+
+    applyURLState();
+    refreshUI();
+    updateCart();
+    loadProducts();
+    prefillSignedInDetails();
+
+    if (supabaseClient) {
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (event === "SIGNED_OUT" && !session) {
+          window.location.replace(
+            new URL("login.html", window.location.href).href
+          );
+        }
+      });
+    }
+  }
+
+  start();
+})();
 
 // If the shopper is signed in, prefill the checkout with their account
 // name (phone still optional since tracking works from "My Orders").
