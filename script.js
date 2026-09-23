@@ -1290,7 +1290,7 @@ async function requireAuth() {
 })();
 
 // If the shopper is signed in, prefill the checkout with their account
-// name (phone still optional since tracking works from "My Orders").
+// name and phone (both saved when the account was created on login).
 async function prefillSignedInDetails() {
   if (!supabaseClient) return;
   try {
@@ -1300,6 +1300,10 @@ async function prefillSignedInDetails() {
     const nameInput = $("c-name");
     if (nameInput && meta.name && !nameInput.value.trim()) {
       nameInput.value = meta.name;
+    }
+    const phoneInput = $("c-phone");
+    if (phoneInput && meta.phone && !phoneInput.value.trim()) {
+      phoneInput.value = meta.phone;
     }
   } catch (error) {
     /* ignore */

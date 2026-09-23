@@ -56,6 +56,8 @@ $("login-form").addEventListener("submit", async (event) => {
   $("login-hint").hidden = true;
   $("sent-box").hidden = true;
 
+  const name = $("login-name").value.trim();
+  const phone = $("login-phone").value.trim();
   const email = $("login-email").value.trim();
 
   if (!email) {
@@ -76,7 +78,12 @@ $("login-form").addEventListener("submit", async (event) => {
     email,
     options: {
       emailRedirectTo: absoluteSiteUrl(),
-      shouldCreateUser: true
+      shouldCreateUser: true,
+      // Saved on the account when it's created (name + phone reused at checkout)
+      data: {
+        ...(name ? { name } : {}),
+        ...(phone ? { phone } : {})
+      }
     }
   });
 

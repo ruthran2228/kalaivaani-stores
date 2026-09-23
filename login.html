@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#176b3a">
   <meta name="robots" content="noindex">
   <title>Sign in – Kalaivani Stores</title>
-  <link rel="stylesheet" href="orders.css?v=20260922n">
+  <link rel="stylesheet" href="orders.css?v=20260922o">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -31,9 +31,17 @@
 
       <div class="auth-icon" aria-hidden="true">🔐</div>
       <h1>Sign in to shop</h1>
-      <p class="auth-sub">Enter your email and we'll send you a secure sign-in link. No password needed.</p>
+      <p class="auth-sub">Tell us who you are and we'll send a secure sign-in link. No password needed.</p>
 
       <form id="login-form" novalidate>
+        <label>Your name
+          <input id="login-name" type="text" autocomplete="name" placeholder="Enter your name…"
+            aria-label="Your name">
+        </label>
+        <label>Phone number
+          <input id="login-phone" type="tel" inputmode="tel" autocomplete="tel" spellcheck="false"
+            placeholder="Enter phone number…" aria-label="Phone number">
+        </label>
         <label>Email
           <input id="login-email" type="email" autocomplete="email" placeholder="you@example.com"
             aria-label="Email address">
@@ -46,7 +54,7 @@
         <button class="primary-btn" id="login-btn" type="submit">Send sign-in link</button>
       </form>
 
-      <p class="login-note">Signing in links your orders to your account so you can track them anytime from <strong>My Orders</strong> — no phone number needed.</p>
+      <p class="login-note">Your details are saved to your account and reused at checkout. Signing in links your orders so you can track them anytime from <strong>My Orders</strong>.</p>
       <a class="login-back" href="index.html">← Back to the store</a>
     </div>
   </main>
@@ -54,7 +62,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js?v=20260922n"></script>
-  <script src="login.js?v=20260922n"></script>
+  <script src="config.js?v=20260922o"></script>
+  <script src="login.js?v=20260922o"></script>
 </body>
 </html>
