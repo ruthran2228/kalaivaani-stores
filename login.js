@@ -141,19 +141,23 @@ async function seedProfile(name, phone, email) {
 
     const existing = await supabaseClient
       .from("profiles")
-      .select("user_id")
+      .select("user_id, addresses")
       .eq("user_id", user.id)
       .maybeSingle();
-    if (existing.data) return; // already has a profile row
 
-    // First-time user — create the profile row from the login details.
+    // Keep any addresses already saved; only refresh the contact details.
+    const addresses =
+      existing.data && Array.isArray(existing.data.addresses)
+        ? existing.data.addresses
+        : [];
+
     await supabaseClient.from("profiles").upsert(
       {
         user_id: user.id,
-        name: name || "",
-        phone: phone || "",
+        name: name || (user.user_metadata && user.user_metadata.name) || "",
+        phone: phone || (user.user_metadata && user.user_metadata.phone) || "",
         email: email || user.email || "",
-        addresses: [],
+        addresses,
         updated_at: new Date().toISOString()
       },
       { onConflict: "user_id" }
@@ -212,6 +216,20 @@ async function verifyCode() {
   if (data && data.session) {
     const name = $("login-name").value.trim();
     const phone = $("login-phone").value.trim();
+
+    // Keep account metadata current so your name and phone always carry
+    // through to checkout — even for accounts made before they were asked.
+    try {
+      const patch = {};
+      if (name) patch.name = name;
+      if (phone) patch.phone = phone;
+      if (Object.keys(patch).length) {
+        await supabaseClient.auth.updateUser({ data: patch });
+      }
+    } catch (error) {
+      console.warn("updateUser skipped:", error.message);
+    }
+
     await seedProfile(name, phone, pendingEmail);
     window.location.href = nextUrl();
   } else {

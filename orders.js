@@ -22,7 +22,6 @@ try {
 
 const $ = (id) => document.getElementById(id);
 
-let authMode = "signin";
 let currentUser = null;
 let currentOrders = [];
 let deepLinkOrder = null;
@@ -84,125 +83,20 @@ function firstUppercase(s) {
 // Views
 // ------------------------------------------------------------
 function showView(name) {
-  $("auth-view").hidden = name !== "auth";
   $("history-view").hidden = name !== "history";
   $("track-view").hidden = name !== "track";
 }
 
 // ------------------------------------------------------------
-// Auth flow
+// Log out
 // ------------------------------------------------------------
-document.querySelectorAll(".auth-tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    authMode = tab.dataset.mode;
-    document.querySelectorAll(".auth-tab").forEach((t) => {
-      t.classList.toggle("active", t === tab);
-    });
-    $("name-field").hidden = authMode !== "signup";
-    $("auth-btn").textContent = authMode === "signup" ? "Create account" : "Sign in";
-    $("auth-pass").autocomplete = authMode === "signup" ? "new-password" : "current-password";
-    $("auth-hint").hidden = true;
-    $("auth-error").hidden = true;
-  });
-});
-
-$("auth-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  $("auth-error").hidden = true;
-  $("auth-hint").hidden = true;
-
-  const email = $("auth-email").value.trim();
-  const password = $("auth-pass").value;
-
-  if (!email || !password) {
-    showAuthError("Enter your email and password.");
-    return;
-  }
-
-  if (authMode === "signup") {
-    if (password.length < 6) {
-      showAuthError("Password must be at least 6 characters.");
-      return;
-    }
-  }
-
-  const btn = $("auth-btn");
-  btn.disabled = true;
-  btn.textContent = authMode === "signup" ? "Creating account…" : "Signing in…";
-
-  let error = null;
-
-  if (authMode === "signup") {
-    const res = await supabaseClient.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { name: $("auth-name").value.trim() || null }
-      }
-    });
-    error = res.error;
-
-    if (!error && (!res.data.user || (res.data.user.identities && res.data.user.identities.length === 0))) {
-      btn.disabled = false;
-      btn.textContent = "Create account";
-      const hint = $("auth-hint");
-      hint.innerHTML =
-        "Account created! A confirmation link was sent to <strong>" +
-        esc(email) +
-        "</strong>. Open it, then sign in here.";
-      hint.hidden = false;
-      authMode = "signin";
-      document.querySelectorAll(".auth-tab").forEach((t) => {
-        t.classList.toggle("active", t.dataset.mode === "signin");
-      });
-      $("name-field").hidden = true;
-      $("auth-btn").textContent = "Sign in";
-      return;
-    }
-  } else {
-    const res = await supabaseClient.auth.signInWithPassword({ email, password });
-    error = res.error;
-  }
-
-  btn.disabled = false;
-  btn.textContent = authMode === "signup" ? "Create account" : "Sign in";
-
-  if (error) {
-    showAuthError(error.message);
-    showEmailConfirmHelp(error);
-    return;
-  }
-});
-
-function showAuthError(message) {
-  const err = $("auth-error");
-  err.textContent = message;
-  err.hidden = false;
-}
-
-function showEmailConfirmHelp(error) {
-  const msg = String(error.code + " " + error.message).toLowerCase();
-  const hint = $("auth-hint");
-  if (!hint) return;
-
-  if (msg.includes("email not confirmed")) {
-    hint.innerHTML =
-      "Your email has not been confirmed yet. Check your inbox for the link we sent, " +
-      "or the shop can confirm it in <strong>Supabase → Authentication → Users</strong>.";
-    hint.hidden = false;
-    return;
-  }
-
-  if (msg.includes("invalid login")) {
-    hint.innerHTML =
-      "No account with this password. If you haven't created an account yet, use the " +
-      "<strong>Create account</strong> tab.";
-    hint.hidden = false;
-  }
-}
-
 $("logout-btn").addEventListener("click", async () => {
-  await supabaseClient.auth.signOut();
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (error) {
+    console.warn("signOut failed:", error);
+  }
+  window.location.replace(new URL("login.html", window.location.href).href);
 });
 
 // ------------------------------------------------------------
@@ -296,6 +190,8 @@ async function loadOrders() {
 }
 
 function showHistoryView() {
+  $("track-own-btn").hidden = false;
+
   $("hello-name").textContent = firstUppercase(
     (currentUser.user_metadata && currentUser.user_metadata.name) || currentUser.email || ""
   );

@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#176b3a">
   <meta name="robots" content="noindex">
   <title>My Orders – Kalaivani Stores</title>
-  <link rel="stylesheet" href="orders.css?v=20260923a">
+  <link rel="stylesheet" href="orders.css?v=20260923b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -28,42 +28,31 @@
   </header>
 
   <main class="page" id="page">
-    <!-- AUTH VIEW -->
-    <section class="auth-view" id="auth-view">
-      <div class="auth-card">
-        <div class="auth-icon" aria-hidden="true">🛍️</div>
-        <h1>Your orders, in one place</h1>
-        <p class="auth-sub">Sign in to view your order history, track deliveries and pay easily — no phone number needed for tracking.</p>
-
-        <div class="auth-tabs" role="tablist" aria-label="Sign in or create account">
-          <button class="auth-tab active" data-mode="signin" type="button">Sign in</button>
-          <button class="auth-tab" data-mode="signup" type="button">Create account</button>
+    <!-- HISTORY VIEW -->
+    <section class="history-view" id="history-view" hidden>
+      <div class="page-head">
+        <div>
+          <span class="kicker">HELLO <span id="hello-name"></span></span>
+          <h1>My orders</h1>
+          <p id="history-count"></p>
         </div>
-
-        <form id="auth-form" novalidate>
-          <label id="name-field" hidden>Your name
-            <input id="auth-name" type="text" autocomplete="name" placeholder="e.g. Priya"
-              aria-label="Your name">
-          </label>
-          <label>Email
-            <input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"
-              aria-label="Email address">
-          </label>
-          <label>Password
-            <input id="auth-pass" type="password" autocomplete="current-password" placeholder="At least 6 characters"
-              aria-label="Password">
-          </label>
-          <p class="form-error" id="auth-error" hidden></p>
-          <div class="form-hint" id="auth-hint" hidden></div>
-          <button class="primary-btn" id="auth-btn" type="submit">Sign in</button>
-        </form>
-
-        <p class="auth-hint-text">Using this keeps your orders linked to your account and safe.</p>
-
-        <button class="guest-toggle" id="guest-toggle" type="button">
-          Track a past order without signing in
+        <button class="track-own-btn" id="track-own-btn" type="button">
+          🔎 Track by order number
         </button>
+      </div>
 
+      <div class="orders-list" id="orders-list"></div>
+      <div class="empty-state" id="history-empty" hidden>
+        <div class="empty-icon">📦</div>
+        <h3>No orders yet</h3>
+        <p>When you place an order while signed in, it will show up here.</p>
+        <a class="primary-btn" href="./index.html">Start shopping</a>
+      </div>
+
+      <div class="guest-card" id="guest-card">
+        <button class="guest-toggle" id="guest-toggle" type="button">
+          Track a past order by order number
+        </button>
         <form class="guest-form" id="guest-form" novalidate hidden>
           <div class="guest-head"><span>🔎</span><strong>Track a past order</strong></div>
           <label>Order number
@@ -77,28 +66,6 @@
           <button class="primary-btn" id="guest-submit" type="submit">Track order</button>
           <div id="guest-result"></div>
         </form>
-      </div>
-    </section>
-
-    <!-- HISTORY VIEW -->
-    <section class="history-view" id="history-view" hidden>
-      <div class="page-head">
-        <div>
-          <span class="kicker">HELLO <span id="hello-name"></span></span>
-          <h1>My orders</h1>
-          <p id="history-count"></p>
-        </div>
-        <button class="track-own-btn" id="track-own-btn" type="button" hidden>
-          🔎 Track by order number
-        </button>
-      </div>
-
-      <div class="orders-list" id="orders-list"></div>
-      <div class="empty-state" id="history-empty" hidden>
-        <div class="empty-icon">📦</div>
-        <h3>No orders yet</h3>
-        <p>When you place an order while signed in, it will show up here.</p>
-        <a class="primary-btn" href="./index.html">Start shopping</a>
       </div>
     </section>
 
@@ -116,6 +83,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="config.js?v=20260923a"></script>
-  <script src="orders.js?v=20260923a"></script>
+  <script src="orders.js?v=20260923b"></script>
 </body>
 </html>
