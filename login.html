@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#176b3a">
   <meta name="robots" content="noindex">
   <title>Sign in – Kalaivani Stores</title>
-  <link rel="stylesheet" href="orders.css?v=20260922p">
+  <link rel="stylesheet" href="orders.css?v=20260922q">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -60,9 +60,13 @@
         <p class="form-error" id="login-error" hidden></p>
         <div class="form-hint" id="login-hint" hidden></div>
         <div class="sent-box" id="sent-box" hidden>
-          ✅ Sign-in link sent! Check <strong id="sent-email"></strong> and tap the link. You'll be signed in automatically.
+          ✅ Code sent to <strong id="sent-email"></strong>! Enter the 6-digit code below.
         </div>
-        <button class="primary-btn" id="login-btn" type="submit">Send sign-in link</button>
+        <label id="code-field" hidden>6-digit code
+          <input id="login-code" type="text" inputmode="numeric" autocomplete="one-time-code"
+            pattern="[0-9]*" maxlength="6" placeholder="000000" aria-label="Verification code">
+        </label>
+        <button class="primary-btn" id="login-btn" type="submit">Send security code</button>
       </form>
 
       <p class="login-note">Your details are saved to your account and reused at checkout. Signing in links your orders so you can track them anytime from <strong>My Orders</strong>.</p>
@@ -73,7 +77,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js?v=20260922p"></script>
-  <script src="login.js?v=20260922p"></script>
+  <script src="config.js?v=20260922q"></script>
+  <script src="login.js?v=20260922q"></script>
 </body>
 </html>

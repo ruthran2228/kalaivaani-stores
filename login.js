@@ -1,5 +1,7 @@
 // ============================================================
-// Kalaivani Stores — Login page (email OTP / magic link)
+// Kalaivani Stores — Login page (email OTP code)
+// Two-step: (1) enter details → email 6-digit code,
+//           (2) type code to verify → signed in.
 // ============================================================
 
 let supabaseClient = null;
@@ -33,9 +35,7 @@ function nextUrl() {
   return new URL("index.html", window.location.href).href;
 }
 
-function absoluteSiteUrl() {
-  return new URL("index.html", window.location.href).href;
-}
+let pendingEmail = "";
 
 function showLoginError(message) {
   const err = $("login-error");
@@ -49,9 +49,24 @@ function showLoginHint(html) {
   hint.hidden = false;
 }
 
-$("login-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
+const CODE_RE = /^\d{6}$/;
 
+function enterCodeStep() {
+  $("sent-box").hidden = false;
+  $("code-field").hidden = false;
+  const btn = $("login-btn");
+  btn.textContent = "Verify code";
+  const emailInput = $("login-email");
+  emailInput.disabled = true;
+  emailInput.style.opacity = ".7";
+  $("login-name").disabled = true;
+  $("login-phone").disabled = true;
+  $("login-name").style.opacity = ".7";
+  $("login-phone").style.opacity = ".7";
+  setTimeout(() => $("login-code").focus(), 60);
+}
+
+async function sendCode() {
   $("login-error").hidden = true;
   $("login-hint").hidden = true;
   $("sent-box").hidden = true;
@@ -70,16 +85,20 @@ $("login-form").addEventListener("submit", async (event) => {
     return;
   }
 
+  if (!supabaseClient) {
+    showLoginError("Sign-in is unavailable right now. Please try again later.");
+    return;
+  }
+
   const btn = $("login-btn");
   btn.disabled = true;
-  btn.textContent = "Sending link…";
+  btn.textContent = "Sending code…";
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: absoluteSiteUrl(),
       shouldCreateUser: true,
-      // Saved on the account when it's created (name + phone reused at checkout)
+      // Saved on the account when it's created (reused at checkout)
       data: {
         ...(name ? { name } : {}),
         ...(phone ? { phone } : {})
@@ -88,14 +107,14 @@ $("login-form").addEventListener("submit", async (event) => {
   });
 
   btn.disabled = false;
-  btn.textContent = "Send sign-in link";
 
   if (error) {
+    btn.textContent = "Send security code";
     console.warn("OTP error:", error.message);
     const msg = String(error.message).toLowerCase();
     if (msg.includes("rate limit") || msg.includes("too many")) {
       showLoginHint(
-        "We just sent you a link. Wait a minute before requesting another, they're rate-limited to keep things safe."
+        "We just sent you a code. Wait a minute before requesting another — they're rate-limited to keep things safe."
       );
     } else if (msg.includes("provider email is not enabled")) {
       showLoginHint(
@@ -107,27 +126,94 @@ $("login-form").addEventListener("submit", async (event) => {
     return;
   }
 
+  pendingEmail = email;
   $("sent-email").textContent = email;
-  $("sent-box").hidden = false;
-});
+  btn.textContent = "Verify code";
+  enterCodeStep();
+}
 
-// ------------------------------------------------------------
-// Boot: if a magic-link code is present (returning from email),
-// supabase-js exchanges it automatically when getSession runs.
-// If the user is already signed in, send them on their way.
-// ------------------------------------------------------------
-async function init() {
+async function verifyCode() {
+  const code = $("login-code").value.trim();
+
+  if (!CODE_RE.test(code)) {
+    showLoginError("Enter the 6-digit code from your email.");
+    return;
+  }
+
+  if (!pendingEmail) {
+    showLoginError("We don't have your email yet. Send the code again.");
+    return;
+  }
+
   if (!supabaseClient) {
     showLoginError("Sign-in is unavailable right now. Please try again later.");
     return;
   }
 
+  const btn = $("login-btn");
+  btn.disabled = true;
+  btn.textContent = "Verifying…";
+
+  const { data, error } = await supabaseClient.auth.verifyOtp({
+    email: pendingEmail,
+    token: code,
+    type: "email"
+  });
+
+  btn.disabled = false;
+
+  if (error) {
+    btn.textContent = "Verify code";
+    console.warn("verifyOtp error:", error.message);
+    const msg = String(error.message).toLowerCase();
+    if (msg.includes("expire")) {
+      showLoginError("That code expired. Send a new one and try again.");
+    } else if (msg.includes("rate limit") || msg.includes("too many")) {
+      showLoginError("Too many attempts. Wait a minute and try again.");
+    } else {
+      showLoginError("That code didn't match. Check it and re-enter it, or request a new code.");
+    }
+    $("login-code").value = "";
+    $("login-code").focus();
+    return;
+  }
+
+  if (data && data.session) {
+    window.location.href = nextUrl();
+  } else {
+    showLoginError("We couldn't verify that code. Send a new one and try again.");
+  }
+}
+
+$("login-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const btn = $("login-btn");
+  if (btn.textContent === "Verify code") {
+    await verifyCode();
+  } else {
+    await sendCode();
+  }
+});
+
+$("login-code").addEventListener("input", () => {
+  const code = $("login-code");
+  code.value = code.value.replace(/\D/g, "").slice(0, 6);
+  if (code.value.length === 6) {
+    verifyCode();
+  }
+});
+
+// ------------------------------------------------------------
+// Boot: if the user is already signed in, send them on their way.
+// ------------------------------------------------------------
+async function init() {
+  if (!supabaseClient) return;
+
   try {
     const { data } = await supabaseClient.auth.getSession();
-
     if (data.session) {
       window.location.href = nextUrl();
-      return;
     }
   } catch (error) {
     console.warn("getSession failed:", error);
