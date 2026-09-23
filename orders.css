@@ -156,11 +156,59 @@ button.order-card{font-weight:inherit;display:grid;gap:10px}
 .page-footer a{color:var(--green);font-weight:800;text-decoration:none}
 
 @media (max-width:640px){
-  .page-header{padding:0 14px}
+  html{-webkit-text-size-adjust:100%}
+  .page-header{padding:0 12px;height:62px}
+  .brand small{display:none}
+  .logo-mark{width:37px;height:37px;border-radius:11px}
+  .brand strong{font-size:14px}
+  .back-btn,.logout-btn{height:40px;padding:0 12px;font-size:12.5px}
   .back-btn span{display:none}
-  .page{padding:24px 14px 48px}
-  .auth-card{padding:26px 20px}
+  .page{padding:20px 14px calc(44px + env(safe-area-inset-bottom))}
+
+  /* Prevent iOS auto-zoom: inputs must be ≥16px */
+  #auth-form input,.guest-form input{font-size:16px}
+  #auth-form label,.guest-form label{font-size:12.5px}
+
+  .auth-card{padding:26px 20px;border-radius:20px}
+  .auth-card h1{font-size:22px}
+  .primary-btn{height:50px;font-size:15px}
+
+  .guest-toggle{min-height:44px}
+  .guest-form{padding:14px}
+  .guest-form input{height:48px}
+
+  .page-head{gap:10px}
   .page-head h1{font-size:24px}
-  .order-card{padding:14px}
+  .page-head p{font-size:12.5px}
+  .track-own-btn{min-height:40px;padding:0 12px}
+
+  .order-card{padding:15px}
+  .order-num{font-size:13px}
+  .order-mid{font-size:12px;gap:8px}
+  .track-badge{font-size:9.5px;padding:5px 9px}
+  .order-view{font-size:12px}
+
+  .empty-state{padding:38px 18px}
+  .empty-state .primary-btn{width:100%;min-height:48px}
+
   .track-card{padding:18px}
+  .status-hero{gap:12px}
+  .status-icon{width:50px;height:50px;font-size:24px}
+  .status-hero h2{font-size:18px}
+
+  .tl-step{gap:11px}
+  .tl-dot{width:30px;height:30px;font-size:11px}
+  .tl-line{left:14px}
+  .tl-step strong{font-size:13.5px}
+  .tl-step small{font-size:11px}
+
+  .pay-box{padding:16px;margin-top:14px}
+  .pay-qr{padding:10px}
+  .pay-qr img,.pay-qr canvas{width:190px;height:190px}
+  .pay-upi-btn{height:50px;font-size:14px}
+
+  .back-to-list{min-height:40px}
+
+  .toast{bottom:calc(20px + env(safe-area-inset-bottom));max-width:92vw}
+  .page-footer{padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
 }

@@ -137,7 +137,126 @@ footer{background:#062d19;color:#bce6c9;padding:38px 24px 16px}.footer-main{max-
 .oc-actions{display:grid;gap:10px;padding:20px 24px 28px;animation:ocFadeUp .4s ease .95s both}.oc-actions .secondary-btn{text-align:center;border-color:var(--line);color:var(--green-800);background:#fff;text-decoration:none}
 
 @media(max-width:640px){
-  .oc-card{border-radius:0;max-height:100vh}
+  .oc-card{border-radius:0;max-height:96dvh}
   .oc-hero{padding:30px 20px 34px}
   .oc-meta{grid-template-columns:1fr}
+  .oc-body{padding:20px 18px 4px}
+  .oc-actions{padding:20px 18px calc(26px + env(safe-area-inset-bottom))}
+  .oc-pay-amount{font-size:26px}
+  .oc-qr canvas,.oc-qr .pay-qr-img{width:190px!important;height:190px!important}
+}
+
+/* ---------------------------------------------
+   Mobile optimization v3
+   -------------------------------------------------
+   - safer safe-areas for notched phones & gesture bars
+   - prevent iOS auto-zoom on inputs
+   - sticky search + actions that never overflow
+   - larger tap targets, wrapped buttons
+   - physical "100dvh" heights so overlays match the screen
+--------------------------------------------- */
+html{-webkit-text-size-adjust:100%}
+
+@media(max-width:640px){
+  body{background:var(--cream)}
+  main,#shop{scroll-margin-top:56px}
+
+  /* Header: fluid wrap — brand + actions on one row, search below.
+     On phones the header scrolls away (not sticky); the category bar
+     takes over and sticks to the very top instead. */
+  .site-header{position:static;height:auto;min-height:0;margin-bottom:0;flex-wrap:wrap;padding:10px 12px 8px;gap:10px}
+  .brand{min-width:0;flex:1}
+  .brand strong{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .logo-mark{width:37px;height:37px;border-radius:11px}
+  .header-actions{gap:6px}
+  .call-btn,.cart-btn,.track-btn{width:42px;height:42px;border-radius:12px}
+  .call-btn span,.cart-btn span,.track-btn span{display:none}
+  .header-search{order:3;position:static;left:auto;right:auto;top:auto;flex:1 1 100%;margin:2px 0 6px;height:46px;max-width:none}
+  .header-search input{font-size:16px}
+
+  /* Categories: stick under the top edge while the header scrolls away */
+  .category-wrap{position:sticky;top:-1px;z-index:90;background:var(--cream);margin:0 -4%;padding:8px 4% 13px;border-bottom:1px solid rgba(228,234,229,.6);box-shadow:0 4px 14px rgba(12,55,30,.05)}
+  .category-bar{gap:8px}
+  .cat-tab{padding:11px 18px;font-size:13px;min-height:42px}
+
+  /* Hero: single-column, full-width buttons */
+  .hero{padding:36px 5% 30px}
+  .hero h1{font-size:34px}
+  .hero p{font-size:14px}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:9px}
+  .hero-actions .primary-btn,.hero-actions .secondary-btn{width:100%;padding:15px;font-size:15px}
+
+  .benefits{grid-template-columns:repeat(2,1fr);border-radius:0}
+  .benefits div{padding:16px 10px}
+  .benefits span{font-size:26px}
+  .benefits strong{font-size:12.5px}
+  .benefits small{font-size:11px}
+
+  .shop-section{padding:40px 4% 30px}
+  .section-heading h2{font-size:26px}
+  .section-tools{gap:9px}
+  .sort-select{min-height:44px;font-size:13px}
+
+  /* Product grid: 2 compact columns with solid tap targets */
+  .product-grid{gap:11px}
+  .product-card{padding:10px;border-radius:15px}
+  .product-visual{height:118px;border-radius:12px}
+  .product-icon{font-size:48px}
+  .product-card h3{font-size:12.5px;min-height:34px}
+  .variant-chip{min-height:34px;display:inline-flex;align-items:center}
+  .add-controls{margin-top:12px}
+  .add-btn,.qty-box{height:42px}
+  .qty-btn{width:44px;font-size:22px}
+  .qty-input{font-size:16px}
+
+  /* Steps stack + about card */
+  .steps{grid-template-columns:1fr}
+  .steps article{padding:22px}
+  .about-card{padding:30px 20px;border-radius:22px}
+  .about-card h2{font-size:26px}
+  .contact-card a{min-height:44px;align-items:center}
+
+  .quick-links{gap:7px}
+  .quick-links button{min-height:40px;padding:0 14px;font-size:12.5px}
+
+  /* Footer */
+  .footer-main{grid-template-columns:1fr 1fr;gap:22px}
+  .footer-main>div:first-child{grid-column:1/-1}
+  .footer-main a{min-height:36px}
+
+  /* Floating cart: safe-area aware */
+  .float-cart{width:calc(100% - 24px);bottom:calc(12px + env(safe-area-inset-bottom));padding:14px 16px}
+  .float-cart>strong{font-size:20px}
+
+  /* Cart: true bottom sheet using dvh */
+  .cart-panel{width:100%;max-height:90dvh;border-radius:22px 22px 0 0}
+  .cart-header{padding:15px 20px}
+  .cart-close{width:38px;height:38px;font-size:24px}
+  .cart-items{max-height:48dvh;padding:6px 18px}
+  .cart-item{padding:14px 0;gap:12px}
+  .cart-item-emoji{width:46px;height:46px;font-size:24px}
+  .ci-btn{width:30px;height:30px}
+  .checkout-fields input{font-size:16px;padding:13px 12px}
+  .wa-btn{min-height:50px;font-size:15px}
+  .clear-btn{min-height:38px}
+  .cart-footer{padding:15px 18px calc(16px + env(safe-area-inset-bottom))}
+  .summary-row strong{font-size:26px}
+
+  /* Toast above the gesture bar */
+  .toast{bottom:calc(22px + env(safe-area-inset-bottom));font-size:13px}
+}
+
+/* Bigger phones / small tablets in between */
+@media(min-width:641px) and (max-width:900px){
+  .product-visual{height:150px}
+  .product-icon{font-size:56px}
+}
+
+/* Extra-small devices */
+@media(max-width:360px){
+  .product-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .product-visual{height:104px}
+  .product-card h3{font-size:11.5px}
+  .hero h1{font-size:30px}
+  .brand small{display:none}
 }
