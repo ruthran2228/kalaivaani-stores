@@ -279,13 +279,8 @@ async function saveProfile(profile) {
       redirectToLogin();
       return;
     }
-    try {
-      const { data } = await supabaseClient.auth.getSession();
-      if (!data || !data.session) {
-        redirectToLogin();
-        return;
-      }
-    } catch (error) {
+    const session = await getSessionReady(supabaseClient);
+    if (!session) {
       redirectToLogin();
       return;
     }

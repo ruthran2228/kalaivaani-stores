@@ -81,3 +81,30 @@ function makeOrderNumber() {
   const rand = Math.random().toString(36).slice(2, 5).toUpperCase();
   return `KS-${time}${rand}`;
 }
+
+// Right after OTP verification the session is being written to storage.
+// Some browsers (and slower phones) can still read it as "logged out"
+// for a moment, so the next page must retry before sending us back to
+// the login page.
+async function getSessionReady(client) {
+  if (!client) return null;
+  const attempt = async () => {
+    try {
+      const { data } = await client.auth.getSession();
+      return data && data.session ? data.session : null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const session = await attempt();
+  if (session) return session;
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  for (let i = 0; i < 5; i++) {
+    await wait(300);
+    const retry = await attempt();
+    if (retry) return retry;
+  }
+  return null;
+}

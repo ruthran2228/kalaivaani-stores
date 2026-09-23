@@ -667,12 +667,8 @@ async function requireAuth() {
     redirectToLogin();
     return false;
   }
-  try {
-    const { data } = await supabaseClient.auth.getSession();
-    if (data && data.session) return true;
-  } catch (error) {
-    console.warn("getSession failed:", error);
-  }
+  const session = await getSessionReady(supabaseClient);
+  if (session) return true;
   redirectToLogin();
   return false;
 }

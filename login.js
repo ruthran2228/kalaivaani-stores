@@ -167,7 +167,11 @@ async function seedProfile(name, phone, email) {
   }
 }
 
+let verifying = false;
+
 async function verifyCode() {
+  if (verifying) return;
+
   const code = $("login-code").value.trim();
 
   if (!CODE_RE.test(code)) {
@@ -185,55 +189,67 @@ async function verifyCode() {
     return;
   }
 
+  verifying = true;
   const btn = $("login-btn");
   btn.disabled = true;
   btn.textContent = "Verifying…";
 
-  const { data, error } = await supabaseClient.auth.verifyOtp({
-    email: pendingEmail,
-    token: code,
-    type: "email"
-  });
+  try {
+    const { data, error } = await supabaseClient.auth.verifyOtp({
+      email: pendingEmail,
+      token: code,
+      type: "email"
+    });
 
-  btn.disabled = false;
-
-  if (error) {
-    btn.textContent = "Verify code";
-    console.warn("verifyOtp error:", error.message);
-    const msg = String(error.message).toLowerCase();
-    if (msg.includes("expire")) {
-      showLoginError("That code expired. Send a new one and try again.");
-    } else if (msg.includes("rate limit") || msg.includes("too many")) {
-      showLoginError("Too many attempts. Wait a minute and try again.");
-    } else {
-      showLoginError("That code didn't match. Check it and re-enter it, or request a new code.");
-    }
-    $("login-code").value = "";
-    $("login-code").focus();
-    return;
-  }
-
-  if (data && data.session) {
-    const name = $("login-name").value.trim();
-    const phone = $("login-phone").value.trim();
-
-    // Keep account metadata current so your name and phone always carry
-    // through to checkout — even for accounts made before they were asked.
-    try {
-      const patch = {};
-      if (name) patch.name = name;
-      if (phone) patch.phone = phone;
-      if (Object.keys(patch).length) {
-        await supabaseClient.auth.updateUser({ data: patch });
+    if (error) {
+      console.warn("verifyOtp error:", error.message);
+      const msg = String(error.message).toLowerCase();
+      if (msg.includes("expire")) {
+        showLoginError("That code expired. Send a new one and try again.");
+      } else if (msg.includes("rate limit") || msg.includes("too many")) {
+        showLoginError("Too many attempts. Wait a minute and try again.");
+      } else {
+        showLoginError("That code didn't match. Check it and re-enter it, or request a new code.");
       }
-    } catch (error) {
-      console.warn("updateUser skipped:", error.message);
+      $("login-code").value = "";
+      $("login-code").focus();
+      return;
     }
 
-    await seedProfile(name, phone, pendingEmail);
-    window.location.href = nextUrl();
-  } else {
-    showLoginError("We couldn't verify that code. Send a new one and try again.");
+    if (data && data.session) {
+      // Save the session before navigating away, so the next page sees
+      // the user as signed in instead of bouncing back to this page.
+      try {
+        await supabaseClient.auth.setSession(data.session);
+      } catch (setError) {
+        console.warn("setSession failed:", setError);
+      }
+
+      const name = $("login-name").value.trim();
+      const phone = $("login-phone").value.trim();
+
+      // Keep account metadata current so your name and phone always carry
+      // through to checkout — even for accounts made before they were asked.
+      try {
+        const patch = {};
+        if (name) patch.name = name;
+        if (phone) patch.phone = phone;
+        if (Object.keys(patch).length) {
+          await supabaseClient.auth.updateUser({ data: patch });
+        }
+      } catch (updateError) {
+        console.warn("updateUser skipped:", updateError.message);
+      }
+
+      await seedProfile(name, phone, pendingEmail);
+      window.location.href = nextUrl();
+    } else {
+      showLoginError("We couldn't verify that code. Send a new one and try again.");
+    }
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Verify code";
+    verifying = false;
   }
 }
 

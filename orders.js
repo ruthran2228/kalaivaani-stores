@@ -79,6 +79,31 @@ function firstUppercase(s) {
   return String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
 }
 
+// Right after OTP verification the session can still be settling into
+// storage — retry briefly before assuming the user is logged out.
+async function getSessionReady(client) {
+  if (!client) return null;
+  const attempt = async () => {
+    try {
+      const { data } = await client.auth.getSession();
+      return data && data.session ? data.session : null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const session = await attempt();
+  if (session) return session;
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  for (let i = 0; i < 5; i++) {
+    await wait(300);
+    const retry = await attempt();
+    if (retry) return retry;
+  }
+  return null;
+}
+
 // ------------------------------------------------------------
 // Views
 // ------------------------------------------------------------
@@ -496,10 +521,10 @@ async function init() {
     }
   });
 
-  const { data } = await supabaseClient.auth.getSession();
+  const session = await getSessionReady(supabaseClient);
 
-  if (data.session) {
-    bootLoggedIn(data.session.user);
+  if (session) {
+    bootLoggedIn(session.user);
   } else {
     // Not signed in → send them to the login gate, then back here
     // (preserving any ?track= deep link).
