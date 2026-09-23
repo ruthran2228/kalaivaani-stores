@@ -214,28 +214,33 @@ async function verifyCode() {
     }
 
     if (data && data.session) {
-      // Save the session before navigating away, so the next page sees
-      // the user as signed in instead of bouncing back to this page.
+      // Save the session before navigating away, so the next page sees the
+      // user as signed in instead of bouncing back to this page.
       try {
         await supabaseClient.auth.setSession(data.session);
       } catch (setError) {
         console.warn("setSession failed:", setError);
       }
 
-      // If the session couldn't be saved anywhere (some browsers block all
-      // storage in private/incognito mode), every page will see this user
-      // as logged out. Warn clearly instead of silently sending them back.
+      // Confirm the session actually saved. Give slow phones a moment —
+      // a wrong "blocked storage" message here is worse than no message.
+      let saved = false;
       try {
-        const check = await supabaseClient.auth.getSession();
-        const saved = !!(check && check.data && check.data.session);
-        if (!saved) {
-          showLoginError(
-            "This browser is blocking saved sign-ins (private/incognito mode). Please open the site in a normal tab to sign in."
-          );
-          return;
+        const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        for (let i = 0; i < 5 && !saved; i++) {
+          const check = await supabaseClient.auth.getSession();
+          saved = !!(check && check.data && check.data.session);
+          if (!saved && i < 4) await wait(300);
         }
       } catch (checkError) {
         console.warn("session read-back failed:", checkError);
+      }
+
+      if (!saved) {
+        showLoginError(
+          "Looks like this browser is blocking saved sign-ins (private/incognito mode). Please open the site in a normal tab to sign in."
+        );
+        return;
       }
 
       const name = $("login-name").value.trim();
