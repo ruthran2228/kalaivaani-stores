@@ -915,20 +915,8 @@ document
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeCart();
-    closeTracker();
     closeOrderConfirmation();
   }
-});
-
-// TRACK ORDER
-$("track-link").addEventListener("click", (event) => {
-  event.preventDefault();
-  openTracker();
-});
-
-$("track-btn").addEventListener("click", (event) => {
-  event.preventDefault();
-  openTracker();
 });
 
 // CLEAR CART
@@ -990,6 +978,18 @@ $("wa-order-btn").addEventListener("click", async () => {
   const submitBtn = $("wa-order-btn");
   const orderNumber = makeOrderNumber();
 
+  // Link the order to the signed-in account (if any) so the customer
+  // can view it in "My Orders" without needing their phone number.
+  let userId = null;
+  if (supabaseClient) {
+    try {
+      const { data } = await supabaseClient.auth.getUser();
+      if (data && data.user) userId = data.user.id;
+    } catch (error) {
+      /* not signed in */
+    }
+  }
+
   // Save the order directly to Supabase for the admin page
   if (supabaseClient) {
     submitBtn.disabled = true;
@@ -1001,7 +1001,8 @@ $("wa-order-btn").addEventListener("click", async () => {
       delivery: place,
       items: orderItems,
       total,
-      order_number: orderNumber
+      order_number: orderNumber,
+      user_id: userId
     });
 
     submitBtn.disabled = false;
@@ -1074,8 +1075,8 @@ function showOrderConfirmation(order) {
     revealOrderNumber($("oc-number"), order.orderNumber, 900);
 
     $("oc-track-btn").onclick = () => {
-      closeOrderConfirmation();
-      openTracker(order.orderNumber);
+      window.location.href =
+        "orders.html?track=" + encodeURIComponent(order.orderNumber);
     };
     $("oc-continue-btn").onclick = closeOrderConfirmation;
   } catch (err) {
@@ -1199,63 +1200,6 @@ function implodePayHtml(qrBox, btn, uri) {
   if (btn) btn.style.display = "";
 }
 
-// Render the same UPI QR + pay button inside the tracker result
-// so customers can pay any time before the order is delivered.
-function renderUpiIntoBox(order, qrBox, btn, vpaEl) {
-  const uri = buildUpiUri(order.total, order.orderNumber);
-  const qrImg = (typeof UPI_QR_IMAGE === "string" ? UPI_QR_IMAGE : "").trim();
-  if ((!uri && !qrImg) || !qrBox) return;
-
-  qrBox.innerHTML = "";
-  if (btn) btn.href = uri;
-  const amountEl = $("tr-pay-amount");
-  if (amountEl) amountEl.textContent = "₹" + Number(order.total).toFixed(2);
-
-  if (qrImg) {
-    if (btn) btn.style.display = "none";
-    if (vpaEl) vpaEl.textContent = UPI_QR_AMOUNT_NOTE || "Open any UPI app and scan this QR.";
-  } else {
-    const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-    if (btn) btn.style.display = "";
-    if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
-    if (btn && !vpa) btn.style.display = "none";
-  }
-
-  try {
-    if (qrImg) {
-      const img = document.createElement("img");
-      img.src = qrImg;
-      img.alt = "Scan to pay with UPI";
-      img.className = "pay-qr-img";
-      img.loading = "lazy";
-      img.onerror = () => {
-        if (btn) btn.style.display = "";
-        if (vpaEl) vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-        implodePayHtml(qrBox, btn, uri);
-      };
-      qrBox.appendChild(img);
-    } else if (typeof QRCode === "function") {
-      const canvas = document.createElement("canvas");
-      QRCode.toCanvas(canvas, uri, {
-        width: 160,
-        margin: 1,
-        color: { dark: "#062d19", light: "#ffffff" }
-      }).then(() => {
-        qrBox.appendChild(canvas);
-      }).catch(() => {});
-    }
-  } catch (err) {
-    console.warn("QR render failed:", err);
-  }
-
-  if (btn && !qrImg && uri) {
-    btn.onclick = (event) => {
-      event.preventDefault();
-      window.location.href = uri;
-    };
-  }
-}
-
 let __revealId = 0;
 function revealOrderNumber(el, finalText, duration) {
   const id = ++__revealId;
@@ -1283,172 +1227,27 @@ function closeOrderConfirmation() {
 }
 
 // ------------------------------------------------------------
-// Order tracker
-// ------------------------------------------------------------
-function openTracker(prefillNumber) {
-  const modal = $("track-modal");
-  if (!modal) return;
-
-  $("tr-number").value = prefillNumber || $("tr-number").value;
-  $("tr-phone").value = "";
-  $("tr-result").innerHTML = "";
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  if (!prefillNumber) $("tr-number").focus();
-}
-
-function closeTracker() {
-  const modal = $("track-modal");
-  if (!modal) return;
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
-}
-
-$("tr-submit").addEventListener("click", async () => {
-  const orderNumber = $("tr-number").value.trim();
-  const phone = $("tr-phone").value.trim();
-
-  if (!orderNumber || !phone) {
-    $("tr-result").innerHTML = `<p class="track-error">Enter your order number and phone number.</p>`;
-    return;
-  }
-
-  const result = $("tr-result");
-  result.innerHTML = `<p class="track-loading">Looking up your order…</p>`;
-
-  if (!supabaseClient) {
-    result.innerHTML = `<p class="track-error">Order tracking is unavailable right now.</p>`;
-    return;
-  }
-
-  const { data, error } = await supabaseClient.rpc("get_order_status", {
-    p_order_number: orderNumber,
-    p_phone: phone
-  });
-
-  if (error) {
-    console.warn("Track error:", error.message);
-    result.innerHTML = `<p class="track-error">Could not check your order. Please try again.</p>`;
-    return;
-  }
-
-  const order = Array.isArray(data) ? data[0] : data;
-
-  if (!order || !order.order_number) {
-    result.innerHTML = `<p class="track-error">No order found. Check the order number and phone number and try again.</p>`;
-    return;
-  }
-
-  result.innerHTML = renderTrackResult(order);
-
-  const payCta = $("tr-pay-cta");
-  if (payCta) {
-    try {
-      renderUpiIntoBox(order, $("tr-pay-qr"), $("tr-pay-btn"), $("tr-pay-vpa"));
-    } catch (err) {
-      console.warn("Tracker payment render failed:", err);
-    }
-  }
-});
-
-function statusLabel(status) {
-  return (
-    {
-      new: "Placed",
-      confirmed: "Confirmed",
-      out_for_delivery: "Out for delivery",
-      delivered: "Delivered",
-      cancelled: "Cancelled"
-    }[status] || "Placed"
-  );
-}
-
-function renderTrackResult(order) {
-  const status = order.status || "new";
-  const steps = ["new", "confirmed", "out_for_delivery", "delivered"];
-  const currentIndex = steps.indexOf(status);
-  const isCancelled = status === "cancelled";
-
-  const itemRows = (Array.isArray(order.items) ? order.items : [])
-    .map(
-      (it) => `
-      <div class="oc-item">
-        <span>${esc(it.name || "Item")} × ${it.qty ?? 1}</span>
-        <strong>${money((it.price || 0) * (it.qty || 1))}</strong>
-      </div>`
-    )
-    .join("");
-
-  const timeline = isCancelled
-    ? `
-      <div class="tl-step cancelled">
-        <span class="tl-dot">✕</span>
-        <div>
-          <strong>Cancelled</strong>
-          <small>${new Date(order.updated_at || order.created_at).toLocaleString()}</small>
-        </div>
-      </div>`
-    : steps
-        .map((step, i) => {
-          const done = i <= currentIndex;
-          const label = statusLabel(step);
-          const time =
-            i === 0
-              ? order.created_at
-              : i === currentIndex
-                ? order.updated_at
-                : null;
-          return `
-        <div class="tl-step ${done ? "done" : ""}">
-          <span class="tl-dot">${done ? "✓" : i + 1}</span>
-          <div>
-            <strong>${label}</strong>
-            ${time ? `<small>${new Date(time).toLocaleString()}</small>` : ""}
-          </div>
-        </div>`;
-        })
-        .join("");
-
-  return `
-    <div class="track-card status-${status}">
-      <div class="track-head">
-        <div>
-          <span class="track-label">Order</span>
-          <strong>${esc(order.order_number)}</strong>
-        </div>
-        <span class="track-badge">${esc(statusLabel(status))}</span>
-      </div>
-      <p class="track-placed">Placed ${new Date(order.created_at).toLocaleString()}</p>
-      <div class="track-timeline">${timeline}</div>
-      <div class="track-pay ${order.paid ? "paid" : ""}">
-        <span>Payment</span>
-        <strong>${order.paid ? "Paid" : "Pending"}${order.paid && order.paid_at ? `<small> · ${new Date(order.paid_at).toLocaleString()}</small>` : ""}</strong>
-      </div>
-      ${
-        !order.paid && status !== "delivered" && status !== "cancelled"
-          ? `
-        <div class="track-pay-cta" id="tr-pay-cta">
-          <div class="track-pay-head"><strong>Pay with UPI</strong><small>Scan to pay for this order</small></div>
-          <div class="track-pay-amount" id="tr-pay-amount"></div>
-          <div class="track-qr" id="tr-pay-qr"></div>
-          <a class="pay-upi-btn" id="tr-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
-          <small class="oc-vpa" id="tr-pay-vpa"></small>
-        </div>`
-          : ""
-      }
-      <div class="track-divider"></div>
-      <div class="track-items">${itemRows || "<p>No items.</p>"}</div>
-      <div class="oc-item oc-total">
-        <span>Total</span>
-        <strong>${money(order.total)}</strong>
-      </div>
-    </div>`;
-}
-
-// ------------------------------------------------------------
 // INITIAL LOAD
 // ------------------------------------------------------------
 applyURLState();
 refreshUI();
 updateCart();
 loadProducts();
+prefillSignedInDetails();
+
+// If the shopper is signed in, prefill the checkout with their account
+// name (phone still optional since tracking works from "My Orders").
+async function prefillSignedInDetails() {
+  if (!supabaseClient) return;
+  try {
+    const { data } = await supabaseClient.auth.getUser();
+    if (!data || !data.user) return;
+    const meta = (data.user.user_metadata || {});
+    const nameInput = $("c-name");
+    if (nameInput && meta.name && !nameInput.value.trim()) {
+      nameInput.value = meta.name;
+    }
+  } catch (error) {
+    /* ignore */
+  }
+}
