@@ -371,12 +371,11 @@ function renderTrackCard(order) {
         ${order.paid ? "✅ Payment received" : "⏳ Payment pending"}${order.paid && order.paid_at ? `<small style="color:var(--muted);font-weight:700"> · ${new Date(order.paid_at).toLocaleString()}</small>` : ""}
       </div>
 
-      <div class="track-divider"></div>
-      <div class="seg-title">Deliver to</div>
+      ${order.delivery_address || order.delivery_phone ? `
       <div class="oc-delivery">
-        <span>📍 ${esc(order.delivery || "Delivery address not recorded")}</span>
-        ${order.phone ? `<small>📞 ${esc(order.phone)}</small>` : ""}
-      </div>
+        <div class="oc-delivery-row">📍 <span>${esc(order.delivery_address || "Address not shared")}</span></div>
+        ${order.delivery_phone ? `<div class="oc-delivery-row">📞 <span>${esc(order.delivery_phone)}</span></div>` : ""}
+      </div>` : ""}
 
       <div class="track-divider"></div>
       <div class="seg-title">Items</div>
