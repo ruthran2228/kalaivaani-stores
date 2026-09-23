@@ -20,8 +20,6 @@ try {
   console.warn("Supabase init failed:", error);
 }
 
-const PRODUCT_CACHE_KEY = "ks_products_v2";
-
 // --- Fallback catalog (used offline / while Supabase is empty) ---
 const FALLBACK_PRODUCTS = [
   // SNACKS
@@ -124,28 +122,13 @@ const CATEGORY_ORDER = [
   "Stationery"
 ];
 
-const cart = {};
+const cart = loadCart();
 let PRODUCTS = [];
 let activeCategory = "All";
 let quickFilter = null;
 let sortBy = "default";
-let lastFocused = null;
 
 const $ = (id) => document.getElementById(id);
-
-function money(value) {
-  return "₹" + Number(value).toLocaleString("en-IN");
-}
-
-function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[c]);
-}
 
 function normalizeCat(cat) {
   if (!cat) return cat;
@@ -229,29 +212,6 @@ function syncURLState() {
     );
   } catch (error) {
     /* ignore */
-  }
-}
-
-function normalizeProducts(list) {
-  return (list || []).map((p) => ({
-    ...p,
-    price: p.price == null ? null : Number(p.price),
-    emoji: p.emoji || "🛒",
-    category: p.category || "Other",
-    unit: p.unit || "",
-    image_url: p.image_url || null,
-    group_key: p.group_key || null,
-    in_stock: p.in_stock !== false,
-    featured: p.featured === true
-  }));
-}
-
-function getCachedProducts() {
-  try {
-    const raw = localStorage.getItem(PRODUCT_CACHE_KEY);
-    return raw ? normalizeProducts(JSON.parse(raw)) : [];
-  } catch (error) {
-    return [];
   }
 }
 
@@ -414,214 +374,31 @@ function renderProducts() {
   syncURLState();
 }
 
-function changeQty(index, delta) {
-  const next = Math.max(0, (cart[index] || 0) + delta);
+function updateCart() {
+  saveCart(cart);
 
-  if (next === 0) {
-    delete cart[index];
-  } else {
-    cart[index] = next;
+  const rawItems = Object.values(cart).reduce(
+    (sum, qty) => sum + qty,
+    0
+  );
+  const { total } = getCartTotals(cart, PRODUCTS);
+
+  const badge = $("cart-badge");
+  if (badge) {
+    badge.textContent = rawItems;
+    badge.style.display = rawItems ? "grid" : "none";
   }
 
-  updateCart();
-}
-
-function validateCheckout() {
-  const fields = [
-    { input: $("c-name"), message: "Please enter your name." },
-    { input: $("c-phone"), message: "Please enter your phone number." },
-    { input: $("c-place"), message: "Please enter your delivery location." }
-  ];
-
-  document.querySelectorAll(".field-error").forEach((el) => el.remove());
-  document
-    .querySelectorAll(".checkout-fields input")
-    .forEach((el) => el.classList.remove("invalid"));
-
-  const invalid = [];
-
-  fields.forEach(({ input, message }) => {
-    if (input && !input.value.trim()) {
-      input.classList.add("invalid");
-
-      const error = document.createElement("span");
-      error.className = "field-error";
-      error.textContent = message;
-      input.insertAdjacentElement("afterend", error);
-
-      invalid.push(input);
-    }
-  });
-
-  return invalid;
-}
-
-function getCartTotals() {
-  let items = 0;
-  let total = 0;
-
-  Object.entries(cart).forEach(([idx, qty]) => {
-    items += qty;
-    total += PRODUCTS[idx].price * qty;
-  });
-
-  return { items, total };
-}
-
-function updateCart() {
-  const { items, total } = getCartTotals();
-
-  $("cart-badge").textContent = items;
-  $("cart-badge").style.display = items ? "grid" : "none";
-
-  $("float-count").textContent =
-    `${items} item${items === 1 ? "" : "s"}`;
-
-  $("float-total").textContent = money(total);
-
-  $("float-cart").classList.toggle("show", items > 0);
+  const floatCart = $("float-cart");
+  if (floatCart) {
+    const countEl = $("float-count");
+    const totalEl = $("float-total");
+    if (countEl) countEl.textContent = `${rawItems} item${rawItems === 1 ? "" : "s"}`;
+    if (totalEl) totalEl.textContent = money(total);
+    floatCart.classList.toggle("show", rawItems > 0);
+  }
 
   renderProducts();
-  renderCartPanel();
-}
-
-function renderCartPanel() {
-  const box = $("cart-items-panel");
-  const entries = Object.entries(cart);
-
-  if (!entries.length) {
-    box.innerHTML = `
-      <div class="cart-empty">
-        <div>🛒</div>
-
-        <h3>Your cart is empty</h3>
-
-        <p>
-          Add products from the shop and they will appear here.
-        </p>
-
-        <button
-          class="primary-btn"
-          data-action="start-shopping"
-          type="button"
-        >
-          Start shopping
-        </button>
-      </div>
-    `;
-
-    $("panel-total").textContent = "₹0";
-
-    return;
-  }
-
-  let total = 0;
-
-  box.innerHTML = entries
-    .map(([idx, qty]) => {
-      const product = PRODUCTS[idx];
-      const subtotal = product.price * qty;
-
-      total += subtotal;
-
-      return `
-        <div class="cart-item">
-
-          <div class="cart-item-emoji">
-            ${product.emoji || "🛒"}
-          </div>
-
-          <div class="cart-item-info">
-
-            <strong>${esc(product.name)}</strong>
-
-            <small>
-              ${money(product.price)} · ${esc(product.unit)}
-            </small>
-
-            <div class="cart-item-qty">
-
-              <button
-                class="ci-btn"
-                data-action="dec"
-                data-idx="${idx}"
-                type="button"
-                aria-label="Decrease quantity"
-              >−</button>
-
-              <span>${qty}</span>
-
-              <button
-                class="ci-btn"
-                data-action="inc"
-                data-idx="${idx}"
-                type="button"
-                aria-label="Increase quantity"
-              >+</button>
-
-            </div>
-
-          </div>
-
-          <strong class="cart-item-subtotal">
-            ${money(subtotal)}
-          </strong>
-
-        </div>
-      `;
-    })
-    .join("");
-
-  $("panel-total").textContent = money(total);
-}
-
-function openCart() {
-  renderCartPanel();
-
-  $("cart-overlay").classList.add("open");
-  $("cart-overlay").setAttribute("aria-hidden", "false");
-
-  document.body.classList.add("cart-open");
-
-  lastFocused = document.activeElement;
-  $("close-cart-btn").focus();
-}
-
-function closeCart() {
-  $("cart-overlay").classList.remove("open");
-  $("cart-overlay").setAttribute("aria-hidden", "true");
-
-  document.body.classList.remove("cart-open");
-
-  if (lastFocused && typeof lastFocused.focus === "function") {
-    lastFocused.focus();
-  }
-}
-
-function trapCartFocus(event) {
-  if (event.key !== "Tab") return;
-
-  const panel = $("cart-overlay");
-  const focusables = panel.querySelectorAll(
-    'button, input, select, a[href], [tabindex]:not([tabindex="-1"])'
-  );
-
-  const list = Array.from(focusables).filter(
-    (el) => el.offsetParent !== null || el === document.activeElement
-  );
-
-  if (!list.length) return;
-
-  const first = list[0];
-  const last = list[list.length - 1];
-
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
 }
 
 function showToast(message) {
@@ -694,6 +471,7 @@ async function loadProducts() {
   }
 
   refreshUI();
+  updateCart();
 
   if (note) note.textContent = "";
 }
@@ -789,26 +567,6 @@ $("product-grid").addEventListener("change", (event) => {
   }
 });
 
-// CART
-$("cart-items-panel").addEventListener("click", (event) => {
-  const start = event.target.closest("[data-action='start-shopping']");
-
-  if (start) {
-    closeCart();
-    smoothScroll("shop");
-    return;
-  }
-
-  const btn = event.target.closest("[data-idx]");
-
-  if (!btn) return;
-
-  changeQty(
-    Number(btn.dataset.idx),
-    btn.dataset.action === "inc" ? 1 : -1
-  );
-});
-
 // CATEGORIES
 $("cat-bar").addEventListener("click", (event) => {
   const tab = event.target.closest(".cat-tab");
@@ -890,342 +648,6 @@ $("shop-now").addEventListener("click", () => {
   smoothScroll("shop");
 });
 
-// CART OPEN/CLOSE
-$("open-cart-btn").addEventListener("click", openCart);
-$("close-cart-btn").addEventListener("click", closeCart);
-$("overlay-bg").addEventListener("click", closeCart);
-$("float-cart").addEventListener("click", openCart);
-$("cart-overlay").addEventListener("keydown", trapCartFocus);
-
-document
-  .querySelectorAll(".checkout-fields input")
-  .forEach((input) => {
-    input.addEventListener("input", () => {
-      input.classList.remove("invalid");
-
-      const error = input.nextElementSibling;
-
-      if (error && error.classList.contains("field-error")) {
-        error.remove();
-      }
-    });
-  });
-
-// ESCAPE KEY
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeCart();
-    closeOrderConfirmation();
-  }
-});
-
-// CLEAR CART
-$("clear-btn").addEventListener("click", () => {
-  if (!Object.keys(cart).length) {
-    showToast("Cart is already empty");
-    return;
-  }
-
-  if (!window.confirm("Clear your cart?")) return;
-
-  Object.keys(cart).forEach((key) => {
-    delete cart[key];
-  });
-
-  updateCart();
-  showToast("Cart cleared");
-});
-
-// PLACE ORDER
-const ORDER_NUMBER_PREFIX = "KS";
-
-function makeOrderNumber() {
-  const time = Date.now().toString(36).toUpperCase();
-  const rand = Math.random().toString(36).slice(2, 5).toUpperCase();
-  return `${ORDER_NUMBER_PREFIX}-${time}${rand}`;
-}
-
-$("wa-order-btn").addEventListener("click", async () => {
-  const { items, total } = getCartTotals();
-
-  if (!items) {
-    showToast("Please add at least one product.");
-    return;
-  }
-
-  const invalid = validateCheckout();
-
-  if (invalid.length) {
-    invalid[0].focus();
-    showToast("Please fix the highlighted fields.");
-    return;
-  }
-
-  const name = $("c-name").value.trim();
-  const phone = $("c-phone").value.trim();
-  const place = $("c-place").value.trim();
-
-  const orderItems = Object.entries(cart).map(([idx, qty]) => {
-    const product = PRODUCTS[idx];
-    return {
-      name: product.name,
-      qty,
-      price: product.price,
-      total: Number((product.price * qty).toFixed(2))
-    };
-  });
-
-  const submitBtn = $("wa-order-btn");
-  const orderNumber = makeOrderNumber();
-
-  // Link the order to the signed-in account (if any) so the customer
-  // can view it in "My Orders" without needing their phone number.
-  let userId = null;
-  if (supabaseClient) {
-    try {
-      const { data } = await supabaseClient.auth.getUser();
-      if (data && data.user) userId = data.user.id;
-    } catch (error) {
-      /* not signed in */
-    }
-  }
-
-  // Save the order directly to Supabase for the admin page
-  if (supabaseClient) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Placing order…";
-
-    const { error } = await supabaseClient.from("orders").insert({
-      customer_name: name,
-      phone,
-      delivery: place,
-      items: orderItems,
-      total,
-      order_number: orderNumber,
-      user_id: userId
-    });
-
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Place order";
-
-    if (error) {
-      console.warn("Could not save order:", error.message);
-      showToast("Order failed to send. Please try again.");
-      return;
-    }
-  } else {
-    showToast("Orders are unavailable right now. Please try again later.");
-    return;
-  }
-
-  // Confirm, clear the cart and close the panel so the next order is fresh
-  clearCartQuiet();
-  closeCart();
-  showOrderConfirmation({ orderNumber, name, phone, place, items: orderItems, total });
-});
-
-function clearCartQuiet() {
-  Object.keys(cart).forEach((key) => {
-    delete cart[key];
-  });
-  updateCart();
-}
-
-// ------------------------------------------------------------
-// Order confirmation screen
-// ------------------------------------------------------------
-function showOrderConfirmation(order) {
-  const overlay = $("order-confirm-overlay");
-  if (!overlay) return;
-
-  try {
-    const itemRows = order.items
-      .map(
-        (it) => `
-      <div class="oc-item">
-        <span>${esc(it.name)} × ${it.qty}</span>
-        <strong>${money(it.total)}</strong>
-      </div>`
-      )
-      .join("");
-
-    $("oc-name").textContent = order.name;
-    $("oc-phone").textContent = order.phone;
-    $("oc-place").textContent = order.place;
-    $("oc-items").innerHTML = itemRows;
-    $("oc-total").textContent = money(order.total);
-
-    // Replay the ring + tick animation on every order
-    const ring = overlay.querySelector(".oc-ring-circle");
-    const tick = overlay.querySelector(".oc-tick");
-    const check = overlay.querySelector(".oc-check");
-    if (ring) ring.classList.remove("drawn");
-    if (tick) tick.classList.remove("drawn");
-    if (check) check.classList.remove("popped");
-    if (ring) void ring.getBoundingClientRect();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (ring) ring.classList.add("drawn");
-        if (tick) tick.classList.add("drawn");
-        if (check) check.classList.add("popped");
-      });
-    });
-
-    // Zomato-style order number reveal (scramble then settle)
-    revealOrderNumber($("oc-number"), order.orderNumber, 900);
-
-    $("oc-track-btn").onclick = () => {
-      window.location.href =
-        "orders.html?track=" + encodeURIComponent(order.orderNumber);
-    };
-    $("oc-continue-btn").onclick = closeOrderConfirmation;
-  } catch (err) {
-    console.warn("Confirmation content failed:", err);
-  }
-
-  // ALWAYS show the screen — nothing above can stop it now.
-  overlay.classList.add("open");
-  overlay.setAttribute("aria-hidden", "false");
-
-  // Render the payment block AFTER the screen is visible and never
-  // let a QR error break the confirmation screen.
-  try {
-    renderUpiPayment(order);
-  } catch (err) {
-    console.warn("Payment render failed:", err);
-  }
-
-  window.__lastOrder = order.orderNumber;
-}
-
-// Build the upi:// URI, render the QR code and link for this specific order
-function buildUpiUri(amount, orderNumber) {
-  const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-  if (!vpa) return null;
-
-  const params = new URLSearchParams({
-    pa: vpa,
-    pn: typeof STORE_UPI_NAME === "string" ? STORE_UPI_NAME : "Kalaivani Stores",
-    am: Number(amount).toFixed(2),
-    cu: "INR",
-    tn: "Order " + orderNumber,
-    mode: "02"
-  });
-
-  return "upi://pay?" + params.toString();
-}
-
-function renderUpiPayment(order) {
-  const payCard = $("oc-pay");
-  const qrBox = $("oc-qr");
-  const btn = $("oc-pay-btn");
-  const vpaEl = $("oc-vpa");
-  const amountEl = $("oc-pay-amount");
-  if (!payCard) return;
-
-  const uri = buildUpiUri(order.total, order.orderNumber);
-  const qrImg = (typeof UPI_QR_IMAGE === "string" ? UPI_QR_IMAGE : "").trim();
-  if (qrBox) qrBox.innerHTML = "";
-  if (btn) btn.href = uri;
-
-  if (!uri && !qrImg) {
-    payCard.style.display = "none";
-    return;
-  }
-
-  payCard.style.display = "block";
-
-  if (amountEl) amountEl.textContent = "₹" + Number(order.total).toFixed(2);
-
-  if (qrImg) {
-    // Shop's own bank QR: customers scan it and type the amount — the most
-    // reliable path (avoids bank-side "limit" failures from the VPA link).
-    if (btn) btn.style.display = "none";
-    if (vpaEl) vpaEl.textContent = UPI_QR_AMOUNT_NOTE || "Open any UPI app and scan this QR.";
-  } else {
-    const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-    if (btn) btn.style.display = "";
-    if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
-    if (btn && !vpa) btn.style.display = "none";
-  }
-
-  try {
-    if (qrImg) {
-      const img = document.createElement("img");
-      img.src = qrImg;
-      img.alt = "Scan to pay with UPI";
-      img.className = "pay-qr-img";
-      img.loading = "lazy";
-      img.onerror = () => {
-        // Static image missing — fall back to the generated VPA QR.
-        if (btn) btn.style.display = "";
-        if (vpaEl) vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-        implodePayHtml(qrBox, btn, uri);
-      };
-      if (qrBox) qrBox.appendChild(img);
-    } else if (typeof QRCode === "function" && qrBox) {
-      const canvas = document.createElement("canvas");
-      QRCode.toCanvas(canvas, uri, {
-        width: 168,
-        margin: 1,
-        color: { dark: "#062d19", light: "#ffffff" }
-      }).then(() => {
-        qrBox.appendChild(canvas);
-      }).catch(() => {});
-    }
-  } catch (err) {
-    console.warn("QR render failed:", err);
-  }
-
-  if (btn && !qrImg && uri) {
-    btn.onclick = (event) => {
-      event.preventDefault();
-      window.location.href = uri;
-    };
-  }
-}
-
-// Fallback: if the static QR image is missing, generate the QR from the VPA.
-function implodePayHtml(qrBox, btn, uri) {
-  if (!qrBox || !uri || typeof QRCode !== "function") return;
-  qrBox.innerHTML = "";
-  const canvas = document.createElement("canvas");
-  QRCode.toCanvas(canvas, uri, {
-    width: 168,
-    margin: 1,
-    color: { dark: "#062d19", light: "#ffffff" }
-  }).then(() => {
-    qrBox.appendChild(canvas);
-  }).catch(() => {});
-  if (btn) btn.style.display = "";
-}
-
-let __revealId = 0;
-function revealOrderNumber(el, finalText, duration) {
-  const id = ++__revealId;
-  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const start = performance.now();
-  const frame = (now) => {
-    if (id !== __revealId) return;
-    const t = Math.min((now - start) / duration, 1);
-    const settled = Math.floor(t * finalText.length);
-    let out = "";
-    for (let i = 0; i < finalText.length; i++) {
-      out += i < settled ? finalText[i] : chars[Math.floor(Math.random() * chars.length)];
-    }
-    el.textContent = out;
-    if (t < 1) requestAnimationFrame(frame);
-  };
-  requestAnimationFrame(frame);
-}
-
-function closeOrderConfirmation() {
-  const overlay = $("order-confirm-overlay");
-  if (!overlay) return;
-  overlay.classList.remove("open");
-  overlay.setAttribute("aria-hidden", "true");
-}
-
 // ------------------------------------------------------------
 // AUTH GATE & INITIAL LOAD
 // ------------------------------------------------------------
@@ -1273,7 +695,6 @@ async function requireAuth() {
     refreshUI();
     updateCart();
     loadProducts();
-    prefillSignedInDetails();
 
     if (supabaseClient) {
       supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -1288,24 +709,3 @@ async function requireAuth() {
 
   start();
 })();
-
-// If the shopper is signed in, prefill the checkout with their account
-// name and phone (both saved when the account was created on login).
-async function prefillSignedInDetails() {
-  if (!supabaseClient) return;
-  try {
-    const { data } = await supabaseClient.auth.getUser();
-    if (!data || !data.user) return;
-    const meta = (data.user.user_metadata || {});
-    const nameInput = $("c-name");
-    if (nameInput && meta.name && !nameInput.value.trim()) {
-      nameInput.value = meta.name;
-    }
-    const phoneInput = $("c-phone");
-    if (phoneInput && meta.phone && !phoneInput.value.trim()) {
-      phoneInput.value = meta.phone;
-    }
-  } catch (error) {
-    /* ignore */
-  }
-}

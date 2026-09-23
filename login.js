@@ -132,6 +132,37 @@ async function sendCode() {
   enterCodeStep();
 }
 
+async function seedProfile(name, phone, email) {
+  try {
+    if (!supabaseClient) return;
+    const { data } = await supabaseClient.auth.getUser();
+    const user = data && data.user;
+    if (!user) return;
+
+    const existing = await supabaseClient
+      .from("profiles")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    if (existing.data) return; // already has a profile row
+
+    // First-time user — create the profile row from the login details.
+    await supabaseClient.from("profiles").upsert(
+      {
+        user_id: user.id,
+        name: name || "",
+        phone: phone || "",
+        email: email || user.email || "",
+        addresses: [],
+        updated_at: new Date().toISOString()
+      },
+      { onConflict: "user_id" }
+    );
+  } catch (error) {
+    console.warn("Profile seed skipped:", error.message);
+  }
+}
+
 async function verifyCode() {
   const code = $("login-code").value.trim();
 
@@ -179,6 +210,9 @@ async function verifyCode() {
   }
 
   if (data && data.session) {
+    const name = $("login-name").value.trim();
+    const phone = $("login-phone").value.trim();
+    await seedProfile(name, phone, pendingEmail);
     window.location.href = nextUrl();
   } else {
     showLoginError("We couldn't verify that code. Send a new one and try again.");

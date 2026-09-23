@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#176b3a">
   <meta name="description" content="Kalaivani Stores – everyday groceries and essentials delivered locally.">
   <title>Kalaivani Stores – Fresh Groceries Delivered</title>
-  <link rel="stylesheet" href="style.css?v=20260922p">
+  <link rel="stylesheet" href="style.css?v=20260923a">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,9 +40,9 @@
       <a class="track-btn" href="orders.html" id="track-btn" aria-label="My orders and tracking">
         👤 <span>My Orders</span>
       </a>
-      <button class="cart-btn" id="open-cart-btn" type="button">
+      <a class="cart-btn" href="cart.html" id="cart-link" aria-label="View your cart">
         🛒 <span>Cart</span><b class="cart-badge" id="cart-badge">0</b>
-      </button>
+      </a>
     </div>
   </header>
 
@@ -121,7 +121,7 @@
       </div>
       <div class="steps">
         <article><b>01</b><span aria-hidden="true">🛍️</span><h3>Choose your items</h3><p>Browse products and add what you need to your cart.</p></article>
-        <article><b>02</b><span aria-hidden="true">📝</span><h3>Enter your details</h3><p>Add your name, phone and delivery location.</p></article>
+        <article><b>02</b><span aria-hidden="true">📝</span><h3>Your profile is pre-filled</h3><p>Save your name, phone and delivery address once — every order uses it.</p></article>
         <article><b>03</b><span aria-hidden="true">📦</span><h3>Place your order</h3><p>Send it straight to the store — we'll confirm your delivery.</p></article>
       </div>
     </section>
@@ -156,90 +156,24 @@
       </div>
       <div>
         <strong>Order</strong>
+        <a href="cart.html">Your cart</a>
         <a href="orders.html">My orders & tracking</a>
+        <a href="profile.html">My profile</a>
         <a href="tel:7667771101">Call the shop</a>
       </div>
     </div>
-    <div class="footer-bottom">© 2026 Kalaivani Stores · All rights reserved. · <a href="./admin.html" rel="nofollow">Store admin</a><span class="footer-ver" id="footer-ver">v20260922p</span></div>
+    <div class="footer-bottom">© 2026 Kalaivani Stores · All rights reserved. · <a href="./admin.html" rel="nofollow">Store admin</a><span class="footer-ver" id="footer-ver">v20260923a</span></div>
   </footer>
 
-  <button class="float-cart" id="float-cart" type="button">
+  <a class="float-cart" id="float-cart" href="cart.html">
     <span><b id="float-count">0 items</b><small>View cart →</small></span>
     <strong id="float-total">₹0</strong>
-  </button>
-
-  <div class="cart-overlay" id="cart-overlay" aria-hidden="true">
-    <button class="overlay-bg" id="overlay-bg" type="button" aria-label="Close cart"></button>
-    <aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
-      <div class="cart-header">
-        <div><span class="section-kicker">YOUR ORDER</span><h2 id="cart-title">Shopping cart</h2></div>
-        <button class="cart-close" id="close-cart-btn" type="button" aria-label="Close cart">×</button>
-      </div>
-      <div class="cart-items" id="cart-items-panel"></div>
-      <div class="cart-footer">
-        <div class="summary-row"><span>Subtotal</span><strong id="panel-total">₹0</strong></div>
-        <div class="delivery-note">🚚 Local delivery · Delivery fee confirmed by the shop</div>
-        <div class="checkout-fields">
-          <label>Your name<input id="c-name" name="name" type="text" autocomplete="name" placeholder="Enter your name…"></label>
-          <label>Phone number<input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" spellcheck="false" placeholder="Enter phone number…"></label>
-          <label>Delivery location<input id="c-place" name="address" type="text" autocomplete="street-address" placeholder="Hostel, room no., street, landmark…"></label>
-        </div>
-        <button class="wa-btn" id="wa-order-btn" type="button">📦 Place order</button>
-        <button class="clear-btn" id="clear-btn" type="button">Clear cart</button>
-      </div>
-    </aside>
-  </div>
-
-  <!-- Order confirmation screen -->
-  <div class="order-confirm" id="order-confirm-overlay" aria-hidden="true">
-    <button class="overlay-bg" type="button" aria-label="Close confirmation" onclick="closeOrderConfirmation()"></button>
-    <div class="oc-card" role="dialog" aria-modal="true" aria-labelledby="oc-title">
-      <div class="oc-hero">
-        <div class="oc-anim">
-          <svg class="oc-ring" viewBox="0 0 96 96" aria-hidden="true">
-            <circle class="oc-ring-circle" cx="48" cy="48" r="42" />
-            <path class="oc-tick" d="M31 49 L44 62 L66 37" />
-          </svg>
-          <span class="oc-check" aria-hidden="true">✓</span>
-        </div>
-        <h2 id="oc-title">Order placed!</h2>
-        <p>We've got your order and the shop will confirm shortly.</p>
-      </div>
-      <div class="oc-body">
-        <div class="oc-pay" id="oc-pay">
-          <div class="oc-pay-head"><span>💳</span><strong>Pay with UPI</strong><small>Scan or tap to pay for this order</small></div>
-          <div class="oc-pay-amount" id="oc-pay-amount"></div>
-          <div class="oc-qr" id="oc-qr"></div>
-          <a class="pay-upi-btn" id="oc-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
-          <small class="oc-vpa" id="oc-vpa"></small>
-        </div>
-        <div class="oc-number-box">
-          <span>Your order number</span>
-          <strong id="oc-number"></strong>
-          <small>Track it anytime from <a href="orders.html">My Orders</a>.</small>
-        </div>
-        <div class="oc-meta">
-          <div><span>Name</span><strong id="oc-name"></strong></div>
-          <div><span>Phone</span><strong id="oc-phone"></strong></div>
-          <div><span>Delivery</span><strong id="oc-place"></strong></div>
-        </div>
-        <div class="oc-items" id="oc-items"></div>
-        <div class="oc-item oc-total">
-          <span>Total</span>
-          <strong id="oc-total"></strong>
-        </div>
-      </div>
-      <div class="oc-actions">
-        <button class="wa-btn" id="oc-track-btn" type="button">Track order</button>
-        <a class="secondary-btn" id="oc-continue-btn" href="#main">Continue shopping</a>
-      </div>
-    </div>
-  </div>
+  </a>
 
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <script src="config.js?v=20260922p"></script>
-  <script src="script.js?v=20260922p"></script>
+  <script src="config.js?v=20260923a"></script>
+  <script src="store-cart.js?v=20260923a"></script>
+  <script src="script.js?v=20260923a"></script>
 </body>
 </html>
