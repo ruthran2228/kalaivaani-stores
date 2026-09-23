@@ -11,10 +11,7 @@ try {
     typeof SUPABASE_URL !== "undefined" &&
     typeof SUPABASE_ANON_KEY !== "undefined"
   ) {
-    supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+    supabaseClient = ksSupabaseClient();
   }
 } catch (error) {
   console.warn("Supabase init failed:", error);

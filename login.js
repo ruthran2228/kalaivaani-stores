@@ -12,10 +12,7 @@ try {
     typeof SUPABASE_URL !== "undefined" &&
     typeof SUPABASE_ANON_KEY !== "undefined"
   ) {
-    supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+    supabaseClient = ksSupabaseClient();
   }
 } catch (error) {
   console.warn("Supabase init failed:", error);
@@ -223,6 +220,22 @@ async function verifyCode() {
         await supabaseClient.auth.setSession(data.session);
       } catch (setError) {
         console.warn("setSession failed:", setError);
+      }
+
+      // If the session couldn't be saved anywhere (some browsers block all
+      // storage in private/incognito mode), every page will see this user
+      // as logged out. Warn clearly instead of silently sending them back.
+      try {
+        const check = await supabaseClient.auth.getSession();
+        const saved = !!(check && check.data && check.data.session);
+        if (!saved) {
+          showLoginError(
+            "This browser is blocking saved sign-ins (private/incognito mode). Please open the site in a normal tab to sign in."
+          );
+          return;
+        }
+      } catch (checkError) {
+        console.warn("session read-back failed:", checkError);
       }
 
       const name = $("login-name").value.trim();

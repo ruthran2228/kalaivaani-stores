@@ -15,3 +15,88 @@ const UPI_QR_AMOUNT_NOTE = "Open any UPI app and scan this QR to pay the exact o
 // pointing at the shop's own QR screenshot above instead of relying on this.
 const UPI_ID = "sskrohit143-3@oksbi";                        // ← your UPI VPA
 const STORE_UPI_NAME = "Kalaivani Stores";
+
+// Session storage that survives private/incognito mode.
+// Some browsers block localStorage in private tabs, which silently logs
+// people out right after sign-in. This adapter tries localStorage first
+// and falls back to sessionStorage (works in private tabs).
+const ksStorage = (function () {
+  function safeLocal() {
+    try {
+      return window.localStorage;
+    } catch (error) {
+      return null;
+    }
+  }
+  function safeSession() {
+    try {
+      return window.sessionStorage;
+    } catch (error) {
+      return null;
+    }
+  }
+  return {
+    getItem(key) {
+      const local = safeLocal();
+      if (local) {
+        try {
+          const value = local.getItem(key);
+          if (value != null) return value;
+        } catch (error) {
+          /* ignore */
+        }
+      }
+      const session = safeSession();
+      if (session) {
+        try {
+          return session.getItem(key);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+      return null;
+    },
+    setItem(key, value) {
+      const local = safeLocal();
+      if (local) {
+        try {
+          local.setItem(key, value);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+      const session = safeSession();
+      if (session) {
+        try {
+          session.setItem(key, value);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+    },
+    removeItem(key) {
+      const local = safeLocal();
+      if (local) {
+        try {
+          local.removeItem(key);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+      const session = safeSession();
+      if (session) {
+        try {
+          session.removeItem(key);
+        } catch (error) {
+          /* ignore */
+        }
+      }
+    }
+  };
+})();
+
+function ksSupabaseClient() {
+  return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { storage: ksStorage }
+  });
+}
