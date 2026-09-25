@@ -22,6 +22,9 @@ const $ = (id) => document.getElementById(id);
 let currentUser = null;
 let currentOrders = [];
 let deepLinkOrder = null;
+let ordersChannel = null;
+let currentTrackOrder = null;
+let guestPollTimer = null;
 
 // ------------------------------------------------------------
 // Helpers
@@ -165,6 +168,29 @@ $("guest-form").addEventListener("submit", async (event) => {
 
   box.innerHTML = `<div class="guest-result">${renderTrackCard(order)}</div>`;
   renderPayBox(order, box);
+
+  // Guests can't get Realtime pushes (they're anonymous), so quietly
+  // re-check every 15s while the result stays on screen.
+  clearInterval(guestPollTimer);
+  guestPollTimer = setInterval(async () => {
+    const historyVisible = !!$("history-view") && !$("history-view").hidden;
+    if (!historyVisible || box.hidden || !document.body.contains(box)) {
+      clearInterval(guestPollTimer);
+      guestPollTimer = null;
+      return;
+    }
+    const { data: fresh } = await supabaseClient.rpc("get_order_status", {
+      p_order_number: orderNumber,
+      p_phone: phone
+    });
+    const updated = Array.isArray(fresh) ? fresh[0] : fresh;
+    if (!updated || !updated.order_number) return;
+    if (updated.status === "delivered" || updated.status === "cancelled") {
+      clearInterval(guestPollTimer);
+      guestPollTimer = null;
+    }
+    renderTrackCardInto(updated, box, orderNumber);
+  }, 15000);
 });
 
 // ------------------------------------------------------------
@@ -175,6 +201,7 @@ async function bootLoggedIn(user) {
   $("logout-btn").hidden = false;
 
   await loadOrders();
+  subscribeToOrders();
 
   if (deepLinkOrder) {
     const found = currentOrders.find((o) => o.order_number === deepLinkOrder);
@@ -211,8 +238,74 @@ async function loadOrders() {
   currentOrders = data || [];
 }
 
+// ------------------------------------------------------------
+// Realtime: receive order status updates instantly as the shop
+// updates them (no manual refresh needed).
+// ------------------------------------------------------------
+function subscribeToOrders() {
+  if (!supabaseClient || !currentUser) return;
+  if (ordersChannel) return;
+
+  const seen = new Set();
+
+  ordersChannel = supabaseClient
+    .channel("order-status-live")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "orders",
+        filter: `user_id=eq.${currentUser.id}`
+      },
+      (payload) => {
+        const order = payload.new;
+        const isOwnOrder =
+          order &&
+          currentOrders.some((o) => o.order_number === order.order_number);
+
+        if (payload.eventType === "DELETE" || !order) return;
+
+        const existing = currentOrders.find(
+          (o) => o.order_number === order.order_number
+        );
+        const key = order.order_number + "-" + order.updated_at;
+
+        let changed = false;
+        if (existing) {
+          changed =
+            existing.status !== order.status ||
+            existing.paid !== order.paid ||
+            existing.updated_at !== order.updated_at;
+          Object.assign(existing, order);
+        } else {
+          currentOrders.unshift(order);
+          changed = true;
+        }
+
+        if (!changed || seen.has(key)) return;
+        seen.add(key);
+        setTimeout(() => seen.delete(key), 1500);
+
+        if (isOwnOrder) {
+          if (currentTrackOrder && currentTrackOrder.order_number === order.order_number) {
+            showTrackView(Object.assign(currentTrackOrder, order));
+          }
+          $("orders-list").innerHTML = currentOrders
+            .map((order) => renderOrderCard(order))
+            .join("");
+        }
+
+        const label = statusLabel(order.status);
+        showToast(`${order.order_number} — ${label}${order.paid ? " · Paid" : ""}`);
+      }
+    )
+    .subscribe();
+}
+
 function showHistoryView() {
   $("track-own-btn").hidden = false;
+  $("live-hint").hidden = false;
 
   $("hello-name").textContent = firstUppercase(
     (currentUser.user_metadata && currentUser.user_metadata.name) || currentUser.email || ""
@@ -302,6 +395,7 @@ $("back-to-list").addEventListener("click", () => {
 // Track view
 // ------------------------------------------------------------
 function showTrackView(order) {
+  currentTrackOrder = order;
   $("track-current").innerHTML = renderTrackCard(order);
   renderPayBox(order);
   showView("track");
@@ -371,10 +465,10 @@ function renderTrackCard(order) {
         ${order.paid ? "✅ Payment received" : "⏳ Payment pending"}${order.paid && order.paid_at ? `<small style="color:var(--muted);font-weight:700"> · ${new Date(order.paid_at).toLocaleString()}</small>` : ""}
       </div>
 
-      ${order.delivery_address || order.delivery_phone ? `
+      ${order.delivery || order.phone ? `
       <div class="oc-delivery">
-        <div class="oc-delivery-row">📍 <span>${esc(order.delivery_address || "Address not shared")}</span></div>
-        ${order.delivery_phone ? `<div class="oc-delivery-row">📞 <span>${esc(order.delivery_phone)}</span></div>` : ""}
+        <div class="oc-delivery-row">📍 <span>${esc(order.delivery || "Address not shared")}</span></div>
+        ${order.phone ? `<div class="oc-delivery-row">📞 <span>${esc(order.phone)}</span></div>` : ""}
       </div>` : ""}
 
       <div class="track-divider"></div>
@@ -404,6 +498,21 @@ function buildUpiUri(amount, orderNumber) {
   });
 
   return "upi://pay?" + params.toString();
+}
+
+// Refresh an order card that's already on the page (guest tracking poll)
+// without resetting scroll or the surrounding view.
+function renderTrackCardInto(order, holder, orderNumber) {
+  if (!holder) return;
+  const oldCard = holder.querySelector(".track-card");
+  if (!oldCard) return;
+  const fresh = document.createElement("div");
+  fresh.innerHTML = renderTrackCard(order);
+  const newCard = fresh.querySelector(".track-card");
+  if (!newCard) return;
+  oldCard.replaceWith(newCard);
+  renderPayBox(order, holder);
+  showToast(`${orderNumber} — ${statusLabel(order.status)} updated`);
 }
 
 function renderPayBox(order, scope) {
