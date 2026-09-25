@@ -1,7 +1,7 @@
 /* =============================================================
    KALAIVANI STORES — v4 "Fresh Market"
    Shared stylesheet: cart · login · orders · profile
-   Display type : Syne · Body type : Plus Jakarta Sans
+   Display type : Fraunces (soft serif, Plush-like) · Body : Plus Jakarta Sans
    ============================================================= */
 :root{
   --ink:#06150E;
@@ -40,8 +40,10 @@
   --radius-sm:16px;
   --pill:999px;
 
-  --font-display:"Syne","Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-display:"Fraunces","Plus Jakarta Sans",Georgia,"Times New Roman",serif;
   --font-body:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  /* Fraunces variable axes — rounded "soft serif" character (Plush-like) */
+  --display-axes:"SOFT" 60,"WONK" 0;
 
   accent-color:var(--green);
   color-scheme:light;
@@ -52,9 +54,11 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.55;
   min-height:100vh;display:flex;flex-direction:column;
+  font-variation-settings:var(--display-axes);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
 }
 h1,h2,h3,.display{font-family:var(--font-display);letter-spacing:-.02em;font-weight:800}
+h1,h2{font-variation-settings:var(--display-axes)}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   transition:background-color .16s,color .16s,border-color .16s,transform .16s,box-shadow .16s}
@@ -140,7 +144,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   display:grid;place-items:center;font-size:32px;margin:0 auto 16px;
   border:1.5px solid rgba(198,255,79,.3);box-shadow:0 14px 30px rgba(6,21,14,.24);
 }
-.auth-card h1{font-size:29px;letter-spacing:-.04em}
+.auth-card h1{font-size:29px;letter-spacing:-.03em}
 .auth-sub{color:var(--muted);font-size:14px;margin-top:8px;font-weight:500;line-height:1.6}
 .auth-tabs{display:flex;gap:4px;background:#EEF3EF;border-radius:var(--pill);padding:5px;margin:22px 0 0}
 .auth-tab{flex:1;border:0;background:transparent;color:var(--muted);font-weight:800;font-size:13.5px;
@@ -218,7 +222,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
   border-radius:var(--pill);padding:5px 13px;
 }
-.page-head h1{font-size:clamp(30px,5vw,40px);letter-spacing:-.045em;line-height:1.05;margin-top:12px}
+.page-head h1{font-size:clamp(30px,5vw,40px);letter-spacing:-.03em;line-height:1.05;margin-top:12px}
 .page-head p{color:var(--muted);font-size:14px;margin-top:6px;font-weight:500}
 .live-hint{
   display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;
@@ -296,7 +300,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .status-hero .status-icon.s-out_for_delivery{background:var(--green-100)}
 .status-hero .status-icon.s-delivered{background:var(--ink)}
 .status-hero .status-icon.s-cancelled{background:#FDECEE}
-.status-hero h2{font-size:21px;letter-spacing:-.035em}
+.status-hero h2{font-size:21px;letter-spacing:-.025em}
 .status-hero p{color:var(--muted);font-size:13px;margin-top:3px;font-weight:500}
 .track-timeline{display:grid;gap:0;padding:20px 0 8px}
 .tl-step{display:flex;gap:14px;position:relative;padding-bottom:24px}
@@ -345,7 +349,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 }
 .pay-box .pay-head span{font-size:18px}
 .pay-amount{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);
-  letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .pay-qr{display:grid;place-items:center;background:#fff;border:1.5px solid var(--line);
   border-radius:18px;padding:14px;width:max-content;margin:0 auto}
 .pay-qr img,.pay-qr canvas{display:block;width:172px;height:172px;border-radius:12px}
@@ -399,12 +403,12 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
   background:#fff;border:1.5px solid var(--line);border-radius:26px;padding:24px;
   box-shadow:var(--shadow-lg);
 }
-.checkout-card h3{font-size:21px;letter-spacing:-.035em;margin-bottom:7px}
+.checkout-card h3{font-size:21px;letter-spacing:-.025em;margin-bottom:7px}
 .checkout-sub{color:var(--muted);font-size:13.5px;margin-bottom:16px;font-weight:500}
 .summary-row{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 10px}
 .summary-row span{color:var(--muted);font-size:14px;font-weight:700}
 .summary-row strong{font-family:var(--font-display);font-size:30px;color:var(--ink);
-  font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .delivery-note{
   font-size:12.5px;background:var(--green-50);color:var(--green-800);font-weight:700;
   padding:12px 14px;border-radius:14px;margin-bottom:16px;border:1.5px solid var(--green-100);
@@ -470,7 +474,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .profile-card>*{position:relative;z-index:2}
 .profile-head{text-align:center;margin-bottom:26px}
 .profile-head .auth-icon{margin-bottom:14px}
-.profile-head h1{font-size:30px;letter-spacing:-.045em}
+.profile-head h1{font-size:30px;letter-spacing:-.03em}
 .profile-head p{color:var(--muted);font-size:14px;margin-top:7px;font-weight:500}
 .pf-form{display:grid;gap:15px}
 .pf-form label{display:grid;gap:7px;font-size:12.5px;font-weight:800;color:var(--muted)}
@@ -549,7 +553,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
   opacity:0;transform:scale(.3) rotate(-12deg);
   transition:opacity .2s ease .75s,transform .45s cubic-bezier(.18,.89,.32,1.3) .75s}
 .oc-check.popped{opacity:1;transform:scale(1) rotate(0)}
-.oc-hero h2{font-size:27px;margin:0 0 7px;letter-spacing:-.04em;position:relative;z-index:2}
+.oc-hero h2{font-size:27px;margin:0 0 7px;letter-spacing:-.03em;position:relative;z-index:2}
 .oc-hero p{font-size:13px;color:#BFE7CF;margin:0;position:relative;z-index:2;font-weight:500}
 .oc-body{padding:24px 24px 4px}
 .oc-pay{
@@ -563,7 +567,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .oc-qr{display:grid;place-items:center;margin-bottom:12px}
 .oc-qr canvas,.oc-qr .pay-qr-img{width:172px;height:172px;border-radius:16px;border:1.5px solid var(--line);object-fit:contain}
 .oc-pay-amount{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--ink);
-  margin-bottom:12px;font-variant-numeric:tabular-nums;letter-spacing:-.05em}
+  margin-bottom:12px;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .oc-number-box{
   text-align:center;background:var(--ink);border:1.5px solid rgba(198,255,79,.3);
   border-radius:22px;padding:20px;margin-bottom:18px;animation:ocFadeUp .4s ease .7s both;
