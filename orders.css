@@ -61,7 +61,8 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+html,body{max-width:100%;overflow-x:hidden}
 body{
   font-family:var(--font-body);
   background:var(--bg);
@@ -69,6 +70,7 @@ body{
   min-height:100vh;display:flex;flex-direction:column;
   font-variation-settings:var(--display-axes);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overscroll-behavior-x:none;
 }
 body::before{
   content:"";position:fixed;inset:-22%;z-index:0;pointer-events:none;
