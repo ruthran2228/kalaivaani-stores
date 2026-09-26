@@ -296,6 +296,18 @@ $("login-code").addEventListener("input", () => {
 async function init() {
   if (!supabaseClient) return;
 
+  // Shop closed? Show the notice right here before anyone signs in,
+  // and skip the "already signed in → send to store" redirect.
+  try {
+    const settings = await fetchShopSettings(supabaseClient);
+    if (settings && settings.shop_open === false) {
+      showShopClosed(settings.message);
+      return;
+    }
+  } catch (error) {
+    console.warn("Shop settings check failed:", error);
+  }
+
   try {
     const { data } = await supabaseClient.auth.getSession();
     if (data.session) {

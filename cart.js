@@ -10,6 +10,8 @@
   let PRODUCTS = [];
   let cart = loadCart();
   let profile = null;
+  let shopClosed = false;
+  let shopClosedMsg = "";
   let selectedAddrId =
     localStorage.getItem("ks_selected_addr") || "";
 
@@ -28,6 +30,18 @@
     toast.classList.add("show");
     clearTimeout(showToast.timer);
     showToast.timer = setTimeout(() => toast.classList.remove("show"), 2400);
+  }
+
+  function showClosedNotice() {
+    const app = $("cart-app");
+    if (!app || app.querySelector(".closed-notice")) return;
+    const box = document.createElement("div");
+    box.className = "closed-notice";
+    box.textContent =
+      "🕐 " +
+      (shopClosedMsg ||
+        "The store is temporarily closed. You can still view your cart, but ordering is paused.");
+    app.insertBefore(box, app.firstChild);
   }
 
   async function ensureProducts() {
@@ -215,6 +229,11 @@
   }
 
   async function placeOrder() {
+    if (shopClosed) {
+      showToast("The store is temporarily closed. Please try again later.");
+      return;
+    }
+
     const { total, items } = getCartTotals(cart, PRODUCTS);
 
     if (items === 0) {
@@ -374,6 +393,17 @@
 
     await ensureProducts();
     profile = await getProfile();
+
+    try {
+      const settings = await fetchShopSettings(supabaseClient);
+      if (settings && settings.shop_open === false) {
+        shopClosed = true;
+        shopClosedMsg = settings.message || "";
+        showClosedNotice();
+      }
+    } catch (error) {
+      /* settings unavailable — treat shop as open */
+    }
 
     const lo = $("logout-btn");
     if (lo) lo.hidden = false;

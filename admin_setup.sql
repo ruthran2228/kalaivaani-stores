@@ -192,6 +192,57 @@ begin
 end $$;
 
 -- ------------------------------------------------------------
+-- 5c. Shop settings: open/closed switch + custom closed message
+-- The storefront reads these to show a "Temporarily Closed"
+-- notice; the admin page edits them under Settings.
+-- ------------------------------------------------------------
+create table if not exists settings (
+  id int primary key default 1,
+  shop_open boolean not null default true,
+  message text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+-- Seed the single settings row
+insert into settings (id)
+values (1)
+on conflict (id) do nothing;
+
+alter table settings enable row level security;
+
+-- Anyone (even signed-out store visitors on the login page) may read
+-- the status so the "Temporarily Closed" notice can appear before login
+grant select on settings to anon, authenticated;
+
+-- Only admins may write the status / message
+grant insert, update, delete on settings to authenticated;
+
+drop policy if exists "Public read settings" on settings;
+create policy "Public read settings"
+  on settings for select
+  to anon, authenticated
+  using (true);
+
+drop policy if exists "Admin insert settings" on settings;
+create policy "Admin insert settings"
+  on settings for insert
+  to authenticated
+  with check (is_admin());
+
+drop policy if exists "Admin update settings" on settings;
+create policy "Admin update settings"
+  on settings for update
+  to authenticated
+  using (is_admin())
+  with check (is_admin());
+
+drop policy if exists "Admin delete settings" on settings;
+create policy "Admin delete settings"
+  on settings for delete
+  to authenticated
+  using (is_admin());
+
+-- ------------------------------------------------------------
 -- 6. First admin account
 -- Run this after creating your login user in Authentication > Users.
 -- Replace 'you@example.com' with the email you signed up with.

@@ -278,6 +278,7 @@ function buildShell() {
           <button class="tab active" data-tab="dashboard" type="button"><span class="nav-ico">📊</span>Dashboard</button>
           <button class="tab" data-tab="products" type="button"><span class="nav-ico">📦</span>Products<span class="count" id="tab-products-count"></span></button>
           <button class="tab" data-tab="orders" type="button"><span class="nav-ico">🧾</span>Orders<span class="count" id="tab-orders-count"></span></button>
+          <button class="tab" data-tab="settings" type="button"><span class="nav-ico">⚙️</span>Settings</button>
         </nav>
 
         <div class="side-foot">
@@ -308,6 +309,7 @@ function buildShell() {
           <section class="page-panel active" id="panel-dashboard"></section>
           <section class="page-panel" id="panel-products"></section>
           <section class="page-panel" id="panel-orders"></section>
+          <section class="page-panel" id="panel-settings"></section>
         </main>
       </div>
     </div>
@@ -341,6 +343,7 @@ function switchTab(tab) {
   if (tab === "dashboard") renderDashboard();
   if (tab === "products") renderProductsPanel();
   if (tab === "orders") renderOrdersPanel();
+  if (tab === "settings") renderSettingsPanel();
 }
 
 // ------------------------------------------------------------
@@ -1417,6 +1420,131 @@ function orderCard(o) {
       <div class="oc-total"><span>Order total</span><strong>${money(o.total)}</strong></div>
     </div>
   </article>`;
+}
+
+// ------------------------------------------------------------
+// Settings panel (temporarily closed switch + custom message)
+// ------------------------------------------------------------
+async function renderSettingsPanel() {
+  const panel = $("#panel-settings");
+  if (!panel) return;
+
+  panel.innerHTML = `<div class="skeleton">Loading settings…</div>`;
+
+  let row = null;
+  let missingTable = false;
+  try {
+    const { data, error } = await supabaseClient
+      .from("settings")
+      .select("id, shop_open, message")
+      .eq("id", 1)
+      .maybeSingle();
+    if (!error && data) row = data;
+    else missingTable = true;
+  } catch (error) {
+    missingTable = true;
+  }
+
+  const open = !row || row.shop_open !== false;
+  const message = (row && row.message) || "";
+
+  panel.innerHTML = `
+    <div class="page-head">
+      <div>
+        <h2>Shop settings</h2>
+        <p>Control whether the storefront is open or shows a "Temporarily Closed" notice to shoppers.</p>
+      </div>
+    </div>
+
+    ${
+      missingTable
+        ? '<div class="bulk-empty"><strong>⚠️ Settings table not found.</strong><br>Add the "Shop settings" section from <code>admin_setup.sql</code> in Supabase, then reload.</div>'
+        : ""
+    }
+
+    <div class="settings-card">
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-ico" aria-hidden="true">🛍️</span>
+          <div>
+            <strong>Store status</strong>
+            <small>When closed, shoppers see the notice below instead of the shop.</small>
+          </div>
+        </div>
+        <div class="setting-control">
+          <span id="set-status-label" class="setting-state ${open ? "on" : "off"}">${open ? "Open" : "Closed"}</span>
+          <label class="switch" title="Open / closed">
+            <input type="checkbox" id="set-shop-open" ${open ? "checked" : ""}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field full">
+        <label for="set-message">Closed message</label>
+        <textarea id="set-message" rows="4" placeholder="e.g. We're temporarily closed for today — we reopen tomorrow at 9 AM, thanks for your patience!">${esc(message)}</textarea>
+        <div class="hint">Shown as a full-screen notice to shoppers while closed. Empty = default message.</div>
+      </div>
+
+      <div class="settings-preview">
+        <strong>Preview (shown while closed)</strong>
+        <div class="preview-box">
+          <span class="pv-ico" aria-hidden="true">🕐</span>
+          <span class="pv-brand">Kalaivani Stores</span>
+          <h3>Temporarily Closed</h3>
+          <p id="pv-msg">${esc(message || "We're temporarily closed. Please check back soon.")}</p>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn btn-green" id="save-settings" type="button">Save settings</button>
+      </div>
+    </div>
+  `;
+
+  const ta = $("#set-message");
+  const pv = $("#pv-msg");
+  if (ta && pv) {
+    ta.addEventListener("input", () => {
+      pv.textContent =
+        ta.value.trim() || "We're temporarily closed. Please check back soon.";
+    });
+  }
+
+  const sw = $("#set-shop-open");
+  const stateLabel = $("#set-status-label");
+  if (sw && stateLabel) {
+    sw.addEventListener("change", () => {
+      const nowOpen = sw.checked;
+      stateLabel.textContent = nowOpen ? "Open" : "Closed";
+      stateLabel.classList.toggle("on", nowOpen);
+      stateLabel.classList.toggle("off", !nowOpen);
+    });
+  }
+
+  const saveBtn = $("#save-settings");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", async () => {
+      const nowOpen = sw.checked;
+      const msg = ta.value.trim();
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving…";
+      const { error } = await supabaseClient.from("settings").upsert({
+        id: 1,
+        shop_open: nowOpen,
+        message: msg,
+        updated_at: new Date().toISOString()
+      });
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save settings";
+      if (error) {
+        console.error("Settings save error:", error);
+        showToast("Save failed: " + error.message);
+        return;
+      }
+      showToast(nowOpen ? "Store is now open." : "Store is now closed.");
+    });
+  }
 }
 
 // ------------------------------------------------------------

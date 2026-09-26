@@ -100,6 +100,76 @@ function makeOrderNumber() {
   return `KS-${time}${rand}`;
 }
 
+// ------------------------------------------------------------
+// Shop status: is the storefront open or temporarily closed?
+// Source of truth is the settings row (id=1), written by the admin.
+// ------------------------------------------------------------
+const SETTINGS_CACHE_KEY = "ks_settings_cache";
+
+async function fetchShopSettings(client) {
+  if (client) {
+    try {
+      const { data, error } = await client
+        .from("settings")
+        .select("id, shop_open, message")
+        .eq("id", 1)
+        .maybeSingle();
+      if (!error && data) {
+        try {
+          localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(data));
+        } catch (e) {
+          /* storage unavailable */
+        }
+        return data;
+      }
+    } catch (error) {
+      // settings table missing or offline — fall through to cache
+    }
+  }
+
+  try {
+    const raw = localStorage.getItem(SETTINGS_CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") return parsed;
+    }
+  } catch (error) {
+    /* storage unavailable */
+  }
+
+  return null;
+}
+
+// Full-screen "temporarily closed" notice. Shown on the login page
+// (before any login) and on the store page, whenever the shop is closed.
+function showShopClosed(message) {
+  if (document.getElementById("shop-closed")) return;
+  const msg =
+    (message && String(message).trim()) ||
+    "We're temporarily closed. Please check back soon.";
+  const overlay = document.createElement("div");
+  overlay.id = "shop-closed";
+  overlay.className = "shop-closed";
+  overlay.setAttribute("role", "alert");
+  overlay.setAttribute("aria-live", "assertive");
+  overlay.innerHTML =
+    '<div class="shop-closed-card">' +
+    '<span class="shop-closed-ico" aria-hidden="true">&#128336;</span>' +
+    '<span class="shop-closed-brand">Kalaivani Stores</span>' +
+    '<h2 class="shop-closed-title">Temporarily Closed</h2>' +
+    '<p class="shop-closed-msg">' + esc(msg) + "</p>" +
+    '<p class="shop-closed-sub">We\'ll be back soon &mdash; please check back a little later.</p>' +
+    "</div>";
+  document.body.appendChild(overlay);
+}
+
+async function checkShopStatus(client) {
+  const s = await fetchShopSettings(client);
+  if (s && s.shop_open === false) {
+    showShopClosed(s.message);
+  }
+}
+
 // Right after OTP verification the session is being written to storage.
 // Some browsers (and slower phones) can still read it as "logged out"
 // for a moment, so the next page must retry before sending us back to

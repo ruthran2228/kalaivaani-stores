@@ -765,6 +765,11 @@ async function requireAuth() {
     updateCart();
     loadProducts();
 
+    if (!window._ksClosedChecked) {
+      window._ksClosedChecked = true;
+      checkShopStatus(supabaseClient);
+    }
+
     if (supabaseClient) {
       supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === "SIGNED_OUT" && !session) {
