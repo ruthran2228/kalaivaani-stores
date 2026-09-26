@@ -353,9 +353,14 @@ function renderProducts() {
             ? `
           <div class="qty-box ${qty > 0 ? "visible" : ""}">
             <button class="qty-btn" data-action="dec" data-idx="${activeIdx}" type="button" aria-label="Decrease quantity">−</button>
-            <input type="number" class="qty-input" data-idx="${activeIdx}" min="0" step="1" value="${qty || 1}">
+            <div class="qty-field">
+              <input type="number" inputmode="decimal" class="qty-input" data-idx="${activeIdx}" min="0" step="1" value="${qty || 1}">
+              <span class="qty-unit" hidden></span>
+            </div>
             <button class="qty-btn" data-action="inc" data-idx="${activeIdx}" type="button" aria-label="Increase quantity">+</button>
           </div>
+
+          <p class="qty-total" hidden></p>
 
           <button class="add-btn" data-idx="${activeIdx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>+ Add</button>`
             : ""
@@ -364,11 +369,49 @@ function renderProducts() {
     `;
 
     grid.appendChild(card);
+
+    syncCardControls(card, activeIdx);
   });
 
   empty.hidden = groups.length !== 0;
 
   syncURLState();
+}
+
+function syncCardControls(card, idx) {
+  const product = PRODUCTS[idx];
+  const weight = !!(product && isWeightUnit(product.unit));
+  const input = card.querySelector(".qty-input");
+  const unitEl = card.querySelector(".qty-unit");
+  const totalEl = card.querySelector(".qty-total");
+
+  if (input) {
+    input.step = weight ? "0.25" : "1";
+    input.dataset.idx = idx;
+  }
+  if (unitEl) {
+    unitEl.textContent = weight ? "kg" : "";
+    unitEl.hidden = !weight;
+  }
+  if (totalEl) totalEl.hidden = !weight;
+
+  card.classList.toggle("card-weight", weight);
+  updateQtyTotal(card, idx);
+}
+
+function updateQtyTotal(card, idx) {
+  const product = PRODUCTS[idx];
+  const totalEl = card.querySelector(".qty-total");
+  const input = card.querySelector(".qty-input");
+  if (!totalEl || !product || !isWeightUnit(product.unit)) return;
+
+  const qty = roundQty(input ? input.value : 0);
+  const price = product.price;
+  const total = price == null ? null : roundQty(qty * price);
+
+  totalEl.textContent =
+    `${fmtQty(qty)} kg × ${price == null ? "—" : money(price)}` +
+    (total == null ? "" : ` = ${money(total)}`);
 }
 
 function updateCart() {
@@ -378,11 +421,12 @@ function updateCart() {
     (sum, qty) => sum + qty,
     0
   );
+  const count = roundQty(rawItems);
   const { total } = getCartTotals(cart, PRODUCTS);
 
   const badge = $("cart-badge");
   if (badge) {
-    badge.textContent = rawItems;
+    badge.textContent = count;
     badge.style.display = rawItems ? "grid" : "none";
   }
 
@@ -390,7 +434,7 @@ function updateCart() {
   if (floatCart) {
     const countEl = $("float-count");
     const totalEl = $("float-total");
-    if (countEl) countEl.textContent = `${rawItems} item${rawItems === 1 ? "" : "s"}`;
+    if (countEl) countEl.textContent = `${count} item${count === 1 ? "" : "s"}`;
     if (totalEl) totalEl.textContent = money(total);
     floatCart.classList.toggle("show", rawItems > 0);
   }
@@ -509,28 +553,40 @@ $("product-grid").addEventListener("click", (event) => {
     const input = card.querySelector(".qty-input");
     if (input) input.value = qty || 1;
 
+    syncCardControls(card, idx);
+
     return;
   }
 
   const addBtn = event.target.closest(".add-btn");
   if (addBtn) {
     const idx = Number(addBtn.dataset.idx);
+    const product = PRODUCTS[idx];
+    if (!product) return;
     const card = addBtn.closest(".product-card");
     const input = card ? card.querySelector(".qty-input") : null;
-    const qty = input ? Math.max(1, Number(input.value) || 1) : 1;
+    const weight = isWeightUnit(product.unit);
+    const raw = input ? Number(input.value) : 0;
+    const qty = weight
+      ? Math.max(0.25, roundQty(raw))
+      : Math.max(1, raw || 1);
 
     setQty(idx, qty);
-    showToast(`${PRODUCTS[idx].name} added to cart`);
+    showToast(`${product.name} added to cart`);
     return;
   }
 
   const btn = event.target.closest(".qty-btn");
   if (btn) {
     const idx = Number(btn.dataset.idx);
+    const product = PRODUCTS[idx];
     const card = btn.closest(".product-card");
     const input = card ? card.querySelector(".qty-input") : null;
     const current = input ? Number(input.value) || 0 : (cart[idx] || 0);
-    const next = Math.max(0, current + (btn.dataset.action === "dec" ? -1 : 1));
+    const weight = !!(product && isWeightUnit(product.unit));
+    const step = weight ? 0.5 : 1;
+    const delta = btn.dataset.action === "dec" ? -step : step;
+    const next = Math.max(0, weight ? roundQty(current + delta) : Math.round(current + delta));
 
     if (input) input.value = next || 1;
     setQty(idx, next);
@@ -540,6 +596,7 @@ $("product-grid").addEventListener("click", (event) => {
       const addBtnEl = card.querySelector(".add-btn");
       if (qtyBox) qtyBox.classList.toggle("visible", next > 0);
       if (addBtnEl) addBtnEl.style.display = next > 0 ? "none" : "";
+      updateQtyTotal(card, idx);
     }
 
     return;
@@ -551,7 +608,7 @@ $("product-grid").addEventListener("change", (event) => {
   if (!input) return;
 
   const idx = Number(input.dataset.idx);
-  const val = Math.max(0, Number(input.value) || 0);
+  const val = Math.max(0, roundQty(Number(input.value) || 0));
   input.value = val || 1;
   setQty(idx, val);
 
@@ -561,7 +618,15 @@ $("product-grid").addEventListener("change", (event) => {
     const addBtn = card.querySelector(".add-btn");
     if (qtyBox) qtyBox.classList.toggle("visible", val > 0);
     if (addBtn) addBtn.style.display = val > 0 ? "none" : "";
+    updateQtyTotal(card, idx);
   }
+});
+
+$("product-grid").addEventListener("input", (event) => {
+  const input = event.target.closest(".qty-input");
+  if (!input) return;
+  const card = input.closest(".product-card");
+  if (card) updateQtyTotal(card, Number(input.dataset.idx));
 });
 
 // CATEGORIES

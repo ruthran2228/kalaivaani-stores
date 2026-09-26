@@ -168,7 +168,7 @@
       .map(
         (it) => `
       <div class="oc-item">
-        <span>${esc(it.name)} × ${it.qty}</span>
+        <span>${esc(it.name)} × ${it.unit && isWeightUnit(it.unit) ? fmtQty(it.qty) + " kg" : fmtQty(it.qty)}</span>
         <strong>${money(it.total)}</strong>
       </div>`
       )

@@ -8,7 +8,25 @@ const CART_KEY = "ks_cart";
 const SELECTED_ADDR_KEY = "ks_selected_addr";
 
 function money(value) {
-  return "₹" + Number(value).toLocaleString("en-IN");
+  const n = Math.round((Number(value) || 0) * 100) / 100;
+  return "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+}
+
+function roundQty(value) {
+  const n = Number(value) || 0;
+  return Math.round(n * 100) / 100;
+}
+
+function fmtQty(value) {
+  return String(roundQty(value));
+}
+
+// Weight-based ("per kg") products let shoppers pick any amount.
+function isWeightUnit(unit) {
+  return (
+    typeof unit === "string" &&
+    /(?:per\s*kg|^\s*kg\s*$)/i.test(unit)
+  );
 }
 
 function esc(value) {

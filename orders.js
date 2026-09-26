@@ -412,7 +412,7 @@ function renderTrackCard(order) {
     .map(
       (it) => `
       <div class="oc-item">
-        <span>${esc(it.name || "Item")} × ${it.qty ?? 1}</span>
+        <span>${esc(it.name || "Item")} × ${it.unit && isWeightUnit(it.unit) ? fmtQty(it.qty ?? 1) + " kg" : fmtQty(it.qty ?? 1)}</span>
         <strong>${money((it.price || 0) * (it.qty || 1))}</strong>
       </div>`
     )

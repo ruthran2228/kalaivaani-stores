@@ -70,6 +70,7 @@
         ? entries
             .map(({ idx, qty }) => {
               const p = PRODUCTS[idx];
+              const weight = isWeightUnit(p.unit);
               return `
             <div class="cart-row" data-idx="${idx}">
               <div class="cart-row-emoji">${p.emoji || "🛒"}</div>
@@ -78,7 +79,10 @@
                 <small>${money(p.price)} · ${esc(p.unit || "")}</small>
                 <div class="cart-row-qty">
                   <button type="button" class="ci-btn" data-idx="${idx}" data-action="dec" aria-label="Decrease quantity">−</button>
-                  <span>${qty}</span>
+                  <div class="ci-field">
+                    <input type="number" inputmode="decimal" class="ci-input" data-idx="${idx}" min="0" step="${weight ? "0.25" : "1"}" value="${fmtQty(qty)}" aria-label="Quantity">
+                    ${weight ? '<em class="ci-unit">kg</em>' : ""}
+                  </div>
                   <button type="button" class="ci-btn" data-idx="${idx}" data-action="inc" aria-label="Increase quantity">+</button>
                 </div>
               </div>
@@ -97,8 +101,9 @@
 
   function updateTotals() {
     const { items, total } = getCartTotals(cart, PRODUCTS);
+    const count = roundQty(items);
     if ($("cart-count")) {
-      $("cart-count").textContent = `${items} item${items === 1 ? "" : "s"}`;
+      $("cart-count").textContent = `${fmtQty(items)} item${count === 1 ? "" : "s"}`;
     }
     const totalEl = $("cart-total");
     if (totalEl) totalEl.textContent = money(total);
@@ -202,6 +207,7 @@
           name: product.name,
           qty,
           price: product.price,
+          unit: product.unit,
           total: Number((product.price * qty).toFixed(2))
         };
       })
@@ -302,15 +308,26 @@
   // Events
   // ------------------------------------------------------------
   $("cart-list").addEventListener("click", (event) => {
-    const btn = event.target.closest("[data-idx][data-action]");
+    const btn = event.target.closest(".ci-btn, .cart-row-remove");
     if (!btn) return;
     const idx = Number(btn.dataset.idx);
     if (btn.dataset.action === "remove") {
       setQty(idx, 0);
       showToast("Item removed");
-    } else {
-      setQty(idx, (cart[idx] || 0) + (btn.dataset.action === "inc" ? 1 : -1));
+      return;
     }
+    const step = PRODUCTS[idx] && isWeightUnit(PRODUCTS[idx].unit) ? 0.5 : 1;
+    const next = roundQty((cart[idx] || 0) + (btn.dataset.action === "inc" ? step : -step));
+    setQty(idx, Math.max(0, next));
+  });
+
+  $("cart-list").addEventListener("change", (event) => {
+    const input = event.target.closest(".ci-input");
+    if (!input) return;
+    const idx = Number(input.dataset.idx);
+    const val = Math.max(0, roundQty(Number(input.value) || 0));
+    input.value = val ? fmtQty(val) : "1";
+    setQty(idx, val);
   });
 
   const clearBtn = $("clear-btn");
