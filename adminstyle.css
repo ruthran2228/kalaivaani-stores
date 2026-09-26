@@ -1095,8 +1095,13 @@ table.data tr:hover td { background: #fafcf8; }
 .settings-preview > strong { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 8px; }
 
 .preview-box {
-  background: linear-gradient(160deg, var(--side-1), var(--side-2));
-  color: #fff; border-radius: 16px; padding: 26px 22px; text-align: center;
+  background-image:
+    linear-gradient(160deg, rgba(10,51,29,0.78), rgba(20,100,58,0.82)),
+    url("closed-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff; border-radius: 16px; padding: 28px 22px; text-align: center;
 }
 .pv-ico { font-size: 34px; display: block; margin-bottom: 8px; }
 .pv-brand {

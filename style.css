@@ -703,14 +703,18 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
    Temporarily closed panel (shown below categories, in place of products)
    ------------------------------------------------------------ */
 .closed-panel{
-  margin-top:18px;text-align:center;color:#fff;border-radius:30px;padding:46px 26px;
-  background:
-    radial-gradient(560px 360px at 16% -10%,rgba(15,185,103,.3),transparent 60%),
-    radial-gradient(520px 360px at 104% 112%,rgba(198,255,79,.16),transparent 60%),
-    linear-gradient(160deg,#062d19,#0c4a27);
+  position:relative;overflow:hidden;
+  margin-top:18px;text-align:center;color:#fff;border-radius:30px;padding:52px 26px;
+  background-image:
+    linear-gradient(180deg,rgba(8,42,24,.72),rgba(8,42,24,.84)),
+    url("closed-bg.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
   border:1.5px solid rgba(255,255,255,.12);
   box-shadow:0 26px 50px rgba(6,45,25,.28),inset 0 1px 0 rgba(255,255,255,.16);
 }
+.closed-panel > *{position:relative;z-index:1}
 .closed-ico{font-size:50px;display:block;margin-bottom:14px}
 .closed-brand{
   display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
