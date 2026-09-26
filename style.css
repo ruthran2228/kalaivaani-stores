@@ -224,17 +224,6 @@ main,#shop{scroll-margin-top:120px}
   border-radius:var(--pill);padding:8px 15px;font-size:12px;font-weight:700;color:#DCF6E6;
 }
 
-.hero-art{width:400px;height:360px;position:relative;display:grid;place-items:center;flex:none}
-.float-card{
-  position:absolute;background:#fff;color:var(--ink);padding:11px 16px;border-radius:16px;
-  box-shadow:var(--shadow-lg);font-size:12.5px;font-weight:800;
-  display:inline-flex;align-items:center;gap:7px;
-  animation:float 6s ease-in-out infinite;
-}
-.card-one{left:0;top:40px;animation-delay:.6s;transform:rotate(-5deg)}
-.card-two{right:0;top:112px;animation-delay:1.2s;transform:rotate(4deg)}
-.card-three{left:44px;bottom:32px;animation-delay:1.8s;transform:rotate(-3deg)}
-
 /* ============================ BENEFITS (bento) =============== */
 .benefits{
   max-width:1200px;margin:-44px auto 0;position:relative;z-index:5;
@@ -571,7 +560,6 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
 /* ============================ KEYFRAMES ====================== */
 @keyframes slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
 /* ============================ REDUCED MOTION ================= */
 @media(prefers-reduced-motion:reduce){
@@ -580,13 +568,10 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
   .announcement-track{animation:none}
   .announcement-msg+.announcement-msg{display:none}
   .product-card:hover,.steps article:hover,.benefits div:hover{transform:none}
-  .float-card{animation:none}
-  .card-one,.card-two,.card-three{transform:none}
 }
 
 /* ============================ RESPONSIVE ===================== */
 @media(max-width:1100px){
-  .hero-art{width:330px;height:320px}
 }
 @media(max-width:900px){
   .site-header{padding:0 3%;gap:12px}
@@ -594,7 +579,6 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
   .brand small{display:none}
   .header-search{max-width:none}
   .hero{padding:64px 5% 84px;min-height:0}
-  .hero-art{width:300px;height:290px}
   .benefits{margin:-30px 18px 0;grid-template-columns:repeat(2,1fr)}
   .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .about-card{grid-template-columns:1fr;padding:40px 30px}
@@ -619,7 +603,6 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
     url("hero-bg.jpg") center/cover no-repeat,var(--grad-hero)}
   .hero h1{font-size:clamp(34px,11vw,46px);letter-spacing:-.03em;margin-left:auto;margin-right:auto;max-width:22ch}
   .hero p{font-size:15px;margin-left:auto;margin-right:auto;max-width:38ch;line-height:1.62}
-  .hero-art{display:none}
   .hero-actions{margin-top:24px;flex-direction:column;align-items:stretch;gap:10px}
   .hero-actions .primary-btn,.hero-actions .secondary-btn{width:100%;padding:16px;font-size:15.5px;min-height:51px}
   .trust-row{gap:8px;justify-content:center}
