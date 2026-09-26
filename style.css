@@ -252,7 +252,7 @@ main,#shop{scroll-margin-top:120px}
 .benefits small{font-size:12px;color:var(--muted);font-weight:600}
 
 /* ============================ SHOP SECTION =================== */
-.shop-section{max-width:1200px;margin:auto;padding:76px 24px 44px;position:relative}
+.shop-section{max-width:1200px;margin:auto;padding:76px 24px 44px;position:relative;overflow-x:clip}
 .shop-section::before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;
   background:radial-gradient(circle,rgba(0,217,184,.2),transparent 70%);left:-200px;top:40px;pointer-events:none}
 .shop-section::after{content:"";position:absolute;width:480px;height:480px;border-radius:50%;

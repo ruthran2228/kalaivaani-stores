@@ -125,7 +125,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .logout-btn{border-color:#F3CFD3;color:var(--red);background:#FEF6F7}
 .logout-btn:hover{background:#FDECEE;border-color:#E9A0A7;transform:translateY(-2px)}
 
-.page{flex:1;width:100%;max-width:780px;margin:0 auto;padding:40px 20px 64px;position:relative}
+.page{flex:1;width:100%;max-width:780px;margin:0 auto;padding:40px 20px 64px;position:relative;overflow-x:clip}
 .page::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;
   background:radial-gradient(circle,rgba(0,217,184,.18),transparent 70%);left:-220px;top:-40px;pointer-events:none}
 .page::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
@@ -589,9 +589,12 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .order-confirm.open{display:flex}
 .overlay-bg{flex:1;border:0;padding:0;background:rgba(4,15,9,.6);backdrop-filter:blur(3px);cursor:pointer}
 .oc-card{
-  width:min(450px,100%);max-height:92vh;overflow:auto;background:#fff;display:flex;flex-direction:column;
+  width:min(450px,100%);max-height:92vh;overflow:auto;
+  background:rgba(9,30,19,.74);border-left:1px solid rgba(255,255,255,.16);border-right:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
+  color:#fff;display:flex;flex-direction:column;
   animation:ocPop .45s cubic-bezier(.18,.89,.32,1.28) both;margin:auto;border-radius:0;
-  box-shadow:0 -12px 70px rgba(0,0,0,.3);
+  box-shadow:0 -12px 70px rgba(0,0,0,.35);
 }
 @keyframes ocPop{from{opacity:0;transform:translateY(36px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 .oc-hero{
@@ -650,6 +653,10 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .oc-meta span{display:block;color:#9FC4AF;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px}
 .oc-meta strong{display:block;font-family:var(--font-display);font-size:13.5px;color:#fff;margin-top:4px;word-break:break-word}
 .oc-items{border-top:1px solid rgba(255,255,255,.16);padding-top:8px}
+.oc-body .oc-item span{color:#E7F4EB}
+.oc-body .oc-item strong{color:#fff}
+.oc-body .oc-item.oc-total{border-top:1px dashed rgba(255,255,255,.22)}
+.oc-body .oc-item.oc-total strong{font-family:var(--font-display);font-size:20px;color:var(--lime);letter-spacing:-.03em}
 .oc-actions{display:grid;gap:11px;padding:22px 24px 30px;animation:ocFadeUp .4s ease .95s both}
 .oc-actions .secondary-btn{text-align:center;width:100%}
 
