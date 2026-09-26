@@ -22,11 +22,52 @@ try {
 let PRODUCTS = [];
 let ORDERS = [];
 let currentTab = "dashboard";
+let ordersFilter = "all";
 let filters = { search: "", category: "all", stock: "all", price: "all" };
 
 // --- Helpers ---
 const $ = (sel) => document.querySelector(sel);
-const money = (n) => "₹" + Number(n || 0);
+
+function money(value) {
+  const n = Math.round((Number(value) || 0) * 100) / 100;
+  return "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 2 });
+}
+
+function fmtQty(value) {
+  return String(Math.round((Number(value) || 0) * 100) / 100);
+}
+
+function isWeightUnit(unit) {
+  return typeof unit === "string" && /(?:per\s*kg|^\s*kg\s*$)/i.test(unit);
+}
+
+function statusLabel(status) {
+  return (
+    {
+      new: "New",
+      confirmed: "Confirmed",
+      out_for_delivery: "Out for delivery",
+      delivered: "Delivered",
+      cancelled: "Cancelled"
+    }[status] || status
+  );
+}
+
+function thumbMarkup(emoji, url) {
+  const e = esc(emoji || "📦");
+  const u = url ? String(url).trim() : "";
+  if (!u) return `<span class="t-emoji">${e}</span>`;
+  return `<span class="t-thumb"><span class="t-emoji">${e}</span><img src="${esc(u)}" alt="" loading="lazy" onerror="this.style.display='none'"></span>`;
+}
+
+function productThumb(product) {
+  return thumbMarkup(product && product.emoji, product && product.image_url);
+}
+
+function orderThumb(item) {
+  const p = PRODUCTS.find((x) => x.name === (item && item.name)) || null;
+  return productThumb(p);
+}
 
 function esc(value) {
   return String(value == null ? "" : value)
@@ -213,32 +254,63 @@ async function handleLogout() {
 // ------------------------------------------------------------
 function buildShell() {
   const app = $("#app");
+  const email = (AUTH && AUTH.user && AUTH.user.email) || "Admin";
 
-  const categories = uniqueCategories(PRODUCTS);
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
 
   app.innerHTML = `
-    <div class="app-top">
-      <span class="logo-mark">KS</span>
-      <h1>Kalaivani Stores<small> &nbsp; admin</small></h1>
-      <div class="spacer"></div>
-      <a class="btn" href="./" target="_blank">Open store</a>
-      <div class="user-chip">
-        <span>${esc((AUTH && AUTH.user && AUTH.user.email) || "Admin")}</span>
-        <button class="btn" id="logout-btn" type="button">Log out</button>
+    <div class="admin-shell">
+      <aside class="sidebar">
+        <div class="side-brand">
+          <span class="logo-mark">KS</span>
+          <div class="side-brand-text">
+            <strong>Kalaivani Stores</strong>
+            <small>Store admin</small>
+          </div>
+        </div>
+
+        <nav class="side-nav" id="tabs" aria-label="Admin sections">
+          <button class="tab active" data-tab="dashboard" type="button"><span class="nav-ico">📊</span>Dashboard</button>
+          <button class="tab" data-tab="products" type="button"><span class="nav-ico">📦</span>Products<span class="count" id="tab-products-count"></span></button>
+          <button class="tab" data-tab="orders" type="button"><span class="nav-ico">🧾</span>Orders<span class="count" id="tab-orders-count"></span></button>
+        </nav>
+
+        <div class="side-foot">
+          <a class="btn side-store" href="./" target="_blank">Open live store ↗</a>
+          <div class="user-chip">
+            <span class="user-email" title="${esc(email)}">${esc(email)}</span>
+            <button class="btn side-logout" id="logout-btn" type="button">Log out</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main-col">
+        <header class="top-head">
+          <div class="th-bread">
+            <span class="logo-mark">KS</span>
+            <div>
+              <h1>Kalaivani Stores</h1>
+              <p>Admin panel</p>
+            </div>
+          </div>
+          <div class="th-now">
+            <span class="live-dot"></span> Live
+            <span class="th-date">${today}</span>
+          </div>
+        </header>
+
+        <main class="page">
+          <section class="page-panel active" id="panel-dashboard"></section>
+          <section class="page-panel" id="panel-products"></section>
+          <section class="page-panel" id="panel-orders"></section>
+        </main>
       </div>
     </div>
-
-    <nav class="tabs" id="tabs">
-      <button class="tab active" data-tab="dashboard" type="button">Dashboard</button>
-      <button class="tab" data-tab="products" type="button">Products<span class="count" id="tab-products-count"></span></button>
-      <button class="tab" data-tab="orders" type="button">Orders<span class="count" id="tab-orders-count"></span></button>
-    </nav>
-
-    <main class="page">
-      <section class="page-panel active" id="panel-dashboard"></section>
-      <section class="page-panel" id="panel-products"></section>
-      <section class="page-panel" id="panel-orders"></section>
-    </main>
   `;
 
   $("#logout-btn").addEventListener("click", handleLogout);
@@ -372,27 +444,27 @@ function renderDashboard() {
 
     <div class="stat-grid">
       <div class="stat-card">
-        <div class="stat-label">Total products</div>
+        <div class="stat-top"><span class="stat-ico">📦</span><span class="stat-label">Total products</span></div>
         <div class="stat-value">${PRODUCTS.length}</div>
         <div class="stat-sub">${featured} featured</div>
       </div>
       <div class="stat-card warn">
-        <div class="stat-label">Missing price</div>
+        <div class="stat-top"><span class="stat-ico">🏷️</span><span class="stat-label">Missing price</span></div>
         <div class="stat-value">${noPrice}</div>
         <div class="stat-sub">Needs your attention</div>
       </div>
       <div class="stat-card ${outOfStock ? "danger" : "ok"}">
-        <div class="stat-label">Out of stock</div>
+        <div class="stat-top"><span class="stat-ico">🚫</span><span class="stat-label">Out of stock</span></div>
         <div class="stat-value">${outOfStock}</div>
         <div class="stat-sub">Marked unavailable</div>
       </div>
       <div class="stat-card ${pendingOrders ? "warn" : "ok"}">
-        <div class="stat-label">Orders today</div>
+        <div class="stat-top"><span class="stat-ico">🛒</span><span class="stat-label">Orders today</span></div>
         <div class="stat-value">${ordersToday}</div>
         <div class="stat-sub">${pendingOrders} new to review</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Paid</div>
+        <div class="stat-top"><span class="stat-ico">✅</span><span class="stat-label">Paid</span></div>
         <div class="stat-value">${paidOrders}</div>
         <div class="stat-sub">UPI / payment received</div>
       </div>
@@ -417,9 +489,10 @@ function renderMiniOrders(orders) {
   const rows = orders
     .map((o) => {
       const status = o.status || "new";
+      const first = (Array.isArray(o.items) && o.items[0]) || null;
       return `<tr>
-        <td>${new Date(o.created_at).toLocaleDateString()}<div style="color:var(--muted);font-size:11px;margin-top:2px;font-weight:700;letter-spacing:.4px">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</div></td>
-        <td class="p-name">${esc(o.customer_name)}</td>
+        <td>${new Date(o.created_at).toLocaleDateString()}<div class="mini-oid">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</div></td>
+        <td class="p-name"><span class="od-mini-thumb">${orderThumb(first)}</span>${esc(o.customer_name)}</td>
         <td class="price">${money(o.total)}</td>
         <td><span class="badge status-${status}">${esc(status)}</span></td>
       </tr>`;
@@ -572,7 +645,7 @@ function renderProductTable() {
       const sub = [p.category, p.unit].filter(Boolean).join(" · ");
 
       return `<tr>
-        <td class="p-emoji">${esc(p.emoji || "📦")}</td>
+        <td class="p-emoji">${productThumb(p)}</td>
         <td class="p-name">${esc(p.name)}${sub ? `<small>${esc(sub)}</small>` : ""}</td>
         <td>${priceCell}</td>
         <td>${stockBadge}</td>
@@ -1169,12 +1242,27 @@ function renderOrdersPanel() {
   if (!panel) return;
 
   const counts = {
+    all: ORDERS.length,
     new: ORDERS.filter((o) => o.status === "new").length,
     confirmed: ORDERS.filter((o) => o.status === "confirmed").length,
     out_for_delivery: ORDERS.filter((o) => o.status === "out_for_delivery").length,
     delivered: ORDERS.filter((o) => o.status === "delivered").length,
     cancelled: ORDERS.filter((o) => o.status === "cancelled").length
   };
+
+  const pills = [
+    ["all", "All"],
+    ["new", "New"],
+    ["confirmed", "Confirmed"],
+    ["out_for_delivery", "Out for delivery"],
+    ["delivered", "Delivered"],
+    ["cancelled", "Cancelled"]
+  ]
+    .map(
+      ([key, label]) =>
+        `<button class="ofilter${ordersFilter === key ? " active" : ""}" data-ofilter="${key}" type="button">${label}<span class="ocnt">${counts[key] ?? 0}</span></button>`
+    )
+    .join("");
 
   panel.innerHTML = `
     <div class="page-head">
@@ -1184,83 +1272,38 @@ function renderOrdersPanel() {
       </div>
     </div>
 
-    ${ORDERS.length ? "" : "<div class='bulk-empty'>No orders yet. Orders placed on the store will appear here automatically.</div>"}
+    ${counts.all ? `<div class="order-filters">${pills}</div>` : ""}
 
-    ${ORDERS.length ? `<div class="table-wrap" id="orders-table"></div>` : ""}
+    ${counts.all ? `<div class="orders-list" id="orders-list"></div>` : "<div class='bulk-empty'>No orders yet. Orders placed on the store will appear here automatically.</div>"}
   `;
 
-  if (ORDERS.length) renderOrdersTable();
+  panel.querySelectorAll("[data-ofilter]").forEach((b) => {
+    b.addEventListener("click", () => {
+      ordersFilter = b.dataset.ofilter;
+      renderOrdersPanel();
+    });
+  });
+
+  if (counts.all) renderOrdersTable();
 }
 
 function renderOrdersTable() {
-  const wrap = $("#orders-table");
-  if (!wrap) return;
+  const list = $("#orders-list");
+  if (!list) return;
 
-  const rows = ORDERS.map((o) => {
-    const status = o.status || "new";
-    const items = Array.isArray(o.items) ? o.items : [];
-    const itemLines = items
-      .map((it) => `• ${esc(it.name || "Item")} × ${it.qty ?? ""} = ${money(it.price * (it.qty || 1))}`)
-      .join("<br>");
+  const visible =
+    ordersFilter === "all"
+      ? ORDERS
+      : ORDERS.filter((o) => (o.status || "new") === ordersFilter);
 
-    return `<tr>
-      <td style="white-space:nowrap">
-        <div>${new Date(o.created_at).toLocaleString()}</div>
-        <div style="color:var(--green-800);font-weight:800;font-size:11.5px;letter-spacing:.4px">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</div>
-      </td>
-      <td class="p-name">${esc(o.customer_name)}</td>
-      <td style="white-space:nowrap;color:var(--muted)">${esc(o.phone)}</td>
-      <td style="max-width:220px">${esc(o.delivery)}</td>
-      <td class="price">${money(o.total)}</td>
-      <td>
-        <select class="status-select status-${status}" data-order-id="${o.id}">
-          <option value="new" ${status === "new" ? "selected" : ""}>New</option>
-          <option value="confirmed" ${status === "confirmed" ? "selected" : ""}>Confirmed</option>
-          <option value="out_for_delivery" ${status === "out_for_delivery" ? "selected" : ""}>Out for delivery</option>
-          <option value="delivered" ${status === "delivered" ? "selected" : ""}>Delivered</option>
-          <option value="cancelled" ${status === "cancelled" ? "selected" : ""}>Cancelled</option>
-        </select>
-      </td>
-      <td style="white-space:nowrap">
-        <button class="pay-toggle ${o.paid ? "paid" : ""}" data-pay-order="${o.id}" type="button">
-          ${o.paid ? "Paid" : "Unpaid"}
-        </button>
-        ${o.paid_at ? `<div class="pay-at">${new Date(o.paid_at).toLocaleString()}</div>` : ""}
-      </td>
-      <td>
-        <details class="order-detail">
-          <summary>Items (${items.length})</summary>
-          <div class="od-body">
-            <div class="od-meta">Placed ${new Date(o.created_at).toLocaleString()}</div>
-            <p style="margin:6px 0">${itemLines || "—"}</p>
-            <div style="color:var(--muted);font-size:12px">Call/WhatsApp: <a href="tel:${esc(o.phone)}" target="_blank" rel="noopener">${esc(o.phone)}</a></div>
-          </div>
-        </details>
-      </td>
-      <td class="row-actions">
-        <button class="btn btn-danger" data-del-order="${o.id}" type="button">Delete</button>
-      </td>
-    </tr>`;
-  }).join("");
+  if (!visible.length) {
+    list.innerHTML = `<div class="bulk-empty">No orders in this view.</div>`;
+    return;
+  }
 
-  wrap.innerHTML = `<table class="data">
-    <thead>
-      <tr>
-        <th>Placed</th>
-        <th>Customer</th>
-        <th>Phone</th>
-        <th>Delivery</th>
-        <th>Total</th>
-        <th>Status</th>
-        <th>Payment</th>
-        <th>Details</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+  list.innerHTML = visible.map(orderCard).join("");
 
-  wrap.onchange = async (ev) => {
+  list.onchange = async (ev) => {
     const sel = ev.target.closest("[data-order-id]");
     if (!sel) return;
     const id = +sel.dataset.orderId;
@@ -1273,14 +1316,14 @@ function renderOrdersTable() {
       console.error("status update error", res.error);
       showToast("Status update failed.");
     } else {
-      showToast("Order marked " + (status || "new").replace(/_/g, " ") + ".");
+      showToast("Order marked " + status.replace(/_/g, " ") + ".");
       await loadOrders();
       updateTabCounts();
       renderOrdersTable();
     }
   };
 
-  wrap.onclick = async (ev) => {
+  list.onclick = async (ev) => {
     const payBtn = ev.target.closest("[data-pay-order]");
     if (payBtn) {
       const id = +payBtn.dataset.payOrder;
@@ -1308,21 +1351,72 @@ function renderOrdersTable() {
     if (!delBtn) return;
     const id = +delBtn.dataset.delOrder;
     if (!confirm(`Delete order #${id}?`)) return;
-    supabaseClient
-      .from("orders")
-      .delete()
-      .eq("id", id)
-      .then(async (res) => {
-        if (res.error) {
-          showToast("Delete failed.");
-          return;
-        }
-        showToast("Order deleted.");
-        await loadOrders();
-        updateTabCounts();
-        renderOrdersPanel();
-      });
+    const res = await supabaseClient.from("orders").delete().eq("id", id);
+    if (res.error) {
+      showToast("Delete failed.");
+      return;
+    }
+    showToast("Order deleted.");
+    await loadOrders();
+    updateTabCounts();
+    renderOrdersPanel();
   };
+}
+
+function orderCard(o) {
+  const status = o.status || "new";
+  const items = Array.isArray(o.items) ? o.items : [];
+
+  const itemRows = items
+    .map((it) => {
+      const unit = String(it.unit || "").trim();
+      const weight = isWeightUnit(unit);
+      const qty = fmtQty(it.qty || 1) + (weight ? " kg" : "");
+      return `
+      <li class="oid-row">
+        ${orderThumb(it)}
+        <div class="oid-info">
+          <strong>${esc(it.name || "Item")}</strong>
+          <small>${unit || "pcs"}</small>
+        </div>
+        <div class="oid-qty">${esc(qty)}</div>
+        <div class="oid-total">${money(Number(it.price || 0) * (it.qty || 1))}</div>
+      </li>`;
+    })
+    .join("");
+
+  const statusOptions = ["new", "confirmed", "out_for_delivery", "delivered", "cancelled"]
+    .map(
+      (s) =>
+        `<option value="${s}" ${status === s ? "selected" : ""}>${statusLabel(s)}</option>`
+    )
+    .join("");
+
+  return `
+  <article class="order-card oc-${status}">
+    <div class="oc-head">
+      <div class="oc-id">
+        <strong class="oc-number">${esc(o.order_number || "KS-" + String(o.id).padStart(6, "0"))}</strong>
+        <span class="oc-date">${new Date(o.created_at).toLocaleString()}</span>
+      </div>
+      <div class="oc-actions">
+        <select class="status-select status-${status}" data-order-id="${o.id}" aria-label="Order status">
+          ${statusOptions}
+        </select>
+        <button class="pay-toggle ${o.paid ? "paid" : ""}" data-pay-order="${o.id}" type="button">${o.paid ? "Paid" : "Unpaid"}</button>
+        <button class="btn btn-danger" data-del-order="${o.id}" type="button">Delete</button>
+      </div>
+    </div>
+    <div class="oc-body">
+      <div class="oc-cust">
+        <div class="oc-name">${esc(o.customer_name)}${o.phone ? ` <a href="tel:${esc(o.phone)}" target="_blank" rel="noopener">${esc(o.phone)}</a>` : ""}</div>
+        <p class="oc-addr">${esc(o.delivery || "")}</p>
+        ${o.paid_at ? `<div class="oc-paid">Paid ${new Date(o.paid_at).toLocaleString()}</div>` : ""}
+      </div>
+      <ul class="oc-items">${itemRows || '<li class="oid-none">No items recorded</li>'}</ul>
+      <div class="oc-total"><span>Order total</span><strong>${money(o.total)}</strong></div>
+    </div>
+  </article>`;
 }
 
 // ------------------------------------------------------------
