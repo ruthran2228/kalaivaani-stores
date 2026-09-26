@@ -297,6 +297,7 @@ function renderProducts() {
     const inStock = group.in_stock;
     const hasVariants = group.variants.length > 1;
     const hasPrice = firstVariant.price != null;
+    const weight = !!(firstVariant.unit && isWeightUnit(firstVariant.unit));
 
     const emojiFallback = `<span class="product-icon"${firstVariant.image_url ? ' style="display:none"' : ""}>${firstVariant.emoji || "🛒"}</span>`;
     const visual = firstVariant.image_url
@@ -347,11 +348,13 @@ function renderProducts() {
         <span class="unit-val">${hasPrice ? esc(firstVariant.unit) : ""}</span>
       </div>
 
+      ${weight ? '<div class="anyqty-tag">⚖️ Pick any amount</div>' : ""}
+
       <div class="add-controls">
         ${
           inStock && hasPrice
             ? `
-          <div class="qty-box ${qty > 0 ? "visible" : ""}">
+          <div class="qty-box ${weight || qty > 0 ? "visible" : ""}">
             <button class="qty-btn" data-action="dec" data-idx="${activeIdx}" type="button" aria-label="Decrease quantity">−</button>
             <div class="qty-field">
               <input type="number" inputmode="decimal" class="qty-input" data-idx="${activeIdx}" min="0" step="1" value="${qty || 1}">
@@ -360,9 +363,9 @@ function renderProducts() {
             <button class="qty-btn" data-action="inc" data-idx="${activeIdx}" type="button" aria-label="Increase quantity">+</button>
           </div>
 
-          <p class="qty-total" hidden></p>
+          <p class="qty-total" ${weight ? "" : "hidden"}></p>
 
-          <button class="add-btn" data-idx="${activeIdx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>+ Add</button>`
+          <button class="add-btn" data-idx="${activeIdx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>${weight ? `Add ${fmtQty(qty || 1)} kg` : "+ Add"}</button>`
             : ""
         }
       </div>
@@ -412,6 +415,11 @@ function updateQtyTotal(card, idx) {
   totalEl.textContent =
     `${fmtQty(qty)} kg × ${price == null ? "—" : money(price)}` +
     (total == null ? "" : ` = ${money(total)}`);
+
+  const addBtn = card.querySelector(".add-btn");
+  if (addBtn && addBtn.style.display !== "none") {
+    addBtn.textContent = `Add ${fmtQty(qty) || 1} kg`;
+  }
 }
 
 function updateCart() {
@@ -546,9 +554,10 @@ $("product-grid").addEventListener("click", (event) => {
     });
 
     const qty = cart[idx] || 0;
+    const weight = isWeightUnit(product.unit);
     const qtyBox = card.querySelector(".qty-box");
     const addBtn = card.querySelector(".add-btn");
-    if (qtyBox) qtyBox.classList.toggle("visible", qty > 0);
+    if (qtyBox) qtyBox.classList.toggle("visible", weight || qty > 0);
     if (addBtn) addBtn.style.display = qty > 0 ? "none" : "";
     const input = card.querySelector(".qty-input");
     if (input) input.value = qty || 1;
@@ -594,7 +603,7 @@ $("product-grid").addEventListener("click", (event) => {
     if (card) {
       const qtyBox = card.querySelector(".qty-box");
       const addBtnEl = card.querySelector(".add-btn");
-      if (qtyBox) qtyBox.classList.toggle("visible", next > 0);
+      if (qtyBox) qtyBox.classList.toggle("visible", weight || next > 0);
       if (addBtnEl) addBtnEl.style.display = next > 0 ? "none" : "";
       updateQtyTotal(card, idx);
     }
@@ -616,7 +625,9 @@ $("product-grid").addEventListener("change", (event) => {
   if (card) {
     const qtyBox = card.querySelector(".qty-box");
     const addBtn = card.querySelector(".add-btn");
-    if (qtyBox) qtyBox.classList.toggle("visible", val > 0);
+    const product = PRODUCTS[idx];
+    const weight = !!(product && isWeightUnit(product.unit));
+    if (qtyBox) qtyBox.classList.toggle("visible", weight || val > 0);
     if (addBtn) addBtn.style.display = val > 0 ? "none" : "";
     updateQtyTotal(card, idx);
   }

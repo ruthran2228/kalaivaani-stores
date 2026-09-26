@@ -368,6 +368,12 @@ main,#shop{scroll-margin-top:120px}
 .qty-unit{font-size:11.5px;font-weight:800;color:var(--green-800)}
 .qty-total{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-top:7px;text-align:center;font-variant-numeric:tabular-nums}
 .qty-total[hidden]{display:none}
+.anyqty-tag{display:inline-flex;align-items:center;gap:4px;margin-top:11px;padding:3px 11px;
+  border-radius:var(--pill);background:var(--green-100);color:var(--green-800);
+  font-size:10.5px;font-weight:800;letter-spacing:.02em;line-height:1.4}
+.card-weight .qty-box{background:#F2FBF6;border-color:var(--green)}
+.card-weight .qty-box:hover{border-color:#7FCEA3}
+.card-weight .qty-total{color:var(--green-800)}
 .qty-num{font-size:13px;font-weight:800}
 
 .empty-state{text-align:center;padding:74px 20px;background:var(--glass-bg);border:1px dashed rgba(159,217,183,.75);border-radius:26px;backdrop-filter:var(--frost-soft);-webkit-backdrop-filter:var(--frost-soft);box-shadow:var(--glass-edge)}
