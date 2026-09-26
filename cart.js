@@ -312,16 +312,13 @@
 
       const ring = overlay.querySelector(".oc-ring-circle");
       const tick = overlay.querySelector(".oc-tick");
-      const check = overlay.querySelector(".oc-check");
       if (ring) ring.classList.remove("drawn");
       if (tick) tick.classList.remove("drawn");
-      if (check) check.classList.remove("popped");
       if (ring) void ring.getBoundingClientRect();
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           if (ring) ring.classList.add("drawn");
           if (tick) tick.classList.add("drawn");
-          if (check) check.classList.add("popped");
         });
       });
 
