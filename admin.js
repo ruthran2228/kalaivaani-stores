@@ -1483,7 +1483,7 @@ async function renderSettingsPanel() {
       <div class="field full">
         <label for="set-message">Closed message</label>
         <textarea id="set-message" rows="4" placeholder="e.g. We're temporarily closed for today — we reopen tomorrow at 9 AM, thanks for your patience!">${esc(message)}</textarea>
-        <div class="hint">Shown as a full-screen notice to shoppers while closed. Empty = default message.</div>
+        <div class="hint">Shown on the store page in place of the products while closed. Empty = default message.</div>
       </div>
 
       <div class="settings-preview">

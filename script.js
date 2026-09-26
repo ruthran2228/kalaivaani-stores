@@ -765,12 +765,16 @@ async function requireAuth() {
     updateCart();
     loadProducts();
 
-    if (!window._ksClosedChecked) {
-      window._ksClosedChecked = true;
-      checkShopStatus(supabaseClient);
-    }
-
     if (supabaseClient) {
+      try {
+        const settings = await fetchShopSettings(supabaseClient);
+        if (settings && settings.shop_open === false) {
+          showClosedPanel(settings.message);
+        }
+      } catch (error) {
+        /* settings unavailable — treat the shop as open */
+      }
+
       supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === "SIGNED_OUT" && !session) {
           window.location.replace(
@@ -783,3 +787,23 @@ async function requireAuth() {
 
   start();
 })();
+
+function showClosedPanel(message) {
+  const grid = document.getElementById("product-grid");
+  if (!grid || document.getElementById("closed-panel")) return;
+  const msg =
+    (message && String(message).trim()) ||
+    "We're temporarily closed. Please check back soon.";
+  grid.hidden = true;
+  const panel = document.createElement("section");
+  panel.id = "closed-panel";
+  panel.className = "closed-panel";
+  panel.setAttribute("aria-live", "polite");
+  panel.innerHTML =
+    '<span class="closed-ico" aria-hidden="true">&#128336;</span>' +
+    '<span class="closed-brand">Kalaivani Stores</span>' +
+    '<h2 class="closed-title">Temporarily Closed</h2>' +
+    '<p class="closed-msg">' + esc(msg) + "</p>" +
+    '<p class="closed-sub">We\'ll be back soon &mdash; please check back a little later.</p>';
+  grid.insertAdjacentElement("beforebegin", panel);
+}

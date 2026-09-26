@@ -210,9 +210,9 @@ on conflict (id) do nothing;
 
 alter table settings enable row level security;
 
--- Anyone (even signed-out store visitors on the login page) may read
--- the status so the "Temporarily Closed" notice can appear before login
-grant select on settings to anon, authenticated;
+-- Signed-in storefront visitors may read the status so the
+-- "Temporarily Closed" notice can be shown on the store page
+grant select on settings to authenticated;
 
 -- Only admins may write the status / message
 grant insert, update, delete on settings to authenticated;
@@ -220,7 +220,7 @@ grant insert, update, delete on settings to authenticated;
 drop policy if exists "Public read settings" on settings;
 create policy "Public read settings"
   on settings for select
-  to anon, authenticated
+  to authenticated
   using (true);
 
 drop policy if exists "Admin insert settings" on settings;
