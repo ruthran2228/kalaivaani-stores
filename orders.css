@@ -586,19 +586,19 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
 .pf-footer-links a{color:var(--green-800);font-size:13.5px;font-weight:800}
 .pf-footer-links a:hover{color:var(--ink)}
 
-/* ============================ ORDER CONFIRM ================== */
-.order-confirm{position:fixed;inset:0;z-index:400;display:none}
-.order-confirm.open{display:flex}
-.overlay-bg{flex:1;border:0;padding:0;background:rgba(4,15,9,.6);backdrop-filter:blur(3px);cursor:pointer}
-.oc-card{
-  width:min(450px,100%);max-height:92vh;overflow:auto;
-  background:rgba(9,30,19,.74);border-left:1px solid rgba(255,255,255,.16);border-right:1px solid rgba(255,255,255,.16);
+/* ============================ ORDER CONFIRM PAGE ============= */
+.oc-confirm{
+  max-width:560px;margin:0 auto;color:#fff;position:relative;
+  background:rgba(9,30,19,.72);border:1px solid rgba(255,255,255,.16);
   backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
-  color:#fff;display:flex;flex-direction:column;
-  animation:ocPop .45s cubic-bezier(.18,.89,.32,1.28) both;margin:auto;border-radius:0;
-  box-shadow:0 -12px 70px rgba(0,0,0,.35);
+  border-radius:32px;overflow:hidden;
+  box-shadow:0 34px 80px rgba(6,21,14,.3);
+  animation:ocPop .45s cubic-bezier(.18,.89,.32,1.28) both;
 }
-@keyframes ocPop{from{opacity:0;transform:translateY(36px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.oc-confirm::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,0) 36%)}
+.oc-confirm>*{position:relative}
+@keyframes ocPop{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 .oc-hero{
   background:linear-gradient(160deg,rgba(6,21,14,.92),rgba(10,58,39,.6) 70%,rgba(6,21,14,.3));
   border-bottom:1px solid rgba(255,255,255,.14);
@@ -647,6 +647,14 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
   color:var(--lime);margin:7px 0;font-variant-numeric:tabular-nums}
 .oc-number-box small{text-transform:none;letter-spacing:0}
 .oc-number-box small a{color:var(--lime);font-weight:800;text-decoration:underline}
+.oc-copy-row{margin:13px 0 6px}
+.oc-copy-btn{
+  border:1px solid rgba(198,255,79,.45);background:rgba(198,255,79,.1);color:var(--lime);
+  border-radius:var(--pill);padding:9px 18px;font-size:12px;font-weight:800;
+  transition:background-color .16s,transform .16s,border-color .16s;
+}
+.oc-copy-btn:hover{background:rgba(198,255,79,.22);transform:translateY(-1px)}
+.oc-copy-btn.copied{background:rgba(198,255,79,.3);border-color:rgba(198,255,79,.65)}
 @keyframes ocFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .oc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
 .oc-meta div{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:13px;animation:ocFadeUp .4s ease .8s both;backdrop-filter:var(--frost-soft);-webkit-backdrop-filter:var(--frost-soft);box-shadow:var(--glass-edge)}
@@ -755,7 +763,7 @@ button.order-card{font-weight:inherit;display:grid;gap:12px;cursor:pointer}
   .addr-grid{grid-template-columns:1fr}
   .addr-grid .addr-wide{grid-column:auto}
 
-  .oc-card{border-radius:0;max-height:96dvh}
+  .oc-confirm{border-radius:26px}
   .oc-hero{padding:34px 20px 38px}
   .oc-meta{grid-template-columns:1fr}
   .oc-body{padding:22px 18px 4px}

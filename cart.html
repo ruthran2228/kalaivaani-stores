@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#06150E">
   <meta name="robots" content="noindex">
   <title>Your Cart – Kalaivani Stores</title>
-  <link rel="stylesheet" href="orders.css?v=20260925f">
+  <link rel="stylesheet" href="orders.css?v=20260925g">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -59,57 +59,13 @@
     </div>
   </main>
 
-  <!-- Order confirmation screen -->
-  <div class="order-confirm" id="order-confirm-overlay" aria-hidden="true">
-    <button class="overlay-bg" id="oc-bg" type="button" aria-label="Close confirmation"></button>
-    <div class="oc-card" role="dialog" aria-modal="true" aria-labelledby="oc-title">
-      <div class="oc-hero">
-        <div class="oc-anim">
-          <svg class="oc-ring" viewBox="0 0 96 96" aria-hidden="true">
-            <circle class="oc-ring-circle" cx="48" cy="48" r="42" />
-            <path class="oc-tick" d="M31 49 L44 62 L66 37" />
-          </svg>
-        </div>
-        <h2 id="oc-title">Order placed!</h2>
-        <p>We've got your order and the shop will confirm shortly.</p>
-      </div>
-      <div class="oc-body">
-        <div class="oc-pay" id="oc-pay">
-          <div class="oc-pay-head"><span>💳</span><strong>Pay with UPI</strong><small>Scan or tap to pay for this order</small></div>
-          <div class="oc-pay-amount" id="oc-pay-amount"></div>
-          <div class="oc-qr" id="oc-qr"></div>
-          <a class="pay-upi-btn" id="oc-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
-          <small class="oc-vpa" id="oc-vpa"></small>
-        </div>
-        <div class="oc-number-box">
-          <span>Your order number</span>
-          <strong id="oc-number"></strong>
-          <small>Track it anytime from <a href="orders.html">My Orders</a>.</small>
-        </div>
-        <div class="oc-meta">
-          <div><span>Name</span><strong id="oc-name"></strong></div>
-          <div><span>Phone</span><strong id="oc-phone"></strong></div>
-          <div><span>Delivery</span><strong id="oc-place"></strong></div>
-        </div>
-        <div class="oc-items" id="oc-items"></div>
-        <div class="oc-item oc-total">
-          <span>Total</span>
-          <strong id="oc-total"></strong>
-        </div>
-      </div>
-      <div class="oc-actions">
-        <button class="wa-btn" id="oc-track-btn" type="button">Track order</button>
-        <a class="secondary-btn" href="./index.html">Continue shopping</a>
-      </div>
-    </div>
-  </div>
+  <!-- Order confirmation → dedicated page (order-confirm.html) -->
 
   <footer class="page-footer">© 2026 Kalaivani Stores · <a href="./index.html">Back to the store</a></footer>
 
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="config.js?v=20260923d"></script>
   <script>
     let supabaseClient = null;
@@ -127,6 +83,6 @@
   </script>
   <script src="store-cart.js?v=20260923c"></script>
   <script src="profile.js?v=20260923c"></script>
-  <script src="cart.js?v=20260923c"></script>
+  <script src="cart.js?v=20260925a"></script>
 </body>
 </html>

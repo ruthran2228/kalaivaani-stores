@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#06150E">
+  <meta name="robots" content="noindex">
+  <title>Order Confirmed – Kalaivani Stores</title>
+  <link rel="stylesheet" href="orders.css?v=20260925g">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="page-header">
+    <a class="brand" href="./index.html">
+      <span class="logo-mark">KS</span>
+      <span><strong>Kalaivani Stores</strong><small>Order confirmed</small></span>
+    </a>
+    <div class="header-right">
+      <a class="back-btn" href="./orders.html">My Orders</a>
+      <a class="back-btn" href="./index.html">← Back to store</a>
+    </div>
+  </header>
+
+  <main class="page oc-confirm-page">
+    <div class="oc-confirm" id="oc-confirm">
+      <div class="oc-hero">
+        <div class="oc-anim" aria-hidden="true">
+          <svg class="oc-ring" viewBox="0 0 96 96">
+            <circle class="oc-ring-circle" cx="48" cy="48" r="42" />
+            <path class="oc-tick" d="M31 49 L44 62 L66 37" />
+          </svg>
+        </div>
+        <h2 id="oc-title">Order placed!</h2>
+        <p>We've got your order — the shop will confirm shortly.</p>
+      </div>
+
+      <div class="oc-body">
+        <div class="oc-pay" id="oc-pay">
+          <div class="oc-pay-head"><span>💳</span><strong>Pay with UPI</strong><small>Scan or tap to pay for this order</small></div>
+          <div class="oc-pay-amount" id="oc-pay-amount"></div>
+          <div class="oc-qr" id="oc-qr"></div>
+          <a class="pay-upi-btn" id="oc-pay-btn" href="#" rel="noopener">Pay with UPI app</a>
+          <small class="oc-vpa" id="oc-vpa"></small>
+        </div>
+
+        <div class="oc-number-box">
+          <span>Your order number</span>
+          <strong id="oc-number"></strong>
+          <div class="oc-copy-row"><button class="oc-copy-btn" id="oc-copy-btn" type="button">Copy number</button></div>
+          <small>Track it anytime from <a href="orders.html">My Orders</a>.</small>
+        </div>
+
+        <div class="oc-meta">
+          <div><span>Name</span><strong id="oc-name"></strong></div>
+          <div><span>Phone</span><strong id="oc-phone"></strong></div>
+          <div><span>Delivery</span><strong id="oc-place"></strong></div>
+        </div>
+
+        <div class="oc-items" id="oc-items"></div>
+        <div class="oc-item oc-total">
+          <span>Total</span>
+          <strong id="oc-total"></strong>
+        </div>
+      </div>
+
+      <div class="oc-actions">
+        <button class="wa-btn" id="oc-track-btn" type="button">📦 Track order</button>
+        <a class="secondary-btn" href="./index.html">Continue shopping</a>
+      </div>
+    </div>
+
+    <div class="empty-state" id="oc-empty" hidden>
+      <div class="empty-icon">📦</div>
+      <h3>No recent order found</h3>
+      <p>Place an order from the store to see its confirmation here, or track by order number.</p>
+      <a class="primary-btn" href="./index.html">Back to the store</a>
+      <a class="secondary-btn" href="./orders.html">Track an order</a>
+    </div>
+  </main>
+
+  <footer class="page-footer">© 2026 Kalaivani Stores · <a href="./index.html">Back to the store</a></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="config.js?v=20260923d"></script>
+  <script src="store-cart.js?v=20260923c"></script>
+  <script src="order-confirm.js?v=20260925a"></script>
+</body>
+</html>

@@ -270,203 +270,32 @@
       }
     }
 
-    // Success — clear the cart and show the confirmation screen
+    // Success — clear the cart, remember this order for the
+    // confirmation page, then redirect there.
     cart = {};
     saveCart(cart);
     renderCart();
     renderDelivery();
 
-    showOrderConfirmation({
-      orderNumber,
-      name,
-      phone,
-      place: deliveryAddress,
-      items: orderItems,
-      total
-    });
-  }
-
-  // ------------------------------------------------------------
-  // Order confirmation screen
-  // ------------------------------------------------------------
-  function showOrderConfirmation(order) {
-    const overlay = $("order-confirm-overlay");
-    if (!overlay) return;
-
     try {
-      const itemRows = order.items
-        .map(
-          (it) => `
-        <div class="oc-item">
-          <span>${esc(it.name)} × ${it.qty}</span>
-          <strong>${money(it.total)}</strong>
-        </div>`
-        )
-        .join("");
-
-      $("oc-name").textContent = order.name;
-      $("oc-phone").textContent = order.phone;
-      $("oc-place").textContent = order.place;
-      $("oc-items").innerHTML = itemRows;
-      $("oc-total").textContent = money(order.total);
-
-      const ring = overlay.querySelector(".oc-ring-circle");
-      const tick = overlay.querySelector(".oc-tick");
-      if (ring) ring.classList.remove("drawn");
-      if (tick) tick.classList.remove("drawn");
-      if (ring) void ring.getBoundingClientRect();
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (ring) ring.classList.add("drawn");
-          if (tick) tick.classList.add("drawn");
-        });
-      });
-
-      revealOrderNumber($("oc-number"), order.orderNumber, 900);
-
-      $("oc-track-btn").onclick = () => {
-        window.location.href =
-          "orders.html?track=" + encodeURIComponent(order.orderNumber);
-      };
-    } catch (error) {
-      console.warn("Confirmation content failed:", error);
-    }
-
-    overlay.classList.add("open");
-    overlay.setAttribute("aria-hidden", "false");
-
-    try {
-      renderUpiPayment(order);
-    } catch (error) {
-      console.warn("Payment render failed:", error);
-    }
-  }
-
-  function buildUpiUri(amount, orderNumber) {
-    const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-    if (!vpa) return null;
-
-    const params = new URLSearchParams({
-      pa: vpa,
-      pn: typeof STORE_UPI_NAME === "string" ? STORE_UPI_NAME : "Kalaivani Stores",
-      am: Number(amount).toFixed(2),
-      cu: "INR",
-      tn: "Order " + orderNumber,
-      mode: "02"
-    });
-
-    return "upi://pay?" + params.toString();
-  }
-
-  function renderUpiPayment(order) {
-    const payCard = $("oc-pay");
-    const qrBox = $("oc-qr");
-    const btn = $("oc-pay-btn");
-    const vpaEl = $("oc-vpa");
-    const amountEl = $("oc-pay-amount");
-    if (!payCard) return;
-
-    const uri = buildUpiUri(order.total, order.orderNumber);
-    const qrImg = (typeof UPI_QR_IMAGE === "string" ? UPI_QR_IMAGE : "").trim();
-    if (qrBox) qrBox.innerHTML = "";
-    if (btn) btn.href = uri;
-
-    if (!uri && !qrImg) {
-      payCard.style.display = "none";
-      return;
-    }
-
-    payCard.style.display = "block";
-
-    if (amountEl) amountEl.textContent = "₹" + Number(order.total).toFixed(2);
-
-    if (qrImg) {
-      if (btn) btn.style.display = "none";
-      if (vpaEl) vpaEl.textContent = UPI_QR_AMOUNT_NOTE || "Open any UPI app and scan this QR.";
-    } else {
-      const vpa = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-      if (btn) btn.style.display = "";
-      if (vpaEl) vpaEl.textContent = vpa || (typeof UPI_QR_AMOUNT_NOTE === "string" ? UPI_QR_AMOUNT_NOTE : "");
-      if (btn && !vpa) btn.style.display = "none";
-    }
-
-    try {
-      if (qrImg) {
-        const img = document.createElement("img");
-        img.src = qrImg;
-        img.alt = "Scan to pay with UPI";
-        img.className = "pay-qr-img";
-        img.loading = "lazy";
-        img.onerror = () => {
-          if (btn) btn.style.display = "";
-          if (vpaEl) vpaEl.textContent = (typeof UPI_ID === "string" ? UPI_ID : "").trim();
-          implodePayHtml(qrBox, btn, uri);
-        };
-        if (qrBox) qrBox.appendChild(img);
-      } else if (typeof QRCode === "function" && qrBox) {
-        const canvas = document.createElement("canvas");
-        QRCode.toCanvas(canvas, uri, {
-          width: 168,
-          margin: 1,
-          color: { dark: "#062d19", light: "#ffffff" }
+      localStorage.setItem(
+        "ks_last_order",
+        JSON.stringify({
+          orderNumber,
+          name,
+          phone,
+          place: deliveryAddress,
+          items: orderItems,
+          total
         })
-          .then(() => {
-            qrBox.appendChild(canvas);
-          })
-          .catch(() => {});
-      }
+      );
     } catch (error) {
-      console.warn("QR render failed:", error);
+      /* storage unavailable — confirmation page falls back */
     }
 
-    if (btn && !qrImg && uri) {
-      btn.onclick = (event) => {
-        event.preventDefault();
-        window.location.href = uri;
-      };
-    }
-  }
-
-  function implodePayHtml(qrBox, btn, uri) {
-    if (!qrBox || !uri || typeof QRCode !== "function") return;
-    qrBox.innerHTML = "";
-    const canvas = document.createElement("canvas");
-    QRCode.toCanvas(canvas, uri, {
-      width: 168,
-      margin: 1,
-      color: { dark: "#062d19", light: "#ffffff" }
-    })
-      .then(() => {
-        qrBox.appendChild(canvas);
-      })
-      .catch(() => {});
-    if (btn) btn.style.display = "";
-  }
-
-  let __revealId = 0;
-  function revealOrderNumber(el, finalText, duration) {
-    const id = ++__revealId;
-    const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const start = performance.now();
-    const frame = (now) => {
-      if (id !== __revealId) return;
-      const t = Math.min((now - start) / duration, 1);
-      const settled = Math.floor(t * finalText.length);
-      let out = "";
-      for (let i = 0; i < finalText.length; i++) {
-        out += i < settled ? finalText[i] : chars[Math.floor(Math.random() * chars.length)];
-      }
-      el.textContent = out;
-      if (t < 1) requestAnimationFrame(frame);
-    };
-    requestAnimationFrame(frame);
-  }
-
-  function closeOrderConfirmation() {
-    const overlay = $("order-confirm-overlay");
-    if (!overlay) return;
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden", "true");
+    window.location.assign(
+      "order-confirm.html?order=" + encodeURIComponent(orderNumber)
+    );
   }
 
   // ------------------------------------------------------------
@@ -503,9 +332,6 @@
   const placeBtn = $("place-order-btn");
   if (placeBtn) placeBtn.addEventListener("click", placeOrder);
 
-  const ocBg = $("oc-bg");
-  if (ocBg) ocBg.addEventListener("click", closeOrderConfirmation);
-
   const logoutBtn = $("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
@@ -514,10 +340,6 @@
       window.location.replace("login.html");
     });
   }
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeOrderConfirmation();
-  });
 
   // ------------------------------------------------------------
   // Init
