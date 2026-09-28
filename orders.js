@@ -25,6 +25,7 @@ let deepLinkOrder = null;
 let ordersChannel = null;
 let currentTrackOrder = null;
 let guestPollTimer = null;
+let lastGuestOrder = null;
 
 // ------------------------------------------------------------
 // Helpers
@@ -166,6 +167,7 @@ $("guest-form").addEventListener("submit", async (event) => {
     return;
   }
 
+  lastGuestOrder = order;
   box.innerHTML = `<div class="guest-result">${renderTrackCard(order)}</div>`;
   renderPayBox(order, box);
 
@@ -400,8 +402,6 @@ $("back-to-list").addEventListener("click", () => {
 function showTrackView(order) {
   currentTrackOrder = order;
   $("track-current").innerHTML = renderTrackCard(order);
-  const reBtn = $("track-current").querySelector("[data-reorder]");
-  if (reBtn) reBtn.addEventListener("click", () => orderAgain(order));
   renderPayBox(order);
   showView("track");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -483,10 +483,9 @@ function renderTrackCard(order) {
         <span>Total</span>
         <strong>${money(order.total)}</strong>
       </div>
-      ${currentUser ? `
       <div class="order-again-row center">
         <button class="reorder-btn wide" data-reorder="${esc(order.order_number)}" type="button">↻ Order again</button>
-      </div>` : ""}
+      </div>
     </div>`;
 }
 
@@ -519,6 +518,7 @@ function renderTrackCardInto(order, holder, orderNumber) {
   fresh.innerHTML = renderTrackCard(order);
   const newCard = fresh.querySelector(".track-card");
   if (!newCard) return;
+  lastGuestOrder = order;
   oldCard.replaceWith(newCard);
   renderPayBox(order, holder);
   showToast(`${orderNumber} — ${statusLabel(order.status)} updated`);
@@ -605,22 +605,33 @@ function genQr(qrBox, uri) {
 // Event delegation on the orders list
 // ------------------------------------------------------------
 $("orders-list").addEventListener("click", (event) => {
-  const reorderBtn = event.target.closest("[data-reorder]");
-  if (reorderBtn) {
-    const found = currentOrders.find(
-      (o) => o.order_number === reorderBtn.dataset.reorder
-    );
-    if (found) orderAgain(found);
-    return;
-  }
+  if (event.target.closest("[data-reorder]")) return;
   const card = event.target.closest("[data-order]");
   if (!card) return;
   const found = currentOrders.find((o) => o.order_number === card.dataset.order);
   if (found) showTrackView(found);
 });
 
+// One delegated handler for every "Order again" button (history cards,
+// track view, and guest tracking results).
+document.addEventListener("click", (event) => {
+  const reorderBtn = event.target.closest("[data-reorder]");
+  if (!reorderBtn) return;
+  const orderNumber = reorderBtn.dataset.reorder;
+  const found =
+    currentOrders.find((o) => o.order_number === orderNumber) ||
+    (lastGuestOrder && lastGuestOrder.order_number === orderNumber
+      ? lastGuestOrder
+      : null) ||
+    (currentTrackOrder && currentTrackOrder.order_number === orderNumber
+      ? currentTrackOrder
+      : null);
+  if (found) orderAgain(found);
+});
+
 $("orders-list").addEventListener("keydown", (event) => {
   if (event.key !== "Enter" && event.key !== " ") return;
+  if (event.target.closest("[data-reorder]")) return;
   const card = event.target.closest("[data-order]");
   if (!card) return;
   event.preventDefault();
