@@ -412,6 +412,16 @@
     renderDelivery();
     bindDeliveryEvents();
 
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("reordered")) {
+        window.history.replaceState({}, "", window.location.pathname);
+        showToast("Items from your previous order were added to your cart.");
+      }
+    } catch (error) {
+      /* ignore */
+    }
+
     if (supabaseClient) {
       supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === "SIGNED_OUT" && !session) {

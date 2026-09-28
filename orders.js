@@ -331,7 +331,7 @@ function renderOrderCard(order) {
   const count = items.reduce((n, it) => n + (Number(it.qty) || 1), 0);
 
   return `
-    <button class="order-card" data-order="${esc(order.order_number)}" type="button">
+    <div class="order-card" data-order="${esc(order.order_number)}" role="button" tabindex="0" aria-label="View order ${esc(order.order_number)}">
       <div class="order-top">
         <div>
           <div class="order-num">${esc(order.order_number)}</div>
@@ -349,7 +349,10 @@ function renderOrderCard(order) {
         <div class="order-total"><small>Total</small>${money(order.total)}</div>
         <span class="order-view">View & track →</span>
       </div>
-    </button>`;
+      <div class="order-again-row">
+        <button class="reorder-btn" data-reorder="${esc(order.order_number)}" type="button">↻ Order again</button>
+      </div>
+    </div>`;
 }
 
 $("track-own-btn").addEventListener("click", () => {
@@ -397,6 +400,8 @@ $("back-to-list").addEventListener("click", () => {
 function showTrackView(order) {
   currentTrackOrder = order;
   $("track-current").innerHTML = renderTrackCard(order);
+  const reBtn = $("track-current").querySelector("[data-reorder]");
+  if (reBtn) reBtn.addEventListener("click", () => orderAgain(order));
   renderPayBox(order);
   showView("track");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -478,6 +483,10 @@ function renderTrackCard(order) {
         <span>Total</span>
         <strong>${money(order.total)}</strong>
       </div>
+      ${currentUser ? `
+      <div class="order-again-row center">
+        <button class="reorder-btn wide" data-reorder="${esc(order.order_number)}" type="button">↻ Order again</button>
+      </div>` : ""}
     </div>`;
 }
 
@@ -596,11 +605,131 @@ function genQr(qrBox, uri) {
 // Event delegation on the orders list
 // ------------------------------------------------------------
 $("orders-list").addEventListener("click", (event) => {
+  const reorderBtn = event.target.closest("[data-reorder]");
+  if (reorderBtn) {
+    const found = currentOrders.find(
+      (o) => o.order_number === reorderBtn.dataset.reorder
+    );
+    if (found) orderAgain(found);
+    return;
+  }
   const card = event.target.closest("[data-order]");
   if (!card) return;
   const found = currentOrders.find((o) => o.order_number === card.dataset.order);
   if (found) showTrackView(found);
 });
+
+$("orders-list").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const card = event.target.closest("[data-order]");
+  if (!card) return;
+  event.preventDefault();
+  const found = currentOrders.find((o) => o.order_number === card.dataset.order);
+  if (found) showTrackView(found);
+});
+
+// ------------------------------------------------------------
+// Order again — re-add a past order's items to the cart
+// ------------------------------------------------------------
+async function ensureOrderProducts() {
+  let products = getCachedProducts();
+  if (!products.length && supabaseClient) {
+    try {
+      let { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .order("sort_order", { ascending: true, nullsFirst: false })
+        .order("id", { ascending: true });
+
+      if (
+        error &&
+        (String(error.message).includes("id does not exist") ||
+          error.code === "42703")
+      ) {
+        const retry = await supabaseClient
+          .from("products")
+          .select("*")
+          .order("sort_order", { ascending: true, nullsFirst: false });
+        data = retry.data;
+        error = retry.error;
+      }
+
+      if (!error && data && data.length) {
+        products = normalizeProducts(data);
+        try {
+          localStorage.setItem(PRODUCT_CACHE_KEY, JSON.stringify(products));
+        } catch (e) {
+          /* storage unavailable */
+        }
+      }
+    } catch (error) {
+      console.warn("Reorder product fetch failed:", error);
+    }
+  }
+  return products;
+}
+
+function matchReorderProduct(item, products) {
+  const name = String(item.name || "").trim();
+  if (!name) return null;
+  const sameName = products.filter(
+    (p) => String(p.name || "").trim() === name
+  );
+  if (!sameName.length) return null;
+  const price = Number(item.price);
+  if (price >= 0) {
+    const exact = sameName.find((p) => Number(p.price) === price);
+    if (exact) return exact;
+  }
+  return sameName[0];
+}
+
+async function orderAgain(order) {
+  if (!order || !Array.isArray(order.items) || !order.items.length) return;
+  showToast("Getting your items ready…");
+
+  const products = await ensureOrderProducts();
+  if (!products.length) {
+    showToast("Couldn't load the product list. Please try again.");
+    return;
+  }
+
+  const cart = loadCart();
+  let added = 0;
+  const missing = [];
+
+  order.items.forEach((item) => {
+    const product = matchReorderProduct(item, products);
+    if (!product) {
+      missing.push(String(item.name || "item"));
+      return;
+    }
+    const idx = products.indexOf(product);
+    const qty = Math.max(Number(item.qty) || 1, 0.05);
+    cart[idx] = (cart[idx] || 0) + qty;
+    added++;
+  });
+
+  if (added) saveCart(cart);
+
+  const url = new URL("cart.html", window.location.href);
+  if (added) url.searchParams.set("reordered", "1");
+
+  if (missing.length && !added) {
+    showToast("None of those items are in the store anymore.");
+    return;
+  }
+
+  showToast(
+    missing.length
+      ? `${added} item(s) added — ${missing.length} unavailable elsewhere`
+      : `Added ${added} item(s) to your cart`
+  );
+
+  setTimeout(() => {
+    window.location.assign(url.toString());
+  }, 700);
+}
 
 // ------------------------------------------------------------
 // Boot
