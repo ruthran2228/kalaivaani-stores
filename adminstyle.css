@@ -591,6 +591,28 @@ table.data tr:hover td { background: #fafcf8; }
   font-family: inherit;
 }
 
+.stock-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 11.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.stock-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.stock-toggle.in { color: var(--ok); border-color: #cdeadd; }
+.stock-toggle.in:hover { border-color: var(--ok); }
+.stock-toggle.out { color: var(--danger); border-color: #f3c6c9; }
+.stock-toggle.out:hover { border-color: var(--danger); }
+.stock-toggle:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(6, 21, 14, 0.12); }
+
 .row-actions { display: flex; gap: 6px; white-space: nowrap; }
 .row-actions .btn { padding: 6px 11px; font-size: 12.5px; }
 

@@ -432,6 +432,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   box-shadow:var(--glass-shadow),var(--glass-edge);transition:transform .18s,box-shadow .18s,border-color .18s;
 }
 .cart-row:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow-hover),var(--glass-edge);border-color:rgba(15,185,103,.45)}
+.ci-oos{display:inline-block;margin-top:4px;background:#FDECEE;color:var(--red);
+  border:1px solid #F3C1C6;border-radius:var(--pill);padding:3px 10px;
+  font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.row-oos{opacity:.78}
+.row-oos .cart-row-emoji{filter:grayscale(1)}
+.row-oos .ci-btn[disabled]{opacity:.35;cursor:not-allowed}
+.row-oos .ci-btn[disabled]:hover{background:transparent}
 .cart-row-emoji{
   width:56px;height:56px;background:linear-gradient(150deg,#EAFBF1,#DCF7E8);
   border:1.5px solid var(--green-100);border-radius:17px;display:grid;place-items:center;

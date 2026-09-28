@@ -143,7 +143,6 @@ function groupProducts(products) {
         emoji: p.emoji,
         image_url: p.image_url,
         featured: p.featured,
-        in_stock: p.in_stock,
         variants: []
       };
     }
@@ -153,6 +152,8 @@ function groupProducts(products) {
 }
 
 function setQty(index, qty) {
+  const product = PRODUCTS[index];
+  if (product && product.in_stock === false) return;
   qty = Math.max(0, Number(qty) || 0);
   if (qty === 0) {
     delete cart[index];
@@ -294,7 +295,7 @@ function renderProducts() {
     const firstVariant = group.variants[0];
     const activeIdx = PRODUCTS.indexOf(firstVariant);
     const qty = cart[activeIdx] || 0;
-    const inStock = group.in_stock;
+    const groupStocked = group.variants.some((v) => v.in_stock !== false);
     const hasVariants = group.variants.length > 1;
     const hasPrice = firstVariant.price != null;
     const weight = !!(firstVariant.unit && isWeightUnit(firstVariant.unit));
@@ -322,19 +323,19 @@ function renderProducts() {
           } else {
             label = "price soon";
           }
-          return `<button class="variant-chip${vi === 0 ? " active" : ""}" data-idx="${vIdx}" type="button">${esc(label)}</button>`;
+          return `<button class="variant-chip${vi === 0 ? " active" : ""}${v.in_stock === false ? " out" : ""}" data-idx="${vIdx}" type="button">${esc(label)}${v.in_stock === false ? '<em class="chip-oos">out</em>' : ""}</button>`;
         }).join("")}</div>`
       : "";
 
     const card = document.createElement("article");
-    card.className = "product-card" + (inStock ? "" : " card-oos");
+    card.className = "product-card" + (groupStocked ? "" : " card-oos");
     card.dataset.activeIdx = activeIdx;
 
     card.innerHTML = `
       <div class="product-visual">
         ${visual}
         ${badges}
-        ${inStock ? "" : '<span class="oos-stamp">Out of stock</span>'}
+        ${groupStocked ? "" : '<span class="oos-stamp">Out of stock</span>'}
       </div>
 
       <div class="product-cat">${esc(firstVariant.category)}</div>
@@ -351,23 +352,7 @@ function renderProducts() {
       ${weight ? '<div class="anyqty-tag">⚖️ Pick any amount</div>' : ""}
 
       <div class="add-controls">
-        ${
-          inStock && hasPrice
-            ? `
-          <div class="qty-box ${weight || qty > 0 ? "visible" : ""}">
-            <button class="qty-btn" data-action="dec" data-idx="${activeIdx}" type="button" aria-label="Decrease quantity">−</button>
-            <div class="qty-field">
-              <input type="number" inputmode="decimal" class="qty-input" data-idx="${activeIdx}" min="0" step="1" value="${qty || 1}">
-              <span class="qty-unit" hidden></span>
-            </div>
-            <button class="qty-btn" data-action="inc" data-idx="${activeIdx}" type="button" aria-label="Increase quantity">+</button>
-          </div>
-
-          <p class="qty-total" ${weight ? "" : "hidden"}></p>
-
-          <button class="add-btn" data-idx="${activeIdx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>${weight ? `Add ${fmtQty(qty || 1)} kg` : "+ Add"}</button>`
-            : ""
-        }
+        ${variantControlsHtml(activeIdx, qty, weight)}
       </div>
     `;
 
@@ -379,6 +364,31 @@ function renderProducts() {
   empty.hidden = groups.length !== 0;
 
   syncURLState();
+}
+
+// Builds the buy area for one variant: quantity controls when the
+// variant is in stock, or a "sold out" marker when it isn't.
+function variantControlsHtml(idx, qty, weight) {
+  const product = PRODUCTS[idx];
+  if (!product || product.in_stock === false) {
+    return '<div class="soldout-chip">Out of stock — sold out at this size</div>';
+  }
+  if (product.price == null) {
+    return '<div class="soldout-chip">Price soon</div>';
+  }
+  return `
+    <div class="qty-box ${weight || qty > 0 ? "visible" : ""}">
+      <button class="qty-btn" data-action="dec" data-idx="${idx}" type="button" aria-label="Decrease quantity">−</button>
+      <div class="qty-field">
+        <input type="number" inputmode="decimal" class="qty-input" data-idx="${idx}" min="0" step="1" value="${qty || 1}">
+        <span class="qty-unit" hidden></span>
+      </div>
+      <button class="qty-btn" data-action="inc" data-idx="${idx}" type="button" aria-label="Increase quantity">+</button>
+    </div>
+
+    <p class="qty-total" ${weight ? "" : "hidden"}></p>
+
+    <button class="add-btn" data-idx="${idx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>${weight ? `Add ${fmtQty(qty || 1)} kg` : "+ Add"}</button>`;
 }
 
 function syncCardControls(card, idx) {
@@ -546,21 +556,14 @@ $("product-grid").addEventListener("click", (event) => {
     chip.classList.add("active");
 
     card.dataset.activeIdx = idx;
-    card.querySelector(".price-val").textContent = money(product.price);
+    card.querySelector(".price-val").textContent =
+      product.price == null ? "Price soon" : money(product.price);
     card.querySelector(".unit-val").textContent = product.unit || "";
-
-    card.querySelectorAll(".qty-btn, .qty-input, .add-btn").forEach((el) => {
-      el.dataset.idx = idx;
-    });
 
     const qty = cart[idx] || 0;
     const weight = isWeightUnit(product.unit);
-    const qtyBox = card.querySelector(".qty-box");
-    const addBtn = card.querySelector(".add-btn");
-    if (qtyBox) qtyBox.classList.toggle("visible", weight || qty > 0);
-    if (addBtn) addBtn.style.display = qty > 0 ? "none" : "";
-    const input = card.querySelector(".qty-input");
-    if (input) input.value = qty || 1;
+    const controls = card.querySelector(".add-controls");
+    if (controls) controls.innerHTML = variantControlsHtml(idx, qty, weight);
 
     syncCardControls(card, idx);
 
@@ -571,7 +574,7 @@ $("product-grid").addEventListener("click", (event) => {
   if (addBtn) {
     const idx = Number(addBtn.dataset.idx);
     const product = PRODUCTS[idx];
-    if (!product) return;
+    if (!product || product.in_stock === false) return;
     const card = addBtn.closest(".product-card");
     const input = card ? card.querySelector(".qty-input") : null;
     const weight = isWeightUnit(product.unit);
@@ -589,6 +592,7 @@ $("product-grid").addEventListener("click", (event) => {
   if (btn) {
     const idx = Number(btn.dataset.idx);
     const product = PRODUCTS[idx];
+    if (!product || product.in_stock === false) return;
     const card = btn.closest(".product-card");
     const input = card ? card.querySelector(".qty-input") : null;
     const current = input ? Number(input.value) || 0 : (cart[idx] || 0);
@@ -617,6 +621,8 @@ $("product-grid").addEventListener("change", (event) => {
   if (!input) return;
 
   const idx = Number(input.dataset.idx);
+  const product = PRODUCTS[idx];
+  if (!product || product.in_stock === false) return;
   const val = Math.max(0, roundQty(Number(input.value) || 0));
   input.value = val || 1;
   setQty(idx, val);
@@ -625,7 +631,6 @@ $("product-grid").addEventListener("change", (event) => {
   if (card) {
     const qtyBox = card.querySelector(".qty-box");
     const addBtn = card.querySelector(".add-btn");
-    const product = PRODUCTS[idx];
     const weight = !!(product && isWeightUnit(product.unit));
     if (qtyBox) qtyBox.classList.toggle("visible", weight || val > 0);
     if (addBtn) addBtn.style.display = val > 0 ? "none" : "";

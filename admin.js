@@ -635,9 +635,11 @@ function renderProductTable() {
         ? `<span class="price empty">— <button class="btn" data-price-empty="${p.id}" type="button">Set price</button></span>`
         : `<span class="price">${money(p.price)}</span>`;
 
-      const stockBadge = p.in_stock
-        ? `<span class="badge in">In stock</span>`
-        : `<span class="badge out">Out</span>`;
+      const stockToggle = `
+        <button class="stock-toggle ${p.in_stock ? "in" : "out"}" data-stock-toggle="${p.id}" type="button"
+          title="${p.in_stock ? "Mark out of stock" : "Mark in stock"}">
+          <span class="dot"></span>${p.in_stock ? "In stock" : "Out"}
+        </button>`;
 
       const starBadge = p.featured ? `<span class="badge star">⭐ Featured</span>` : "";
 
@@ -651,7 +653,7 @@ function renderProductTable() {
         <td class="p-emoji">${productThumb(p)}</td>
         <td class="p-name">${esc(p.name)}${sub ? `<small>${esc(sub)}</small>` : ""}</td>
         <td>${priceCell}</td>
-        <td>${stockBadge}</td>
+        <td>${stockToggle}</td>
         <td>${starBadge}</td>
         <td>${groupBadge}</td>
         <td class="row-actions">
@@ -680,6 +682,12 @@ function renderProductTable() {
 
   // Event delegation for row actions (single handler, overwrites on re-render)
   wrap.onclick = (ev) => {
+    const stockBtn = ev.target.closest("[data-stock-toggle]");
+    if (stockBtn) {
+      toggleStock(+stockBtn.dataset.stockToggle);
+      return;
+    }
+
     const editBtn = ev.target.closest("[data-edit]");
     if (editBtn) {
       const p = PRODUCTS.find((x) => x.id == editBtn.dataset.edit);
@@ -916,7 +924,6 @@ async function saveProduct(modal, isEdit, original) {
         emoji: payload.emoji,
         category: payload.category,
         unit: payload.unit,
-        in_stock: payload.in_stock,
         featured: payload.featured
       };
       const res = await supabaseClient
@@ -930,6 +937,29 @@ async function saveProduct(modal, isEdit, original) {
 
   modal.remove();
   showToast(isEdit ? "Product updated." : "Product added.");
+  await loadProducts();
+  updateTabCounts();
+  renderProductTable();
+}
+
+async function toggleStock(id) {
+  const p = PRODUCTS.find((x) => x.id == id);
+  if (!p) return;
+  const next = !p.in_stock;
+  const res = await supabaseClient
+    .from("products")
+    .update({ in_stock: next })
+    .eq("id", p.id);
+  if (res.error) {
+    console.error("toggleStock error", res.error);
+    showToast("Stock update failed: " + res.error.message);
+    return;
+  }
+  showToast(
+    next
+      ? `${p.name} marked in stock.`
+      : `${p.name} (${money(p.price)}) marked out of stock.`
+  );
   await loadProducts();
   updateTabCounts();
   renderProductTable();

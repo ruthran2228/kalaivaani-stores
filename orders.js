@@ -690,9 +690,11 @@ function matchReorderProduct(item, products) {
   const price = Number(item.price);
   if (price >= 0) {
     const exact = sameName.find((p) => Number(p.price) === price);
-    if (exact) return exact;
+    if (exact) return exact.in_stock !== false ? exact : null;
   }
-  return sameName[0];
+  const inStock = sameName.filter((p) => p.in_stock !== false);
+  if (!inStock.length) return null;
+  return inStock[0];
 }
 
 async function orderAgain(order) {

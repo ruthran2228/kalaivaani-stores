@@ -85,11 +85,13 @@
             .map(({ idx, qty }) => {
               const p = PRODUCTS[idx];
               const weight = isWeightUnit(p.unit);
+              const oos = p.in_stock === false;
               return `
-            <div class="cart-row" data-idx="${idx}">
+            <div class="cart-row${oos ? " row-oos" : ""}" data-idx="${idx}">
               <div class="cart-row-emoji">${p.emoji || "🛒"}</div>
               <div class="cart-row-info">
                 <strong>${esc(p.name)}</strong>
+                ${oos ? '<span class="ci-oos">Sold out</span>' : ""}
                 <small>${money(p.price)} · ${esc(p.unit || "")}</small>
                 <div class="cart-row-qty">
                   <button type="button" class="ci-btn" data-idx="${idx}" data-action="dec" aria-label="Decrease quantity">−</button>
@@ -97,7 +99,7 @@
                     <input type="number" inputmode="decimal" class="ci-input" data-idx="${idx}" min="0" step="${weight ? "0.25" : "1"}" value="${fmtQty(qty)}" aria-label="Quantity">
                     ${weight ? '<em class="ci-unit">kg</em>' : ""}
                   </div>
-                  <button type="button" class="ci-btn" data-idx="${idx}" data-action="inc" aria-label="Increase quantity">+</button>
+                  <button type="button" class="ci-btn" data-idx="${idx}" data-action="inc" aria-label="Increase quantity" ${oos ? "disabled" : ""}>+</button>
                 </div>
               </div>
               <div class="cart-row-right">
@@ -241,6 +243,14 @@
       return;
     }
 
+    const oosLine = Object.entries(cart)
+      .map(([idx]) => PRODUCTS[Number(idx)])
+      .find((p) => p && p.in_stock === false);
+    if (oosLine) {
+      showToast(`${oosLine.name} is sold out — remove it from your cart first.`);
+      return;
+    }
+
     const chosen = selectedAddress();
     const name = (profile && profile.name) || "";
     const phone = (profile && profile.phone) || "";
@@ -333,6 +343,14 @@
     if (btn.dataset.action === "remove") {
       setQty(idx, 0);
       showToast("Item removed");
+      return;
+    }
+    if (
+      btn.dataset.action === "inc" &&
+      PRODUCTS[idx] &&
+      PRODUCTS[idx].in_stock === false
+    ) {
+      showToast("This item is sold out.");
       return;
     }
     const step = PRODUCTS[idx] && isWeightUnit(PRODUCTS[idx].unit) ? 0.5 : 1;
