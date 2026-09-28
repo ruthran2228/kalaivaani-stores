@@ -329,6 +329,8 @@ main,#shop{scroll-margin-top:120px}
   border-radius:18px;backdrop-filter:blur(3px);
 }
 .card-oos .product-visual{filter:grayscale(.85);opacity:.85}
+.product-card.active-oos .product-visual{filter:grayscale(.6) blur(3px);opacity:.82}
+.product-card.active-oos .product-visual .oos-stamp{filter:none;backdrop-filter:blur(4px)}
 
 .product-cat{font-size:9.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);font-weight:800}
 .product-card h3{font-size:16px;line-height:1.25;letter-spacing:-.02em;margin:7px 0 9px;min-height:40px;

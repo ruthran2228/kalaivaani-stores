@@ -335,7 +335,6 @@ function renderProducts() {
       <div class="product-visual">
         ${visual}
         ${badges}
-        ${groupStocked ? "" : '<span class="oos-stamp">Out of stock</span>'}
       </div>
 
       <div class="product-cat">${esc(firstVariant.category)}</div>
@@ -358,6 +357,7 @@ function renderProducts() {
 
     grid.appendChild(card);
 
+    applyVariantOos(card, activeIdx);
     syncCardControls(card, activeIdx);
   });
 
@@ -371,7 +371,7 @@ function renderProducts() {
 function variantControlsHtml(idx, qty, weight) {
   const product = PRODUCTS[idx];
   if (!product || product.in_stock === false) {
-    return '<div class="soldout-chip">Out of stock — sold out at this size</div>';
+    return '<div class="soldout-chip">Out of stock</div>';
   }
   if (product.price == null) {
     return '<div class="soldout-chip">Price soon</div>';
@@ -389,6 +389,26 @@ function variantControlsHtml(idx, qty, weight) {
     <p class="qty-total" ${weight ? "" : "hidden"}></p>
 
     <button class="add-btn" data-idx="${idx}" type="button" ${qty > 0 ? 'style="display:none"' : ""}>${weight ? `Add ${fmtQty(qty || 1)} kg` : "+ Add"}</button>`;
+}
+
+// Blurs the visual and stamps "Out of stock" when the currently
+// selected variant is sold out; restores it when switching back.
+function applyVariantOos(card, idx) {
+  const product = PRODUCTS[idx];
+  const oos = !product || product.in_stock === false;
+  card.classList.toggle("active-oos", oos);
+  let stamp = card.querySelector(".oos-stamp");
+  if (oos && !stamp) {
+    const visual = card.querySelector(".product-visual");
+    if (visual) {
+      const el = document.createElement("span");
+      el.className = "oos-stamp";
+      el.textContent = "Out of stock";
+      visual.appendChild(el);
+    }
+  } else if (!oos && stamp) {
+    stamp.remove();
+  }
 }
 
 function syncCardControls(card, idx) {
@@ -565,6 +585,7 @@ $("product-grid").addEventListener("click", (event) => {
     const controls = card.querySelector(".add-controls");
     if (controls) controls.innerHTML = variantControlsHtml(idx, qty, weight);
 
+    applyVariantOos(card, idx);
     syncCardControls(card, idx);
 
     return;
