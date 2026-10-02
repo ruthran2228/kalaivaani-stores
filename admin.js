@@ -357,9 +357,6 @@ async function refreshData() {
 }
 
 async function loadProducts() {
-  const panel = $("#panel-" + currentTab);
-  if (panel) panel.innerHTML = `<div class="skeleton">Loading products…</div>`;
-
   let { data, error } = await supabaseClient
     .from("products")
     .select("*")
