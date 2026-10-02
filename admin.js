@@ -1287,6 +1287,18 @@ async function handleCSVImport(event) {
 
   const existingIds = new Set(PRODUCTS.map((p) => String(p.id)));
 
+  // Fallback matcher: when a CSV row has no id (or a mismatched one), pair it
+  // with an existing product that has the same name + group so re-imports
+  // UPDATE instead of inserting a brand-new duplicate row.
+  const variantKey = (p) =>
+    (p.name || "").trim().toLowerCase() + "|" + (p.group_key || "").trim().toLowerCase();
+  const existingByVariant = new Map();
+  PRODUCTS.forEach((p) => {
+    const key = variantKey(p);
+    if (!existingByVariant.has(key)) existingByVariant.set(key, []);
+    existingByVariant.get(key).push(p.id);
+  });
+
   let toInsert = [];
   let toUpdate = [];
   const skipped = [];
@@ -1322,6 +1334,12 @@ async function handleCSVImport(event) {
 
     if (csvId && existingIds.has(csvId)) {
       toUpdate.push({ id: Number(csvId), ...record });
+      continue;
+    }
+
+    const matches = existingByVariant.get(variantKey(record));
+    if (matches && matches.length === 1) {
+      toUpdate.push({ id: matches[0], ...record });
     } else {
       const { id, ...rest } = record;
       toInsert.push(rest);
