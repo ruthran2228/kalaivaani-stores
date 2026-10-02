@@ -267,7 +267,7 @@ function buildShell() {
     <div class="admin-shell">
       <aside class="sidebar">
         <div class="side-brand">
-          <span class="logo-mark">KS</span>
+          <img class="logo-img side-logo" src="logo.svg" alt="Kalaivani Stores" width="44" height="44">
           <div class="side-brand-text">
             <strong>Kalaivani Stores</strong>
             <small>Store admin</small>
@@ -293,7 +293,7 @@ function buildShell() {
       <div class="main-col">
         <header class="top-head">
           <div class="th-bread">
-            <span class="logo-mark">KS</span>
+            <img class="logo-img" src="logo.svg" alt="Kalaivani Stores" width="38" height="38">
             <div>
               <h1>Kalaivani Stores</h1>
               <p>Admin panel</p>
@@ -413,6 +413,48 @@ function updateTabCounts() {
 // ------------------------------------------------------------
 // Dashboard
 // ------------------------------------------------------------
+function buildSalesSeries(orders, days) {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const rows = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    rows.push({ date: d, orders: 0, revenue: 0 });
+  }
+  const index = {};
+  rows.forEach((r, i) => {
+    index[r.date.toDateString()] = i;
+  });
+  (orders || []).forEach((o) => {
+    if ((o.status || "") === "cancelled") return;
+    const day = o.created_at ? new Date(o.created_at).toDateString() : null;
+    if (day && day in index) {
+      rows[index[day]].orders += 1;
+      rows[index[day]].revenue += Number(o.total) || 0;
+    }
+  });
+  return rows;
+}
+
+function buildTopProducts(orders, limit) {
+  const agg = {};
+  (orders || []).forEach((o) => {
+    if ((o.status || "") === "cancelled") return;
+    (Array.isArray(o.items) ? o.items : []).forEach((it) => {
+      const name = String(it.name || "Item");
+      const qty = Number(it.qty) || 0;
+      if (!agg[name]) agg[name] = { qty: 0, revenue: 0 };
+      agg[name].qty += qty;
+      agg[name].revenue += Number(it.price || 0) * qty;
+    });
+  });
+  return Object.entries(agg)
+    .map(([name, v]) => ({ name, qty: v.qty, revenue: v.revenue }))
+    .sort((a, b) => b.qty - a.qty)
+    .slice(0, limit);
+}
+
 function renderDashboard() {
   const panel = $("#panel-dashboard");
   if (!panel) return;
@@ -435,6 +477,44 @@ function renderDashboard() {
     .join("");
 
   const recent = ORDERS.slice(0, 6);
+
+  const series14 = buildSalesSeries(ORDERS, 14);
+  const totalRev14 = series14.reduce((s, r) => s + r.revenue, 0);
+  const count14 = series14.reduce((s, r) => s + r.orders, 0);
+  const maxRev = Math.max.apply(null, series14.map((r) => r.revenue)) || 1;
+
+  const topProducts = buildTopProducts(ORDERS, 6);
+  const maxTopQty = Math.max.apply(null, topProducts.map((p) => p.qty)) || 1;
+
+  const barRows = series14
+    .map((r) => {
+      const h = Math.max(2, Math.round((r.revenue / maxRev) * 100));
+      const label =
+        r.date.toLocaleDateString("en-IN", { weekday: "short" }) +
+        " " +
+        r.date.getDate();
+      return `<div class="bar-col" title="${esc(label)} · ${r.orders} order${
+        r.orders === 1 ? "" : "s"
+      } · ${money(r.revenue)}">
+        <div class="bar-track"><div class="bar-fill" style="height:${h}%"></div></div>
+        <span class="bar-label">${esc(label)}</span>
+      </div>`;
+    })
+    .join("");
+
+  const topRows = topProducts.length
+    ? topProducts
+        .map((p) => {
+          const w = Math.max(4, Math.round((p.qty / maxTopQty) * 100));
+          return `<div class="tp-row">
+            <span class="tp-name">${esc(p.name)}</span>
+            <div class="tp-track"><div class="tp-fill" style="width:${w}%"></div></div>
+            <span class="tp-qty">× ${fmtQty(p.qty)}</span>
+            <span class="tp-amt">${money(p.revenue)}</span>
+          </div>`;
+        })
+        .join("")
+    : "";
 
   panel.innerHTML = `
     <div class="page-head">
@@ -481,6 +561,21 @@ function renderDashboard() {
       <div class="panel-card">
         <h3>Recent orders</h3>
         ${recent.length ? renderMiniOrders(recent) : "<p style='color:var(--muted);font-size:13.5px'>No orders yet.</p>"}
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div class="sales-head">
+        <h3>Sales — last 14 days</h3>
+        <span>${money(totalRev14)} · ${count14} order${count14 === 1 ? "" : "s"}</span>
+      </div>
+      <div class="bar-chart">${barRows || "<p style='color:var(--muted);font-size:13.5px'>No orders in the last 14 days.</p>"}</div>
+    </div>
+
+    <div class="panel-card">
+      <h3>Top products</h3>
+      <div class="top-products">
+        ${topRows || "<p style='color:var(--muted);font-size:13.5px'>No orders yet — product leaders will show here.</p>"}
       </div>
     </div>
   `;

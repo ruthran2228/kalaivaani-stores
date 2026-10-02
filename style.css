@@ -145,7 +145,9 @@ main,#shop{scroll-margin-top:120px}
   letter-spacing:.5px;box-shadow:0 8px 20px rgba(6,21,14,.28);flex:none;
   border:1px solid rgba(198,255,79,.28);
 }
-.brand strong{display:block;font-family:var(--font-display);font-size:16.5px;font-weight:800;letter-spacing:-.3px}
+.logo-img{width:46px;height:46px;border-radius:15px;object-fit:cover;display:block;flex:none;
+  background:#fff;box-shadow:0 8px 20px rgba(6,21,14,.28)}
+.brand strong{display:block;font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-.3px}
 .brand small{display:block;color:var(--muted);font-size:11px;font-weight:600;margin-top:1px;letter-spacing:.1px}
 
 .header-search{
@@ -609,8 +611,9 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
   .announcement{font-size:10px;padding:8px 0;letter-spacing:.6px}
   .site-header{height:auto;min-height:0;padding:calc(10px + env(safe-area-inset-top,0px)) 4% 8px;gap:10px;flex-wrap:wrap;position:static;margin-bottom:0}
   .brand{min-width:0;flex:1}
-  .brand strong{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand strong{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .logo-mark{width:39px;height:39px;border-radius:12px;font-size:13px}
+  .logo-img{width:39px;height:39px;border-radius:12px}
   .header-actions{margin-left:auto;gap:7px}
   .call-btn span,.cart-btn span,.track-btn span{display:none}
   .call-btn,.cart-btn,.track-btn{width:44px;height:44px;padding:0;justify-content:center}

@@ -115,6 +115,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   letter-spacing:.5px;box-shadow:0 8px 20px rgba(6,21,14,.28);flex:none;
   border:1px solid rgba(198,255,79,.28);
 }
+.logo-img{width:46px;height:46px;border-radius:15px;object-fit:cover;display:block;flex:none;
+  background:#fff;box-shadow:0 8px 20px rgba(6,21,14,.28)}
 .brand strong{display:block;font-family:var(--font-display);font-size:16.5px;font-weight:800;letter-spacing:-.3px}
 .brand small{display:block;color:var(--muted);font-size:11px;font-weight:600;margin-top:1px}
 .header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
@@ -712,6 +714,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   .page-header{padding:9px 12px;height:auto;min-height:64px;gap:9px}
   .brand small{display:none}
   .logo-mark{width:39px;height:39px;border-radius:12px;font-size:13px}
+  .logo-img{width:39px;height:39px;border-radius:12px}
   .brand strong{font-size:14.5px}
   .header-right{gap:7px}
   .back-btn,.logout-btn{height:40px;padding:0 13px;font-size:12.5px}
