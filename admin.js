@@ -1334,13 +1334,46 @@ async function handleCSVImport(event) {
       continue;
     }
 
+    // Fallback matcher: when a CSV row has no usable id, pair it with an
+    // existing product that shares the same name + group so re-imports UPDATE
+    // instead of inserting a brand-new duplicate row.
+    // - A single candidate  → update it.
+    // - Multiple sizes      → prefer the one with the same price.
+    // - Still ambiguous but all candidates are alike (same price & unit) →
+    //   treat them as interchangeable and update the first (no duplicate).
     const matches = existingByVariant.get(variantKey(record));
-    if (matches && matches.length === 1) {
-      toUpdate.push({ id: matches[0], ...record });
-    } else {
-      const { id, ...rest } = record;
-      toInsert.push(rest);
+    if (matches && matches.length) {
+      const samePrice = (a, b) =>
+        (a == null && b == null) || (typeof a === "number" && typeof b === "number" && a === b);
+
+      const priceMatch = matches.filter((id) => {
+        const db = PRODUCTS.find((x) => x.id === id);
+        return db && samePrice(db.price, record.price);
+      });
+
+      if (priceMatch.length === 1) {
+        toUpdate.push({ id: priceMatch[0], ...record });
+        continue;
+      }
+
+      const first = PRODUCTS.find((x) => x.id === matches[0]);
+      const allIdentical =
+        first &&
+        matches.every((id) => {
+          const db = PRODUCTS.find((x) => x.id === id);
+          return (
+            db && samePrice(db.price, first.price) && (db.unit || "") === (first.unit || "")
+          );
+        });
+
+      if (allIdentical) {
+        toUpdate.push({ id: matches[0], ...record });
+        continue;
+      }
     }
+
+    const { id, ...rest } = record;
+    toInsert.push(rest);
   }
 
   if (toInsert.length > 100) {
