@@ -13,7 +13,7 @@ const UPI_QR_AMOUNT_NOTE = "Open any UPI app and scan this QR to pay the exact o
 // Fallback when UPI_QR_IMAGE is unavailable — a generated QR from this VPA.
 // If payments from this VPA fail (e.g. "limit" errors), leave UPI_QR_IMAGE
 // pointing at the shop's own QR screenshot above instead of relying on this.
-const UPI_ID = "sskrohit143-3@oksbi";                        // ← your UPI VPA
+const UPI_ID = "paytmqr6p2aa0@ptys";                        // Paytm VPA — verified working, matches upi-qr.png
 const STORE_UPI_NAME = "Kalaivani Stores";
 
 // Session storage that survives private/incognito mode.
