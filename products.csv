@@ -1,365 +1,387 @@
-﻿"name","emoji","category","price","unit","image_url","group_key","in_stock","featured","sort_order","id"
-"GoodDay Biscuit","🍪","Snacks","10","per pack","https://tiimg.tistatic.com/fp/4/007/759/melt-in-mouth-delicious-nutty-taste-cashew-cookies-biscuits--917.jpg","GoodDay Biscuit","TRUE","FALSE","2","2"
-"GoodDay Biscuit","🍪","Snacks","20","per pack","","GoodDay Biscuit","TRUE","FALSE","3","3"
-"GoodDay Biscuit","🍪","Snacks","50","per pack","","GoodDay Biscuit","TRUE","FALSE","4","4"
-"GoodDay Biscuit chocolate","🍪","Snacks","10","per pack","https://m.media-amazon.com/images/I/51rF4C5N0ZL.jpg","GoodDay Biscuit chocolate","TRUE","FALSE","5","5"
-"Britannia Bourbon","🍪","Snacks","10","per pack","https://penjumart.com/wp-content/uploads/2026/01/Britania-bourbon-Biscuit-%E2%82%B910-Pack-4d1d.jpg","Britannia Bourbon","TRUE","FALSE","6","6"
-"Britannia Bourbon","🍪","Snacks","20","per pack","","Britannia Bourbon","TRUE","FALSE","7","7"
-"milk bikies","","snacks","5","per pack","https://m.media-amazon.com/images/I/717KdiU2NyL.jpg","milk bikies","TRUE","FALSE","8","8"
-"milk bikies","","snacks","10","per pack","","milk bikies","TRUE","FALSE","9","9"
-"milk bikies","","snacks","30","per pack","","milk bikies","TRUE","FALSE","10","10"
-"milk bikies cream","","snacks","10","per pack","https://pallapattionline.com/wp-content/uploads/2025/01/1000094538.png","milk bikies cream","TRUE","FALSE","11","11"
-"Marie Gold","🍪","Snacks","5","per pack","https://m.media-amazon.com/images/I/71oNn1KQMbL.jpg","Marie Gold","TRUE","FALSE","12","12"
-"Marie Gold","🍪","Snacks","10","per pack","","Marie Gold","TRUE","FALSE","13","13"
-"Marie Gold","🍪","Snacks","30","per pack","","Marie Gold","TRUE","FALSE","14","14"
-"tiger krunch","","snacks","5","per pack","https://andamangreengrocers.com/wp-content/uploads/2024/06/crunch-300x300.webp","tiger krunch","TRUE","FALSE","15","15"
-"tiger cream","","snacks","5","per pack","https://i.pinimg.com/originals/b9/f9/c2/b9f9c2e024815aa1379b39303dcd5484.jpg","tiger cream","TRUE","FALSE","16","16"
-"Parle-G Biscuit","🍘","Snacks","5","per pack","https://m.media-amazon.com/images/I/61kZskdmJzL.jpg","Parle-G Biscuit","TRUE","FALSE","17","17"
-"Parle-G Biscuit","🍘","Snacks","10","per pack","","Parle-G Biscuit","TRUE","FALSE","18","18"
-"50-50","","Snacks","5","per pack","https://m.media-amazon.com/images/I/51-h5JxW3hL.jpg","50-50","TRUE","FALSE","19","19"
-"50-50","","Snacks","10","per pack","","50-50","TRUE","FALSE","20","20"
-"jim jam","","snacks","10","per pack","https://regalplus.com/cdn/shop/files/jimjam.webp?v=1736527548&width=1080","jim jam","TRUE","FALSE","21","21"
-"britania treat","","snacks","10","per pack","https://www.quickpantry.in/cdn/shop/products/britannia-treat-chocolate-cream-biscuits-60-g-quick-pantry.jpg?v=1710538227&width=1214","britania treat","TRUE","FALSE","22","22"
-"toastea (rusk)","","snacks","10","per pack","https://www.vridhistores.com/uploads/2025/Apr/products/17453280629955.jpg","toastea (rusk)","TRUE","FALSE","23","23"
-"britania cake","","snacks","15","per pack","https://a2zgrocer.com/wp-content/uploads/2024/11/image_JKW.webp","britania cake","TRUE","FALSE","24","24"
-"happy happy","","Snacks","5","per pack","https://www.vishalmegamart.com/dw/image/v2/BGHT_PRD/on/demandware.static/-/Sites-vmm-fmcg-master-catalog/default/dw785be691/images/large/1310010424.jpg?sw=900&sh=900","happy happy","TRUE","FALSE","25","25"
-"happy happy","","Snacks","10","per pack","","happy happy","TRUE","FALSE","26","26"
-"crack jack","","Snacks","10","per pack","https://m.media-amazon.com/images/I/71Zp9udMcAL.jpg","crack jack","TRUE","FALSE","27","27"
-"hide&seek","","snacks","30","per pack","https://services.kpnfresh.com/media/v1/products/images/38d0d60a-8250-4d21-bcca-adad965edb5b/parle-hide-seek-chocolate-chip-biscuits.webp?c_type=C1","hide&seek","TRUE","FALSE","28","28"
-"sunfeast bounce","","snacks","5","per pack","https://silver-shades-25.github.io/cdn.shopify.com/s/files/1/0173/7644/4470/files/2_3b07b67d-e6bf-4db6-b4c6-d27cff908d2ba0c6.jpg?v=1618505376","sunfeast bounce","TRUE","FALSE","29","29"
-"britania treat","","Snacks","10","per pack","","britania treat","TRUE","FALSE","30","30"
-"mom's magic","","Snacks","10","per pack","https://5.imimg.com/data5/SELLER/Default/2023/7/323266471/CM/YD/ST/192118753/whatsapp-image-2023-07-07-at-11-54-20-1000x1000.jpeg","mom's magic","TRUE","FALSE","31","31"
-"Dark fantacy","","Snacks","10","per pack","https://services.kpnfresh.com/media/v1/products/images/ad43020c-6b34-4a3f-b5c9-92603a0c731a/sunfeast-dark-fantasy-choco-fills-cookies.webp?c_type=C1","Dark fantacy","TRUE","FALSE","32","32"
-"Dark fantacy","","snacks","40","per pack","","Dark fantacy","TRUE","FALSE","33","33"
-"Dark fantacy cream","","snacks","10","per pack","https://m.media-amazon.com/images/I/71Ak1hr63WL.jpg","Dark fantacy cream","TRUE","FALSE","34","34"
-"marie light","","snacks","10","per pack","https://images-eu.ssl-images-amazon.com/images/I/81W+pBrbwXL._AC_UL300_SR300,200_.jpg","marie light","TRUE","FALSE","35","35"
-"marie light orange","","snacks","10","per pack","https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=85,metadata=none,w=480,h=480/da/cms-assets/cms/product/e37e33cc-423c-49af-ac67-cacdf7d3f4de.jpg","marie light orange","TRUE","FALSE","36","36"
-"oreo","","snacks","10","per pack","https://www.quickpantry.in/cdn/shop/products/cadbury-oreo-creame-biscuit-vanilla-46-3-g-quick-pantry.jpg?v=1710538227&width=1214","oreo","TRUE","FALSE","37","37"
-"lays magic masala","","Snacks","5","per pack","https://gargdastak.com/wp-content/uploads/2022/04/laysa.jpg","lays magic masala","TRUE","FALSE","38","38"
-"lays creamy onion","","Snacks","5","per pack","https://m.media-amazon.com/images/I/61TGmxFG8XL.jpg","lays creamy onion","TRUE","FALSE","39","39"
-"lays tomato","","Snacks","5","per pack","https://www.kiranapoorti.com/image/cache/catalog/BISCUITS/spanish%20potato-550x550.jpeg","lays tomato","TRUE","FALSE","40","40"
-"lays sweet&chilly","","snacks","5","per pack","https://m.media-amazon.com/images/I/718mIkrmCfL.jpg","lays sweet&chilly","TRUE","FALSE","41","41"
-"lays salt","","snacks","5","per pack","https://m.media-amazon.com/images/I/61FXwBMClcL.jpg","lays salt","TRUE","FALSE","42","42"
-"kurkure masala munch","","snacks","5","per pack","https://sku.anycart.com/m/i/weee--2838454","kurkure masala munch","TRUE","FALSE","43","43"
-"kurkure tomato","","snacks","5","per pack","https://www.takoramart.com/_next/image?url=https://images.takoramart.com/products/1777987364748-KUREKURENAUGHTYRE-SEIZED9999.png&w=3840&q=75","kurkure tomato","TRUE","FALSE","44","44"
-"bingo tedhe medhe","","Snacks","5","per pack","https://www.vishalmegamart.com/dw/image/v2/BGHT_PRD/on/demandware.static/-/Sites-vmm-fmcg-master-catalog/default/dw635d09b6/images/large/1310013277.jpg?sw=900&sh=900","bingo tedhe medhe","TRUE","FALSE","45","45"
-"Murukku","🌀","Snacks","20","per pack","https://t4.ftcdn.net/jpg/06/29/66/97/360_F_629669777_re8fZaGGLq8YxOSlSBoe3NS6uVE9V1dr.jpg","Murukku","TRUE","FALSE","46","46"
-"Mixture","🥜","Snacks","20","per pack","https://thumbs.dreamstime.com/b/navrattan-namkeen-mixture-indian-nimko-snack-spicy-sweet-farsaan-texture-background-pattern-street-food-baked-nuts-grains-416924927.jpg","Mixture","TRUE","FALSE","47","47"
-"kaaraboonthi","","snacks","20","per pack","https://www.karkarafoods.com/media/items/Kara%20Boondi/telangana-snack-kara-boondi-1.jpeg","kaaraboonthi","TRUE","FALSE","48","48"
-"banana chips","","snacks","20","per pack","https://chandravilas.com/wp-content/uploads/2022/09/Banana-Chips-yellow-zoom.jpg","banana chips","TRUE","FALSE","49","49"
-"pacha pattani","","snacks","20","per pack","https://shreemsweetsandbakery.com/wp-content/uploads/2020/12/fried-green-peas-600x600.jpg","pacha pattani","TRUE","FALSE","50","50"
-"arisi murukku","","snacks","20","per pack","https://i0.wp.com/www.chitrasfoodbook.com/wp-content/uploads/2014/10/arisi-murukku.jpg?w=1200&ssl=1","arisi murukku","TRUE","FALSE","51","51"
-"potato chips","","snacks","20","per pack","https://static.vecteezy.com/system/resources/thumbnails/071/003/966/small/crispy-potato-chips-close-up-of-delicious-thinly-sliced-potato-chips-photo.jpg","potato chips","TRUE","FALSE","52","52"
-"kaarasevu","","Snacks","20","per pack","https://www.sharmispassions.com/wp-content/uploads/2011/10/kara-sev6.jpg","kaarasevu","TRUE","FALSE","53","53"
-"masaal kadalai","","Snacks","20","per pack","https://www.jinooskitchen.com/wp-content/uploads/2020/05/masala-peanuts-recipe.jpg","masaal kadalai","TRUE","FALSE","54","54"
-"kuchi chips","","Snacks","20","per pack","https://m.media-amazon.com/images/I/417VVu11TVL.jpg","kuchi chips","TRUE","FALSE","55","55"
-"patta chips","","Snacks","20","per pack","https://enchipsu.com/cdn/shop/products/tapoicca_chipsj.jpg?v=1652210321&width=1946","patta chips","TRUE","FALSE","56","56"
-"potato chilly","","snacks","20","per pack","https://snackattack.in/images/products/2804d053-4657-4a91-86f4-7b4adefc870bthumb.jpg","potato chilly","TRUE","FALSE","57","57"
-"tilo(green)-100ml","","Beverages","10","bottle","https://dukaan.b-cdn.net/700x700/webp/587428/ecca7ef7-01be-478d-b78c-e09557af6ea2.png","tilo(green)-100ml","TRUE","FALSE","58","58"
-"tilo(black)-100ml","","Beverages","10","bottle","https://img1.exportersindia.com/product_images/bc-small/dir_177/5281281/mix-fruit-juice-1511350429-3469845.jpeg","tilo(black)-100ml","TRUE","FALSE","59","59"
-"tilo(orange)-100ml","","Beverages","10","bottle","https://dukaan.b-cdn.net/700x700/webp/587428/684b6794-d003-46d0-b970-4e4d1f27daae.png","tilo(orange)-100ml","TRUE","FALSE","60","60"
-"sprit-250ml","","Beverages","20","bottle","https://5.imimg.com/data5/SELLER/Default/2025/6/522512814/BZ/TB/WQ/182306839/sprite-bottle-250-ml-250x250.jpg","sprit-250ml","TRUE","FALSE","61","61"
-"sprit-750ml","","Beverages","35","bottle","https://www.vishalmegamart.com/dw/image/v2/BGHT_PRD/on/demandware.static/-/Sites-vmm-fmcg-master-catalog/default/dw95094731/images/large/1310014961.jpg?sw=400&sh=400","sprit-750ml","TRUE","FALSE","62","62"
-"sprit-2.2l","","Beverages","100","bottle","https://m.media-amazon.com/images/I/51uyMSzdbBL.jpg","sprit-2.2l","TRUE","FALSE","63","63"
-"cocacola-250ml","","Beverages","20","bottle","https://m.media-amazon.com/images/I/71rtyKeefDL.jpg","cocacola-250ml","TRUE","FALSE","64","64"
-"cocacola-750ml","","Beverages","35","bottle","https://tiimg.tistatic.com/fp/1/005/398/coca-cola-cold-drink-331.jpg","cocacola-750ml","TRUE","FALSE","65","65"
-"cocacola-2.2l","","Beverages","100","bottle","https://5.imimg.com/data5/CY/XH/LR/SELLER-102894273/2-ltr-coca-cola-cold-drink-1000x1000.jpeg","cocacola-2.2l","TRUE","FALSE","66","66"
-"fanta-250ml","","Beverages","20","bottle","https://5.imimg.com/data5/SELLER/Default/2025/7/523528123/WV/LS/GO/182306839/250-ml-fanta-cold-drink-500x500.jpg","fanta-250ml","TRUE","FALSE","67","67"
-"fanta-750ml","","Beverages","35","bottle","https://thaneshop.com/wp-content/uploads/2025/03/Fanta-Cold-Drink-750ml.jpg","fanta-750ml","TRUE","FALSE","68","68"
-"maaza-600ml","","Beverages","40","bottle","https://tiimg.tistatic.com/fp/1/007/787/-mango-original-flavor-authentic-and-refreshing-experience-sweet-rich-and-thick-maaza-cold-drink--996.jpg","maaza-600ml","TRUE","FALSE","69","69"
-"Pepsi -250ml","","Beverages","20","bottle","https://cpimg.tistatic.com/06656696/b/4/500-ml-Pepsi-Soft-Drink.jpg","Pepsi -250ml","TRUE","FALSE","70","70"
-"Pepsi -750ml","","Beverages","40","bottle","https://m.media-amazon.com/images/I/31SLpbOpGYL.jpg","Pepsi -750ml","TRUE","FALSE","71","71"
-"Pepsi -2.2l","","Beverages","100","bottle","https://5.imimg.com/data5/NX/EK/SO/SELLER-78937821/1-5l-pepsi-cold-drink-500x500.jpg","Pepsi -2.2l","TRUE","FALSE","72","72"
-"7up-250ml","","Beverages","20","bottle","https://m.media-amazon.com/images/I/71jE1HyVBlL.jpg","7up-250ml","TRUE","FALSE","73","73"
-"7up-750ml","","Beverages","40","bottle","https://5.imimg.com/data5/SELLER/Default/2025/5/511793861/HN/OY/VA/244860561/180ml-coca-cola-250x250.jpg","7up-750ml","TRUE","FALSE","74","74"
-"7up-2.2ml","","Beverages","100","bottle","https://m.media-amazon.com/images/I/41xxqzGdauL.jpg","7up-2.2ml","TRUE","FALSE","75","75"
-"mirinda-250ml","","Beverages","20","bottle","https://tiimg.tistatic.com/fp/1/007/686/tangy-orange-flavored-fizzy-sweet-mirinda-soft-drink--220.jpg","mirinda-250ml","TRUE","FALSE","76","76"
-"mirinda-750ml","","Beverages","40","bottle","https://gharstuff.com/wp-content/uploads/2018/03/Mirinda-Soft-Drink-Bottle-750ml-4.jpg","mirinda-750ml","TRUE","FALSE","77","77"
-"mirinda-2.2ml","","Beverages","100","bottle","https://tiimg.tistatic.com/fp/1/007/501/orange-mirinda-soft-drink-contains-water-sweetener-and-natural-or-artificial-flavoring-214.jpg","mirinda-2.2ml","TRUE","FALSE","78","78"
-"slice-500ml","","Beverages","40","bottle","https://sbsfoodmart.com/wp-content/uploads/2025/05/311a-1.jpg","slice-500ml","TRUE","FALSE","79","79"
-"string-200ml","","Beverages","20","bottle","https://gharstuff.com/wp-content/uploads/2024/04/374687a.jpg","string-200ml","TRUE","FALSE","80","80"
-"mounten dew-250ml","","Beverages","20","bottle","https://5.imimg.com/data5/SELLER/Default/2024/10/458465585/PJ/OC/SH/41884764/51bsuaioy1l-500x500.jpg","mounten dew-250ml","TRUE","FALSE","81","81"
-"mounten dew-750ml","","Beverages","40","bottle","https://5.imimg.com/data5/SELLER/Default/2022/10/VR/UF/HE/122397313/mountain-dew-3003-250x250.jpg","mounten dew-750ml","TRUE","FALSE","82","82"
-"water bottle-500ml","","Beverages","10","bottle","https://m.media-amazon.com/images/I/51rITnSVs7L.jpg","water bottle-500ml","TRUE","FALSE","83","83"
-"water bottle-1l","","Beverages","20","bottle","https://tiimg.tistatic.com/fp/1/007/941/1-liter-non-chemical-thick-and-strong-drinking-fresh-kinley-mineral-water-125.jpg","water bottle-1l","TRUE","FALSE","84","84"
-"Milk - 200ml","","Dairy","10","packet","https://indbiz.in/wp-content/uploads/2024/04/article-4-430x409.jpeg","Milk - 200ml","TRUE","FALSE","85","85"
-"Milk - 500ml","","Dairy","30","packet","https://cdn.zeptonow.com/production/ik-seo/tr:w-470,ar-2400-2400,pr-true,f-auto,q-40,dpr-2/cms/product_variant/f502ada4-530d-4aed-9c7f-7ae0b118ea04/Aavin-Gold-Fresh-Milk-Pouch.jpeg","Milk - 500ml","TRUE","FALSE","86","86"
-"curd","","Dairy","10","packet","https://abhisristores.com/wp-content/uploads/2025/05/1-8.webp","curd-100ml","TRUE","FALSE","87","87"
-"curd","","Dairy","35","packet","","curd-100ml","TRUE","FALSE","88","88"
-"huston curd","","Dairy","30","cup","https://www.hap.in/hatsun/images/curd/big/HATSUN-CURD-Cup-200g.jpg","huston curd","TRUE","FALSE","89","89"
-"huston buttermilk","","Dairy","10","cup","https://m.media-amazon.com/images/I/41yiICheYUL.jpg","huston buttermilk","TRUE","FALSE","90","90"
-"Sugar","","Dairy","57","per kg","https://static.vecteezy.com/system/resources/thumbnails/071/445/804/small/a-black-and-white-of-a-sugar-cube-photo.jpeg","Sugar","TRUE","FALSE","91","91"
-"Butter-100g","","Dairy","85","pack","https://bigbullmart.com/image/catalog/Product1/hatsun-pasteurised-cooking-butter-500g-carton.jpeg","Butter -100g","TRUE","FALSE","92","92"
-"Paneer - 200g","","Dairy","90","pack","https://shop.sanmarfoods.com/cdn/shop/files/Hatsun_Paneer-2.jpg?v=1759898250&width=3840","Paneer-200g","TRUE","FALSE","93","93"
-"cheese-50g","","Dairy","20","pack","https://5.imimg.com/data5/SELLER/Default/2023/5/312283990/FA/QI/QS/24906100/hatsun-cheese-spread-500x500.png","cheese-50g","TRUE","FALSE","94","94"
-"3 Roses","","Dairy","5","packet","https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/3c07fc97-2f5f-449f-bd7a-e506d24bc019/3-Roses-Dust-Tea.jpeg","3 Roses","TRUE","FALSE","95","95"
-"3 Roses","","Dairy","10","packet","","3 Roses","TRUE","FALSE","96","96"
-"3 Roses","","Dairy","45","packet","","3 Roses","TRUE","FALSE","97","97"
-"3 Roses","","Dairy","90","packet","","3 Roses","TRUE","FALSE","98","98"
-"3 Roses Nature Care","","Dairy","10","packet","https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/d65805cb-0e6c-43c7-a02f-2cef95aeb0f1/3-Roses-Natural-Care-Tea.jpeg","3 Roses Nature Care","TRUE","FALSE","99","99"
-"3 Roses Nature Care","","Dairy","100","packet","","3 Roses Nature Care","TRUE","FALSE","100","100"
-"AVT Gold Cup","","Dairy","5","packet","https://m.media-amazon.com/images/I/41VX15sBc+L.jpg","AVT Gold Cup","TRUE","FALSE","101","101"
-"AVT Gold Cup","","Dairy","10","packet","","AVT Gold Cup","TRUE","FALSE","102","102"
-"AVT Gold Cup","","Dairy","90","packet","https://avtbeverages.com/wp-content/uploads/2022/11/01-new.jpg","AVT Gold Cup","TRUE","FALSE","103","103"
-"Chakra Gold","","Dairy","5","packet","https://cdn.ppsnco.com/wp-content/uploads/2021/10/Tata-Chakra-Gold-Tea-300x300-1.jpg","Chakra Gold","TRUE","FALSE","104","104"
-"Chakra Gold","","Dairy","10","packet","","Chakra Gold","TRUE","FALSE","105","105"
-"Chakra Gold","","Dairy","45","packet","https://cdn.ppsnco.com/wp-content/uploads/2021/10/Tata-Chakra-Gold-Tea-300x300-1.jpg","Chakra Gold","TRUE","FALSE","106","106"
-"Chakra Gold","","Dairy","90","packet","","Chakra Gold","TRUE","FALSE","107","107"
-"Bru","","Dairy","2","packet","https://i.pinimg.com/originals/a6/fc/10/a6fc1097eb1da1c3ef9bd4f805a56cf8.jpg","Bru","TRUE","FALSE","108","108"
-"Bru","","Dairy","5","packet","","Bru","TRUE","FALSE","109","109"
-"Bru","","Dairy","10","packet","","Bru","TRUE","FALSE","110","110"
-"Sunrises","","Dairy","2","packet","https://indbiz.in/wp-content/uploads/2024/04/71Un8MRH2ZL._SL1500_.jpg","Sunrises","TRUE","FALSE","111","111"
-"Sunrises","","Dairy","5","packet","","Sunrises","TRUE","FALSE","112","112"
-"Sunrises","","Dairy","10","packet","","Sunrises","TRUE","FALSE","113","113"
-"Boost","","Dairy","5","packet","https://cdn2.clevup.in/394829/SKU-0448_0-1728187125116.jpg?width=600&format=webp","Boost","TRUE","FALSE","114","114"
-"Horlicks","","Dairy","5","packet","https://m.media-amazon.com/images/I/61jhWKtoNgL.jpg","Horlicks","TRUE","FALSE","115","115"
-"Badham milk powder(20g)","","Dairy","10","packet","https://rukminim2.flixcart.com/image/800/1070/xif0q/milk-drink-mix/e/r/c/-original-imagu7yb7zjabcns.jpeg?q=90","Badham milk powder(20g)","TRUE","FALSE","116","116"
-"bread","","Dairy","25","packet","https://media.istockphoto.com/id/125965164/photo/sliced-toast-bread.jpg?s=612x612&w=0&k=20&c=TQ97BrGFD0xiVgGo386JsA6ncz0ZmyJ0EOycR2xGAzs=","bread","TRUE","FALSE","117","117"
-"bread","","Dairy","40","packet","","bread","TRUE","FALSE","118","118"
-"ghee","","Dairy","10","packet","https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=85,metadata=none,w=480,h=480/da/cms-assets/cms/product/2128014c-a680-48ec-8bf3-537a1c99fa24.jpg","ghee","TRUE","FALSE","119","119"
-"ghee","","Dairy","50","packet","https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=85,metadata=none,w=480,h=480/da/cms-assets/cms/product/669a56e1-5c8c-4870-816c-13a1b357094e.jpg","ghee","TRUE","FALSE","120","120"
-"ghee","","Dairy","100","packet","","ghee","TRUE","FALSE","121","121"
-"ghee","","Dairy","470","packet","","ghee","TRUE","FALSE","122","122"
-"IR20 Boiled rice","","Groceries","60","per kg","https://cpimg.tistatic.com/06775944/b/4/White-Rice.jpg","IR20 Rice-1kg","TRUE","FALSE","123","123"
-"Ponni Boiled rice","","Groceries","70","per kg","https://www.biobasics.org/cdn/shop/files/buy-semi-polished-organic-ponni-rice-online-at-bio-basics-store.png?v=1755700034&width=1000","ponni boiled rice-1kg","TRUE","FALSE","124","124"
-"Idly rice","","Groceries","55","per kg","https://www.greendna.in/cdn/shop/files/IdliRice_600x.jpg?v=1747124867","idly rice-1kg","TRUE","FALSE","125","125"
-"Raw rice","","Groceries","55","per kg","https://t4.ftcdn.net/jpg/21/15/15/37/360_F_2115153775_FW50ZlFMYvTLJFyGQ6xXwJgBUQ0eyLv3.jpg","raw rice","TRUE","FALSE","126","126"
-"India gate  ROZZONA Basmathi rice","","Groceries","55","per kg","https://cdn.zeptonow.com/production/ik-seo/tr:w-470,ar-1746-1746,pr-true,f-auto,q-40,dpr-2/cms/product_variant/6f5888a8-609e-4afd-94f8-259326642350/India-Gate-All-Rounder-Feast-Rozzana-Basmati-Rice-Aged-Rice-Fluffy-and-Non-Sticky.jpeg","India gate  ROZZONA Basmathi rice","TRUE","FALSE","127","127"
-"Indiagate DUBAR  Basmathi rice","","Groceries","100","pack","https://m.media-amazon.com/images/I/41ftK4PLu6L.jpg","Indiagate DUBAR  Basmathi rice","TRUE","FALSE","128","128"
-"Kadalai paruppu","","Groceries","55","pack","https://myharvestfarms.com/cdn/shop/files/buy-bengal-gram-healthy-pulse-for-heart-wellness.webp?v=1787209204&width=1946","Kadalai paruppu","TRUE","FALSE","129","129"
-"Thovaram paruppu","","Groceries","130","per kg","https://cdn2.clevup.in/271829/1667899973713_SKU-0052_0.jpeg?width=600&format=webp","Thovaram paruppu","TRUE","FALSE","130","130"
-"Paasi paruppu","","Groceries","140","per kg","https://m.media-amazon.com/images/I/71oitsKHarL.jpg","Paasi paruppu","TRUE","FALSE","131","131"
-"Maysoor paruppu","","Groceries","130","per kg","https://cpimg.tistatic.com/08964043/b/5/Masoor-Dal.png","Maysoor paruppu","TRUE","FALSE","132","132"
-"Black channa","","Groceries","100","per kg","https://www.organicgyaan.com/cdn/shop/files/Black-Chana.jpg?v=1721397779&width=1214","Black channa","TRUE","FALSE","133","133"
-"White channa","","Groceries","100","per kg","https://m.media-amazon.com/images/I/511TeDxNkcL.jpg","White channa","TRUE","FALSE","134","134"
-"Pacha pairu","","Groceries","140","per kg","https://5.imimg.com/data5/ANDROID/Default/2022/7/JV/MY/YP/106652660/product-jpeg-500x500.jpg","Pacha pairu","TRUE","FALSE","135","135"
-"Thatta pairu","","Groceries","140","per kg","https://nattumarunthukadai.com/wp-content/uploads/2024/12/perum-payaru.jpg","Thatta pairu","TRUE","FALSE","136","136"
-"Kollu","","Groceries","130","per kg","https://rukminim2.flixcart.com/image/800/1070/xif0q/pulses/g/n/m/2-kollu-horse-gram-kulthi-2kg-2-horse-gram-organic-valley-original-imah3zqk3hfmntsq.jpeg?q=80","Kollu","TRUE","FALSE","137","137"
-"Avarara paruppu","","Groceries","140","per kg","https://m.media-amazon.com/images/I/61X8jUoCn4L.jpg","Arara paruppu","TRUE","FALSE","138","138"
-"Ulutham paruppu","","Groceries","110","per kg","https://standardcoldpressedoil.com/wp-content/uploads/2022/11/Ulutham-Paruppu.jpg","Ulutham paruppu","TRUE","FALSE","139","139"
-"Pottu kadalai","","Groceries","90","per kg","https://www.yummytummyaarthi.com/wp-content/uploads/2016/11/IMG_5293.jpg","Pattu kadalai","TRUE","FALSE","140","140"
-"Vadai paruppu","","Groceries","380","per kg","https://eangadi.in/image/cache/catalog/Chicken/4-350x350.jpg","Vadai paruppu","TRUE","FALSE","141","141"
-"Puli","","Groceries","180","per kg","https://spicebasket.com/cdn/shop/files/tamarind-valam-puli-1338918.jpg?v=1759023541&width=1946","Puli","TRUE","FALSE","142","142"
-"Kadagu","","Groceries","","per pack","https://5.imimg.com/data5/ANDROID/Default/2021/2/UR/JB/QQ/103051066/product-jpeg-1000x1000.jpg","Kadagu","TRUE","FALSE","143","143"
-"Jeeragam","","Groceries","380","per kg","https://static.sadhguru.org/d/46272/1653649272-seeragam.jpg","Jeeragam","TRUE","FALSE","144","144"
-"Sombu","","Groceries","","per pack","https://thumbs.dreamstime.com/b/close-up-fennel-seed-white-background-124412700.jpg","Sombu","TRUE","FALSE","145","145"
-"Venthaigam","","Groceries","","per pack","https://imagesvs.oneindia.com/ta/img/2023/03/6bn0kgl5-tile-1678964351.jpg","Venthaigam","TRUE","FALSE","146","146"
-"Pattai","","Groceries","","per pack","https://myharvestfarms.com/cdn/shop/files/cinnamon-bark.jpg?v=1775037628&width=500","Pattai","TRUE","FALSE","147","147"
-"Krambu","","Groceries","","per pack","https://media.istockphoto.com/id/2149020853/photo/dry-cloves-in-wooden-scoop-isolated-on-white-background-with-clipping-path-top-view-flat-lay.jpg?s=612x612&w=0&k=20&c=2f0vXGja1AzwfiOkMxCyKGIr438S5GweKFAyrk9FKGc=","Krambu","TRUE","FALSE","148","148"
-"Elachi","","Groceries","","per pack","https://img.jagranjosh.com/images/2026/05/11/template/image/choti-Elaichi-1778492255920.jpg","Elachi","TRUE","FALSE","149","149"
-"Biriyani Selavu","","Groceries","","per pack","https://m.media-amazon.com/images/I/81gssNn5kUL.jpg","Biriyani Selavu","TRUE","FALSE","150","150"
-"Gundu vellam","","Groceries","","","https://ueirorganic.com/cdn/shop/files/gunduvellam-800x800.jpg?v=1692949994&width=720","Gundu vellam","TRUE","FALSE","151","151"
-"Country sugar","","Groceries","","","https://media.gettyimages.com/id/859399090/photo/brown-muscovado-sugar.jpg?s=612x612&w=0&k=20&c=xgCN5Wt47_pXTvj5kbedomoyhzr6FXBT6tE6Qj0UY8M=","Country sugar","TRUE","FALSE","152","152"
-"Cashew","","Groceries","","per pack","https://media.gettyimages.com/id/171356441/photo/cashews.jpg?s=612x612&w=0&k=20&c=ixKBUXUafuqtAAgkUYbzZXBA6BrwJNfpGnlQUXjYlq4=","Cashew","TRUE","FALSE","153","153"
-"Dry grapes","","Groceries","","per pack","https://t4.ftcdn.net/jpg/02/99/69/65/360_F_299696561_eNbD23ZViKAE44pj4CEjnyRDmRdYcu66.jpg","Dry grapes","TRUE","FALSE","154","154"
-"Red chilli","","Groceries","","","https://media.istockphoto.com/id/1514587971/photo/red-chili-pepper-isolated-on-plain-black-background.jpg?s=612x612&w=0&k=20&c=Bhe1K6j0LU9SiuHxhjq-KZKeE-10Cznktq9eDe2rav4=","Red chilli","TRUE","FALSE","155","155"
-"Avul","","Groceries","","","https://www.atrshoppe.com/cdn/shop/files/IMG-7662.jpg?v=1754649303&width=1445","Avul","TRUE","FALSE","156","156"
-"Tata Salt","","Groceries","","per pack","https://budgetbazaar.online/wp-content/uploads/2023/01/BBP2017-500x500.jpg","Tata Salt","TRUE","FALSE","157","157"
-"Tata Salt","","Groceries","","per pack","https://budgetbazaar.online/wp-content/uploads/2023/01/BBP2017-500x500.jpg","Tata Salt","TRUE","FALSE","158","158"
-"Salt","","Groceries","","per pack","https://media.istockphoto.com/id/848612696/photo/white-salt.jpg?s=612x612&w=0&k=20&c=M5fg6mtJfY98z7PFdfJJSYNDKsTXax64XtuJjOD4o7c=","Salt","TRUE","FALSE","159","159"
-"Rock Salt","","Groceries","","per pack","https://cdn.pixabay.com/photo/2024/10/02/09/45/salt-9090373_640.jpg","Rock Salt","TRUE","FALSE","160","160"
-"Rock Salt","","Groceries","","per pack","https://cdn.pixabay.com/photo/2024/10/02/09/45/salt-9090373_640.jpg","Rock Salt","TRUE","FALSE","161","161"
-"Tata rock salt","","Groceries","","per pack","https://m.media-amazon.com/images/I/417cIWEEYQL.jpg","Tata rock salt","TRUE","FALSE","162","162"
-"Green peas","","Groceries","","per pack","https://static.vecteezy.com/system/resources/thumbnails/085/157/382/small/fresh-green-peas-in-wooden-bowl-free-photo.jpg","Green peas","TRUE","FALSE","163","163"
-"Fried peanut","","Groceries","","","https://www.shutterstock.com/image-photo/fried-peanuts-on-small-brown-600nw-2610088323.jpg","Fried peanut","TRUE","FALSE","164","164"
-"Nonfried peanut","","Groceries","","","https://cdn.pixabay.com/photo/2015/02/05/05/58/food-624600_640.jpg","Nonfried peanut","TRUE","FALSE","165","165"
-"Raw pepper","","Groceries","","","https://media.istockphoto.com/id/469858939/photo/black-pepper.jpg?s=612x612&w=0&k=20&c=GwF_EvFrYNtwTdY5DN9gRS1eJnRf949jUQeqgqoLExE=","Raw pepper","TRUE","FALSE","166","166"
-"Tamarind powder","","Groceries","10","per pack","https://honeystore.in/cdn/shop/files/10.jpg?v=1728921973&width=1946","Tamarind powder","TRUE","FALSE","167","167"
-"Tamarind powder","","Groceries","15","per pack","","Tamarind powder","TRUE","FALSE","168","168"
-"Tamarind powder","","Groceries","140","per pack","","Tamarind powder","TRUE","FALSE","169","169"
-"Coriander powder","","Groceries","10","per pack","https://m.media-amazon.com/images/I/71bh0CL56sL.jpg","Coriander powder","TRUE","FALSE","170","170"
-"Coriander powder","","Groceries","20","per pack","","Coriander powder","TRUE","FALSE","171","171"
-"Coriander powder","","Groceries","140","per pack","","Coriander powder","TRUE","FALSE","172","172"
-"Chicken masala","","Groceries","10","per pack","https://bisonmart.in/wp-content/uploads/2025/08/chkonmasala.webp","Chicken masala","TRUE","FALSE","173","173"
-"Chicken masala","","Groceries","20","per pack","","Chicken masala","TRUE","FALSE","174","174"
-"Chicken masala","","Groceries","140","per pack","","Chicken masala","TRUE","FALSE","175","175"
-"Sambar masala","","Groceries","10","per pack","https://bisonmart.in/wp-content/uploads/2025/08/sakthisambar.webp","Sambar masala","TRUE","FALSE","176","176"
-"Sambar masala","","Groceries","20","per pack","","Sambar masala","TRUE","FALSE","177","177"
-"Sambar masala","","Groceries","180","per pack","","Sambar masala","TRUE","FALSE","178","178"
-"Chilli powder","","Groceries","10","per pack","https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_600,h_600/https://ootymart.com/wp-content/uploads/2025/03/IMG-20250324-WA0044-600x600.jpg","Chilli powder","TRUE","FALSE","179","179"
-"Chilli powder","","Groceries","20","per pack","","Chilli powder","TRUE","FALSE","180","180"
-"Chilli powder","","Groceries","165","per pack","","Chilli powder","TRUE","FALSE","181","181"
-"Garam masala","","Groceries","10","per pack","https://grocerynxt.com/assets/uploads/media-uploader/untitled-design-2024-05-24t1532269951716544956.jpg","Garam masala","TRUE","FALSE","182","182"
-"Garam masala","","Groceries","30","per pack","","Garam masala","TRUE","FALSE","183","183"
-"Pepper powder","","Groceries","10","per pack","https://expat-mart.com/media/catalog/product/cache/921b6d2227da0d2e65f115d2b30a8742/s/a/sakthi-pepper-powder.jpeg","Pepper powder","TRUE","FALSE","184","184"
-"Pepper powder","","Groceries","65","per pack","","Pepper powder","TRUE","FALSE","185","185"
-"Curry masala","","Groceries","10","per pack","https://grocerynxt.com/assets/uploads/media-uploader/untitled-design-2024-05-27t1532165681716804144.jpg","Curry masala","TRUE","FALSE","186","186"
-"Curry masala","","Groceries","25","per pack","","Curry masala","TRUE","FALSE","187","187"
-"Curry masala","","Groceries","210","per pack","","Curry masala","TRUE","FALSE","188","188"
-"Mutton masala","","Groceries","10","per pack","https://www.ahhaariyas.com/cdn/shop/files/SAKTHIMUTTONMASALA.png?v=1742016767&width=1946","Mutton masala","TRUE","FALSE","189","189"
-"Mutton masala","","Groceries","25","per pack","","Mutton masala","TRUE","FALSE","190","190"
-"Mutton masala","","Groceries","210","per pack","","Mutton masala","TRUE","FALSE","191","191"
-"Rasa powder","","Groceries","10","per pack","https://m.media-amazon.com/images/I/411OZkD8g2L.jpg","Rasa powder","TRUE","FALSE","192","192"
-"Rasa powder","","Groceries","30","per pack","","Rasa powder","TRUE","FALSE","193","193"
-"Kashmir chilli","","Groceries","20","per pack","https://aachifoods.com/cdn/shop/files/kashmiri-chilli-powder-50g.webp?v=1756728609&width=1946","Kashmir chilli","TRUE","FALSE","194","194"
-"Biriyani masala(20g)","","Groceries","15","per pack","https://annachi.fr/wp-content/uploads/2023/05/BRIU-1-600x600.jpg","Biriyani masala(20g)","TRUE","FALSE","195","195"
-"Biriyani masala(50g)","","Groceries","30","per pack","","Biriyani masala(50g)","TRUE","FALSE","196","196"
-"Chicken 65 masala(50g)","","Groceries","25","per pack","https://m.media-amazon.com/images/I/51Rd-ILQctL.jpg","Chicken 65 masala(50g)","TRUE","FALSE","197","197"
-"Sunfood chilli powder(100g)","","Groceries","20","per pack","","Sunfood chilli powder(100g)","TRUE","FALSE","198","198"
-"Sunfood fish fry masala(100g)","","Groceries","20","per pack","","Sunfood fish fry masala(100g)","TRUE","FALSE","199","199"
-"Saravana 65 masala(50g)","","Groceries","20","per pack","https://saravanaafoods.com/image/cache/catalog/Products/chicken%2065%20masala-300x300.jpg","Saravana 65 masala(50g)","TRUE","FALSE","200","200"
-"Fish curry masala(20g)","","Groceries","10","per pack","https://assets.hyperpure.com/data/images/products/1e9905395322afa6022a64b52315a84c.png","Fish curry masala(20g)","TRUE","FALSE","201","201"
-"Fish curry masala(50g)","","Groceries","20","per pack","","Fish curry masala(50g)","TRUE","FALSE","202","202"
-"Idly powder(20g)","","Groceries","10","per pack","https://aachifoods.com/cdn/shop/files/idly-chilli-powder.webp?v=1765257825&width=1946","Idly powder(20g)","TRUE","FALSE","203","203"
-"Idly powder(50)","","Groceries","20","per pack","","Idly powder(50)","TRUE","FALSE","204","204"
-"Puli kolambu masala(50g)","","Groceries","20","per pack","","Puli kolambu masala(50g)","TRUE","FALSE","205","205"
-"Lemon rice powder(20g)","","Groceries","10","per pack","","Lemon rice powder(20g)","TRUE","FALSE","206","206"
-"Tamarind rice powder(20g)","","Groceries","10","per pack","","Tamarind rice powder(20g)","TRUE","FALSE","207","207"
-"Tomato rice powder(20g)","","Groceries","10","per pack","","Tomato rice powder(20g)","TRUE","FALSE","208","208"
-"Happyma fried rice powder","","Groceries","10","per pack","","Happyma fried rice powder","TRUE","FALSE","209","209"
-"Egg curry masala(20g)","","Groceries","10","per pack","","Egg curry masala(20g)","TRUE","FALSE","210","210"
-"Egg curry masala(50g)","","Groceries","30","per pack","","Egg curry masala(50g)","TRUE","FALSE","211","211"
-"Cumin powder(50g)","","Groceries","35","per pack","","Cumin powder(50g)","TRUE","FALSE","212","212"
-"Sunflower oil (100ml)","","Groceries","20","per pack","","Sunflower oil (100ml)","TRUE","FALSE","213","213"
-"Sunflower oil","","Groceries","95","per pack","","Sunflower oil (ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½ l)","TRUE","FALSE","214","214"
-"Sunflower oil (1 l)","","Groceries","180","per pack","","Sunflower oil (1 l)","TRUE","FALSE","215","215"
-"Groundnut oil(500ml)","","Groceries","90","per pack","","Groundnut oil(500ml)","TRUE","FALSE","216","216"
-"Mustard oil (200ml)","","Groceries","55","per pack","","Mustard oil (200ml)","TRUE","FALSE","217","217"
-"Mustard oil (500ml)","","Groceries","115","per pack","","Mustard oil (500ml)","TRUE","FALSE","218","218"
-"Mustard oil (1 l)","","Groceries","230","per pack","","Mustard oil (1 l)","TRUE","FALSE","219","219"
-"Parashut oil(38ml)","","Groceries","20","per pack","","Parashut oil(38ml)","TRUE","FALSE","220","220"
-"Parashut oil(100ml)","","Groceries","63","per pack","","Parashut oil(100ml)","TRUE","FALSE","221","221"
-"Parashut oil(250ml)","","Groceries","145","per pack","","Parashut oil(250ml)","TRUE","FALSE","222","222"
-"Mr. Gold coconut oil","","Groceries","230","per pack","","Mr. Gold coconut oil","TRUE","FALSE","223","223"
-"Idhayam gingely oil(50g)","","Groceries","23","per pack","","Idhayam gingely oil(50g)","TRUE","FALSE","224","224"
-"Idhayam gingely oil(500ml)","","Groceries","211","per pack","","Idhayam gingely oil(500ml)","TRUE","FALSE","225","225"
-"Manthra groundnut oil(500ml)","","Groceries","135","per pack","","Manthra groundnut oil(500ml)","TRUE","FALSE","226","226"
-"VVD hair oil","","Groceries","20","per pack","","VVD hair oil","TRUE","FALSE","227","227"
-"VVD hair oil","","Groceries","70","per pack","","VVD hair oil","TRUE","FALSE","228","228"
-"Ashwini hair oil","","Groceries","75","per pack","","Ashwini hair oil","TRUE","FALSE","229","229"
-"Navarathna oil","","Groceries","44","per pack","","Navarathna oil","TRUE","FALSE","230","230"
-"Navarathna oil","","Groceries","155","per pack","","Navarathna oil","TRUE","FALSE","231","231"
-"Jasmin oil","","Groceries","20","per pack","","Jasmin oil","TRUE","FALSE","232","232"
-"Jasmin oil","","Groceries","43","per pack","","Jasmin oil","TRUE","FALSE","233","233"
-"Maggi Noodles","🍜","Quick meals","15","per pack","","Maggi Noodles","TRUE","FALSE","234","234"
-"Maggi Noodles","🍜","Quick meals","60","per pack","","Maggi Noodles","TRUE","FALSE","235","235"
-"Yippee Noodles","🍜","Quick meals","15","per pack","","Yippee Noodles","TRUE","FALSE","236","236"
-"Yippee Noodles","🍜","Quick meals","60","per pack","","Yippee Noodles","TRUE","FALSE","237","237"
-"Anil Samiya","","Quick meals","20","per cup","","Anil Samiya","TRUE","FALSE","238","238"
-"Ragi Samiya","","Quick meals","25","per pack","","Ragi Samiya","TRUE","FALSE","239","239"
-"Savarot pasta","","Quick meals","10","per pack","","Savarot pasta","TRUE","FALSE","240","240"
-"Yippee pasta (Cheese)","","Quick meals","10","per pack","","Yippee pasta (Cheese)","TRUE","FALSE","241","241"
-"Yippee pasta (C)","","Quick meals","10","per pack","","Yippee pasta (C)","TRUE","FALSE","242","242"
-"Tomato sauce","","Quick meals","15","per pack","","Tomato sauce","TRUE","FALSE","243","243"
-"Red chilli sauce","","Quick meals","25","per pack","","Red chilli sauce","TRUE","FALSE","244","244"
-"Soya sauce","","Quick meals","25","per pack","","Soya sauce","TRUE","FALSE","245","245"
-"Green chilli sauce","","Quick meals","25","per pack","","Green chilli sauce","TRUE","FALSE","246","246"
-"Tomato","","Vegetables","25","per kg","","Tomato","TRUE","FALSE","247","247"
-"Onion","","Vegetables","60","per kg","","Onion","TRUE","FALSE","248","248"
-"Beans","","Vegetables","90","per kg","","Beans","TRUE","FALSE","249","249"
-"Carrot","","Vegetables","90","per kg","","Carrot","TRUE","FALSE","250","250"
-"Beetroot","","Vegetables","100","per kg","","Beetroot","TRUE","FALSE","251","251"
-"Ladies Finger","","Vegetables","60","per kg","","Ladies Finger","TRUE","FALSE","252","252"
-"Brinjal","","Vegetables","70","per kg","","Brinjal","TRUE","FALSE","253","253"
-"Pumpkin","","Vegetables","20","per kg","","Pumpkin","TRUE","FALSE","254","254"
-"Indian Broad Bean","","Vegetables","70","per kg","","Indian Broad Bean","TRUE","FALSE","255","255"
-"Radish","","Vegetables","50","per kg","","Radish","TRUE","FALSE","256","256"
-"Bitter Gourd","","Vegetables","70","per kg","","Bitter Gourd","TRUE","FALSE","257","257"
-"Bottle Gourd","","Vegetables","60","per kg","","Bottle Gourd","TRUE","FALSE","258","258"
-"Peerkangai","","Vegetables","60","per kg","","Peerkangai","TRUE","FALSE","259","259"
-"Lemon","","Vegetables","8","per piece","","Lemon","TRUE","FALSE","260","260"
-"Capsicum","","Vegetables","80","per kg","","Capsicum","TRUE","FALSE","261","261"
-"Kothavarangai","","Vegetables","50","per kg","","Kothavarangai","TRUE","FALSE","262","262"
-"Sow Sow","","Vegetables","50","per kg","","Sow Sow","TRUE","FALSE","263","263"
-"Kovakai","","Vegetables","80","per kg","","Kovakai","TRUE","FALSE","264","264"
-"Ginger","","Vegetables","140","per kg","","Ginger","TRUE","FALSE","265","265"
-"Green Chilli","","Vegetables","80","per kg","","Green Chilli","TRUE","FALSE","266","266"
-"Potato","","Vegetables","35","per kg","","Potato","TRUE","FALSE","267","267"
-"Small Onion","","Vegetables","70","per kg","","Small Onion","TRUE","FALSE","268","268"
-"Cabbage","","Vegetables","35","per kg","","Cabbage","TRUE","FALSE","269","269"
-"Cauliflower","","Vegetables","20","per piece","","Cauliflower","TRUE","FALSE","270","270"
-"Cauliflower","","Vegetables","30","per piece","","Cauliflower","TRUE","FALSE","271","271"
-"Cauliflower","","Vegetables","40","per piece","","Cauliflower","TRUE","FALSE","272","272"
-"Cucumber","","Vegetables","70","per kg","","Cucumber","TRUE","FALSE","273","273"
-"Sweetcorn","","Vegetables","30","per piece","","Sweetcorn","TRUE","FALSE","274","274"
-"Drumstick","","Vegetables","5","per piece","","Drumstick","TRUE","FALSE","275","275"
-"Coconut","","Vegetables","25","per piece","","Coconut","TRUE","FALSE","276","276"
-"Coriander Leaf","","Vegetables","5","per bunch","","Coriander Leaf","TRUE","FALSE","277","277"
-"Coriander Leaf","","Vegetables","10","per bunch","","Coriander Leaf","TRUE","FALSE","278","278"
-"Mint Leaf","","Vegetables","5","per bunch","","Mint Leaf","TRUE","FALSE","279","279"
-"Mint Leaf","","Vegetables","10","per bunch","","Mint Leaf","TRUE","FALSE","280","280"
-"Curry Leaf","","Vegetables","5","per bunch","","Curry Leaf","TRUE","FALSE","281","281"
-"Curry Leaf","","Vegetables","10","per bunch","","Curry Leaf","TRUE","FALSE","282","282"
-"Pumpkin","","Vegetables","35","per kg","","Pumpkin","TRUE","FALSE","283","283"
-"Garlic","","Vegetables","250","per kg","","Garlic","TRUE","FALSE","284","284"
-"Banana","","Vegetables","3","per piece","","Banana","TRUE","FALSE","285","285"
-"Red Banana","","Vegetables","10","per piece","","Red Banana","TRUE","FALSE","286","286"
-"Lux","","Bath & Body","","per piece","","Lux","TRUE","FALSE","287","287"
-"Lifebuoy","","Bath & Body","","per piece","","Lifebuoy","TRUE","FALSE","288","288"
-"Cinthol","","Bath & Body","","per piece","","Cinthol","TRUE","FALSE","289","289"
-"Medimix","","Bath & Body","","per piece","","Medimix","TRUE","FALSE","290","290"
-"Hamam","","Bath & Body","","per piece","","Hamam","TRUE","FALSE","291","291"
-"Vivel","","Bath & Body","","per piece","","Vivel","TRUE","FALSE","292","292"
-"Detol","","Bath & Body","","per piece","","Detol","TRUE","FALSE","293","293"
-"Pears","","Bath & Body","","per piece","","Pears","TRUE","FALSE","294","294"
-"Nature Power (Lime, Lavender, Rose)","","Bath & Body","","per piece","","Nature Power (Lime, Lavender, Rose)","TRUE","FALSE","295","295"
-"Margo","","Bath & Body","","per piece","","Margo","TRUE","FALSE","296","296"
-"Chandrika","","Bath & Body","","per piece","","Chandrika","TRUE","FALSE","297","297"
-"Liril","","Bath & Body","","per piece","","Liril","TRUE","FALSE","298","298"
-"Santoor","","Bath & Body","","per piece","","Santoor","TRUE","FALSE","299","299"
-"Himalaya","","Bath & Body","","per piece","","Himalaya","TRUE","FALSE","300","300"
-"Mysore Sandal","","Bath & Body","","per piece","","Mysore Sandal","TRUE","FALSE","301","301"
-"Mysore Sandal Gold","","Bath & Body","","per piece","","Mysore Sandal Gold","TRUE","FALSE","302","302"
-"Nature Power Papaya","","Bath & Body","","per piece","","Nature Power Papaya","TRUE","FALSE","303","303"
-"Dove","","Bath & Body","","per piece","","Dove","TRUE","FALSE","304","304"
-"Himalaya","","Bath & Body","","per piece","","Himalaya","TRUE","FALSE","305","305"
-"Rexona","","Bath & Body","","per piece","","Rexona","TRUE","FALSE","306","306"
-"Liril","","Bath & Body","","per piece","","Liril","TRUE","FALSE","307","307"
-"Clinic Plus","","Bath & Body","","per piece","","Clinic Plus","TRUE","FALSE","308","308"
-"Dove","","Bath & Body","","per piece","","Dove","TRUE","FALSE","309","309"
-"Sunsilk","","Bath & Body","","per piece","","Sunsilk","TRUE","FALSE","310","310"
-"Head & Shoulders","","Bath & Body","","per piece","","Head & Shoulders","TRUE","FALSE","311","311"
-"Vatika","","Bath & Body","","per piece","","Vatika","TRUE","FALSE","312","312"
-"Chik","","Bath & Body","","per piece","","Chik","TRUE","FALSE","313","313"
-"Meera","","Bath & Body","","per piece","","Meera","TRUE","FALSE","314","314"
-"Indulekha","","Bath & Body","","per piece","","Indulekha","TRUE","FALSE","315","315"
-"Himalaya","","Bath & Body","","per piece","","Himalaya","TRUE","FALSE","316","316"
-"Fair & Lovely","","Bath & Body","","per piece","","Fair & Lovely","TRUE","FALSE","317","317"
-"Ponds White Beauty","","Bath & Body","","per piece","","Ponds White Beauty","TRUE","FALSE","318","318"
-"Ponds Powder","","Bath & Body","","per piece","","Ponds Powder","TRUE","FALSE","319","319"
-"Gokul Sandal","","Bath & Body","","per piece","","Gokul Sandal","TRUE","FALSE","320","320"
-"Shaver to Shaver","","Bath & Body","","per piece","","Shaver to Shaver","TRUE","FALSE","321","321"
-"Nicel","","Bath & Body","","per piece","","Nicel","TRUE","FALSE","322","322"
-"Rin","","Home Cleaning","","per piece","","Rin","TRUE","FALSE","323","323"
-"Surf Excel","","Home Cleaning","","per piece","","Surf Excel","TRUE","FALSE","324","324"
-"Ponvandu","","Home Cleaning","","per piece","","Ponvandu","TRUE","FALSE","325","325"
-"Rin Washing Powder","","Home Cleaning","","per piece","","Rin Washing Powder","TRUE","FALSE","326","326"
-"Surf Excel","","Home Cleaning","","per piece","","Surf Excel","TRUE","FALSE","327","327"
-"Ariel","","Home Cleaning","","per piece","","Ariel","TRUE","FALSE","328","328"
-"Wheel","","Home Cleaning","","per piece","","Wheel","TRUE","FALSE","329","329"
-"Vim Bar","","Home Cleaning","","per piece","","Vim Bar","TRUE","FALSE","330","330"
-"Tide","","Home Cleaning","","per piece","","Tide","TRUE","FALSE","331","331"
-"Surf Excel Liquid","","Home Cleaning","","per piece","","Surf Excel Liquid","TRUE","FALSE","332","332"
-"Rin Liquid","","Home Cleaning","","per piece","","Rin Liquid","TRUE","FALSE","333","333"
-"Ariel Liquid Top Load","","Home Cleaning","","per piece","","Ariel Liquid Top Load","TRUE","FALSE","334","334"
-"Ariel Front Load Liquid","","Home Cleaning","","per piece","","Ariel Front Load Liquid","TRUE","FALSE","335","335"
-"Fab Liquid","","Home Cleaning","","per piece","","Fab Liquid","TRUE","FALSE","336","336"
-"Comfort Blue","","Home Cleaning","","per piece","","Comfort Blue","TRUE","FALSE","337","337"
-"Comfort Rose","","Home Cleaning","","per piece","","Comfort Rose","TRUE","FALSE","338","338"
-"Comfort Black","","Home Cleaning","","per piece","","Comfort Black","TRUE","FALSE","339","339"
-"Vim Gel","","Home Cleaning","","per piece","","Vim Gel","TRUE","FALSE","340","340"
-"Harpic Bathroom Cleaner","","Home Cleaning","","per piece","","Harpic Bathroom Cleaner","TRUE","FALSE","341","341"
-"Dettol Liquid","","Home Cleaning","","per piece","","Dettol Liquid","TRUE","FALSE","342","342"
-"Ujala","","Home Cleaning","","per piece","","Ujala","TRUE","FALSE","343","343"
-"Lizol","","Home Cleaning","","per piece","","Lizol","TRUE","FALSE","344","344"
-"Pencil","","Stationery","","per piece","","Pencil","TRUE","FALSE","345","345"
-"Eraser","","Stationery","","per piece","","Eraser","TRUE","FALSE","346","346"
-"Sharpener","","Stationery","","per piece","","Sharpener","TRUE","FALSE","347","347"
-"Scale","","Stationery","","per piece","","Scale","TRUE","FALSE","348","348"
-"Mechanical Pencil 0.7","","Stationery","","per piece","","Mechanical Pencil 0.7","TRUE","FALSE","349","349"
-"0.7 Lead","","Stationery","","per piece","","0.7 Lead","TRUE","FALSE","350","350"
-"Protector","","Stationery","","per piece","","Protector","TRUE","FALSE","351","351"
-"Pro Circle","","Stationery","","per piece","","Pro Circle","TRUE","FALSE","352","352"
-"Compass","","Stationery","","per piece","","Compass","TRUE","FALSE","353","353"
-"XO Blue Pen","","Stationery","","per piece","","XO Blue Pen","TRUE","FALSE","354","354"
-"Stylish Pen","","Stationery","","per piece","","Stylish Pen","TRUE","FALSE","355","355"
-"Blue Pen","","Stationery","","per piece","","Blue Pen","TRUE","FALSE","356","356"
-"Stick Pen Black","","Stationery","","per piece","","Stick Pen Black","TRUE","FALSE","357","357"
-"Stick Pen Brown","","Stationery","","per piece","","Stick Pen Brown","TRUE","FALSE","358","358"
-"Stick Pen Purple","","Stationery","","per piece","","Stick Pen Purple","TRUE","FALSE","359","359"
-"A4 Sheet","","Stationery","","per piece","","A4 Sheet","TRUE","FALSE","360","360"
-"Notebook 80 Pages","","Stationery","","per piece","","Notebook 80 Pages","TRUE","FALSE","361","361"
-"Notebook 180 Pages","","Stationery","","per piece","","Notebook 180 Pages","TRUE","FALSE","362","362"
-"Notebook 240 Pages","","Stationery","","per piece","","Notebook 240 Pages","TRUE","FALSE","363","363"
-"Exam Sheet","","Stationery","","per piece","","Exam Sheet","TRUE","FALSE","364","364"
-"Brown Sheet","","Stationery","","per piece","","Brown Sheet","TRUE","FALSE","365","365"
+﻿name,emoji,category,price,unit,image_url,group_key,in_stock,featured,sort_order,id
+GoodDay Biscuit,≡ƒì¬,Snacks,10,per pack,img/p453.jpg,GoodDay Biscuit,true,false,2,453
+GoodDay Biscuit,≡ƒì¬,Snacks,20,per pack,img/p454.jpg,GoodDay Biscuit,true,false,3,454
+GoodDay Biscuit,≡ƒì¬,Snacks,50,per pack,,GoodDay Biscuit,true,false,4,455
+GoodDay Biscuit chocolate,≡ƒì¬,Snacks,10,per pack,img/p456.jpg,GoodDay Biscuit chocolate,true,false,5,456
+Britannia Bourbon,≡ƒì¬,Snacks,10,per pack,img/p457.jpg,Britannia Bourbon,true,false,6,457
+Britannia Bourbon,≡ƒì¬,Snacks,20,per pack,,Britannia Bourbon,true,false,7,458
+milk bikies,,snacks,5,per pack,img/p459.jpg,milk bikies,true,false,8,459
+milk bikies,,snacks,10,per pack,,milk bikies,true,false,9,460
+milk bikies,,snacks,30,per pack,,milk bikies,true,false,10,461
+milk bikies cream,,snacks,10,per pack,img/p462.jpg,milk bikies cream,true,false,11,462
+Marie Gold,≡ƒì¬,Snacks,5,per pack,img/p463.jpg,Marie Gold,true,false,12,463
+Marie Gold,≡ƒì¬,Snacks,10,per pack,,Marie Gold,true,false,13,464
+Marie Gold,≡ƒì¬,Snacks,30,per pack,,Marie Gold,true,false,14,465
+tiger krunch,,snacks,5,per pack,img/p466.webp,tiger krunch,true,false,15,466
+tiger cream,,snacks,5,per pack,img/p467.jpg,tiger cream,true,false,16,467
+Parle-G Biscuit,≡ƒìÿ,Snacks,5,per pack,img/p468.jpg,Parle-G Biscuit,true,false,17,468
+Parle-G Biscuit,≡ƒìÿ,Snacks,10,per pack,,Parle-G Biscuit,true,false,18,469
+50-50,,Snacks,5,per pack,img/p470.jpg,50-50,true,false,19,470
+50-50,,Snacks,10,per pack,,50-50,true,false,20,471
+jim jam,,snacks,10,per pack,img/p472.jpg,jim jam,true,false,21,472
+britania treat,,snacks,10,per pack,img/p473.jpg,britania treat,true,false,22,473
+toastea (rusk),,snacks,10,per pack,img/p474.jpg,toastea (rusk),true,false,23,474
+britania cake,,snacks,15,per pack,img/p475.webp,britania cake,true,false,24,475
+happy happy,,Snacks,5,per pack,img/p476.jpg,happy happy,true,false,25,476
+happy happy,,Snacks,10,per pack,,happy happy,true,false,26,477
+crack jack,,Snacks,10,per pack,img/p478.jpg,crack jack,true,false,27,478
+hide&seek,,snacks,30,per pack,img/p479.webp,hide&seek,true,false,28,479
+sunfeast bounce,,snacks,5,per pack,img/p480.jpg,sunfeast bounce,true,false,29,480
+britania treat,,Snacks,10,per pack,img/p481.jpg,britania treat,true,false,30,481
+mom's magic,,Snacks,10,per pack,https://5.imimg.com/data5/SELLER/Default/2023/7/323266471/CM/YD/ST/192118753/whatsapp-image-2023-07-07-at-11-54-20-1000x1000.jpeg,mom's magic,true,false,31,482
+Dark fantacy,,Snacks,10,per pack,img/p483.webp,Dark fantacy,true,false,32,483
+Dark fantacy,,snacks,40,per pack,,Dark fantacy,true,false,33,484
+Dark fantacy cream,,snacks,10,per pack,img/p485.jpg,Dark fantacy cream,true,false,34,485
+marie light,,snacks,10,per pack,img/p486.jpg,marie light,true,false,35,486
+marie light orange,,snacks,10,per pack,img/p487.webp,marie light orange,true,false,36,487
+oreo,,snacks,10,per pack,img/p488.jpg,oreo,true,false,37,488
+lays magic masala,,Snacks,5,per pack,img/p489.jpg,lays magic masala,true,false,38,489
+lays creamy onion,,Snacks,5,per pack,img/p490.jpg,lays creamy onion,true,false,39,490
+lays tomato,,Snacks,5,per pack,https://www.kiranapoorti.com/image/cache/catalog/BISCUITS/spanish%20potato-550x550.jpeg,lays tomato,true,false,40,491
+lays sweet&chilly,,snacks,5,per pack,img/p492.jpg,lays sweet&chilly,true,false,41,492
+lays salt,,snacks,5,per pack,img/p493.jpg,lays salt,true,false,42,493
+kurkure masala munch,,snacks,5,per pack,img/p494.jpg,kurkure masala munch,true,false,43,494
+kurkure tomato,,snacks,5,per pack,img/p495.jpg,kurkure tomato,true,false,44,495
+bingo tedhe medhe,,Snacks,5,per pack,img/p496.jpg,bingo tedhe medhe,true,false,45,496
+Murukku,≡ƒîÇ,Snacks,20,per pack,img/p497.jpg,Murukku,true,false,46,497
+Mixture,≡ƒÑ£,Snacks,20,per pack,img/p498.jpg,Mixture,true,false,47,498
+kaaraboonthi,,snacks,20,per pack,img/p499.jpg,kaaraboonthi,true,false,48,499
+banana chips,,snacks,20,per pack,img/p500.jpg,banana chips,true,false,49,500
+pacha pattani,,snacks,20,per pack,img/p501.jpg,pacha pattani,true,false,50,501
+arisi murukku,,snacks,20,per pack,img/p502.jpg,arisi murukku,true,false,51,502
+potato chips,,snacks,20,per pack,img/p503.jpg,potato chips,true,false,52,503
+kaarasevu,,Snacks,20,per pack,img/p504.jpg,kaarasevu,true,false,53,504
+masaal kadalai,,Snacks,20,per pack,img/p505.jpg,masaal kadalai,true,false,54,505
+kuchi chips,,Snacks,20,per pack,img/p506.jpg,kuchi chips,true,false,55,506
+patta chips,,Snacks,20,per pack,img/p507.jpg,patta chips,true,false,56,507
+potato chilly,,snacks,20,per pack,img/p508.jpg,potato chilly,true,false,57,508
+tilo(green)-100ml,,Beverages,10,bottle,img/p509.webp,tilo(green)-100ml,true,false,58,509
+tilo(black)-100ml,,Beverages,10,bottle,img/p510.jpg,tilo(black)-100ml,true,false,59,510
+tilo(orange)-100ml,,Beverages,10,bottle,img/p511.webp,tilo(orange)-100ml,true,false,60,511
+sprit-250ml,,Beverages,20,bottle,img/p512.webp,sprit-250ml,true,false,61,512
+sprit-750ml,,Beverages,35,bottle,img/p513.jpg,sprit-750ml,true,false,62,513
+sprit-2.2l,,Beverages,100,bottle,img/p514.jpg,sprit-2.2l,true,false,63,514
+cocacola-250ml,,Beverages,20,bottle,img/p515.jpg,cocacola-250ml,true,false,64,515
+cocacola-750ml,,Beverages,35,bottle,img/p516.jpg,cocacola-750ml,true,false,65,516
+cocacola-2.2l,,Beverages,100,bottle,https://5.imimg.com/data5/CY/XH/LR/SELLER-102894273/2-ltr-coca-cola-cold-drink-1000x1000.jpeg,cocacola-2.2l,true,false,66,517
+fanta-250ml,,Beverages,20,bottle,img/p518.webp,fanta-250ml,true,false,67,518
+fanta-750ml,,Beverages,35,bottle,img/p519.jpg,fanta-750ml,true,false,68,519
+maaza-600ml,,Beverages,40,bottle,img/p520.jpg,maaza-600ml,true,false,69,520
+Pepsi -250ml,,Beverages,20,bottle,img/p521.jpg,Pepsi -250ml,true,false,70,521
+Pepsi -750ml,,Beverages,40,bottle,img/p522.jpg,Pepsi -750ml,true,false,71,522
+Pepsi -2.2l,,Beverages,100,bottle,img/p523.webp,Pepsi -2.2l,true,false,72,523
+7up-250ml,,Beverages,20,bottle,img/p524.jpg,7up-250ml,true,false,73,524
+7up-750ml,,Beverages,40,bottle,img/p525.webp,7up-750ml,true,false,74,525
+7up-2.2ml,,Beverages,100,bottle,img/p526.jpg,7up-2.2ml,true,false,75,526
+mirinda-250ml,,Beverages,20,bottle,img/p527.jpg,mirinda-250ml,true,false,76,527
+mirinda-750ml,,Beverages,40,bottle,img/p528.jpg,mirinda-750ml,true,false,77,528
+mirinda-2.2ml,,Beverages,100,bottle,img/p529.jpg,mirinda-2.2ml,true,false,78,529
+slice-500ml,,Beverages,40,bottle,img/p530.jpg,slice-500ml,true,false,79,530
+string-200ml,,Beverages,20,bottle,img/p531.jpg,string-200ml,true,false,80,531
+mounten dew-250ml,,Beverages,20,bottle,img/p532.webp,mounten dew-250ml,true,false,81,532
+mounten dew-750ml,,Beverages,40,bottle,img/p533.webp,mounten dew-750ml,true,false,82,533
+water bottle-500ml,,Beverages,10,bottle,img/p534.jpg,water bottle-500ml,true,false,83,534
+water bottle-1l,,Beverages,20,bottle,img/p535.jpg,water bottle-1l,true,false,84,535
+Milk - 200ml,,Dairy,10,packet,img/p536.jpg,Milk - 200ml,true,false,85,536
+Milk - 500ml,,Dairy,30,packet,img/p537.jpg,Milk - 500ml,true,false,86,537
+curd,,Dairy,10,packet,img/p538.webp,curd-100ml,true,false,87,538
+curd,,Dairy,35,packet,,curd-100ml,true,false,88,539
+huston curd,,Dairy,30,cup,img/p540.jpg,huston curd,true,false,89,540
+huston buttermilk,,Dairy,10,cup,img/p541.jpg,huston buttermilk,true,false,90,541
+Sugar,,Dairy,57,per kg,img/p542.jpg,Sugar,true,false,91,542
+Butter-100g,,Dairy,85,pack,img/p543.jpg,Butter -100g,true,false,92,543
+Paneer - 200g,,Dairy,90,pack,img/p544.jpg,Paneer-200g,true,false,93,544
+cheese-50g,,Dairy,20,pack,img/p545.webp,cheese-50g,true,false,94,545
+3 Roses,,Dairy,5,packet,img/p546.jpg,3 Roses,true,false,95,546
+3 Roses,,Dairy,10,packet,,3 Roses,true,false,96,547
+3 Roses,,Dairy,45,packet,,3 Roses,true,false,97,548
+3 Roses,,Dairy,90,packet,,3 Roses,true,false,98,549
+3 Roses Nature Care,,Dairy,10,packet,img/p550.jpg,3 Roses Nature Care,true,false,99,550
+3 Roses Nature Care,,Dairy,100,packet,,3 Roses Nature Care,true,false,100,551
+AVT Gold Cup,,Dairy,5,packet,img/p552.jpg,AVT Gold Cup,true,false,101,552
+AVT Gold Cup,,Dairy,10,packet,,AVT Gold Cup,true,false,102,553
+AVT Gold Cup,,Dairy,90,packet,img/p554.jpg,AVT Gold Cup,true,false,103,554
+Chakra Gold,,Dairy,5,packet,img/p555.jpg,Chakra Gold,true,false,104,555
+Chakra Gold,,Dairy,10,packet,,Chakra Gold,true,false,105,556
+Chakra Gold,,Dairy,45,packet,img/p557.jpg,Chakra Gold,true,false,106,557
+Chakra Gold,,Dairy,90,packet,,Chakra Gold,true,false,107,558
+Bru,,Dairy,2,packet,img/p559.jpg,Bru,true,false,108,559
+Bru,,Dairy,5,packet,,Bru,true,false,109,560
+Bru,,Dairy,10,packet,,Bru,true,false,110,561
+Sunrises,,Dairy,2,packet,img/p562.jpg,Sunrises,true,false,111,562
+Sunrises,,Dairy,5,packet,,Sunrises,true,false,112,563
+Sunrises,,Dairy,10,packet,,Sunrises,true,false,113,564
+Boost,,Dairy,5,packet,img/p565.webp,Boost,true,false,114,565
+Horlicks,,Dairy,5,packet,img/p566.jpg,Horlicks,true,false,115,566
+Badham milk powder(20g),,Dairy,10,packet,img/p567.jpg,Badham milk powder(20g),true,false,116,567
+bread,,Dairy,25,packet,img/p568.jpg,bread,true,false,117,568
+bread,,Dairy,40,packet,,bread,true,false,118,569
+ghee,,Dairy,10,packet,img/p570.webp,ghee,true,false,119,570
+ghee,,Dairy,50,packet,img/p571.webp,ghee,true,false,120,571
+ghee,,Dairy,100,packet,,ghee,true,false,121,572
+ghee,,Dairy,470,packet,,ghee,true,false,122,573
+IR20 Boiled rice,,Groceries,60,per kg,img/p574.jpg,IR20 Rice-1kg,true,false,123,574
+Ponni Boiled rice,,Groceries,70,per kg,img/p575.jpg,ponni boiled rice-1kg,true,false,124,575
+Idly rice,,Groceries,55,per kg,img/p576.jpg,idly rice-1kg,true,false,125,576
+Raw rice,,Groceries,55,per kg,img/p577.jpg,raw rice,true,false,126,577
+India gate  ROZZONA Basmathi rice,,Groceries,55,per kg,img/p578.jpg,India gate  ROZZONA Basmathi rice,true,false,127,578
+Indiagate DUBAR  Basmathi rice,,Groceries,100,pack,img/p579.jpg,Indiagate DUBAR  Basmathi rice,true,false,128,579
+Kadalai paruppu,,Groceries,55,pack,img/p580.jpg,Kadalai paruppu,true,false,129,580
+Thovaram paruppu,,Groceries,130,per kg,img/p581.webp,Thovaram paruppu,true,false,130,581
+Paasi paruppu,,Groceries,140,per kg,img/p582.jpg,Paasi paruppu,true,false,131,582
+Maysoor paruppu,,Groceries,130,per kg,img/p583.jpg,Maysoor paruppu,true,false,132,583
+Black channa,,Groceries,100,per kg,img/p584.jpg,Black channa,true,false,133,584
+White channa,,Groceries,100,per kg,img/p585.jpg,White channa,true,false,134,585
+Pacha pairu,,Groceries,140,per kg,img/p586.webp,Pacha pairu,true,false,135,586
+Thatta pairu,,Groceries,140,per kg,img/p587.jpg,Thatta pairu,true,false,136,587
+Kollu,,Groceries,130,per kg,img/p588.jpg,Kollu,true,false,137,588
+Avarara paruppu,,Groceries,140,per kg,img/p589.jpg,Arara paruppu,true,false,138,589
+Ulutham paruppu,,Groceries,110,per kg,img/p590.jpg,Ulutham paruppu,true,false,139,590
+Pottu kadalai,,Groceries,90,per kg,img/p591.jpg,Pattu kadalai,true,false,140,591
+Vadai paruppu,,Groceries,380,per kg,img/p592.jpg,Vadai paruppu,true,false,141,592
+Puli,,Groceries,180,per kg,img/p593.jpg,Puli,true,false,142,593
+Kadagu,,Groceries,10,per pack,img/p594.jpg,Kadagu,true,false,143,594
+Jeeragam,,Groceries,10,per kg,img/p595.jpg,Jeeragam,true,false,144,595
+Sombu,,Groceries,10,per pack,img/p596.jpg,Sombu,true,false,145,596
+Venthaigam,,Groceries,10,per pack,img/p597.jpg,Venthaigam,true,false,146,597
+Pattai,,Groceries,10,per pack,img/p598.jpg,Pattai,true,false,147,598
+Krambu,,Groceries,10,per pack,img/p599.jpg,Krambu,true,false,148,599
+Elachi,,Groceries,10,per pack,img/p600.jpg,Elachi,true,false,149,600
+Biriyani Selavu,,Groceries,10,per pack,img/p601.jpg,Biriyani Selavu,true,false,150,601
+Gundu vellam,,Groceries,90,per kg,img/p602.jpg,Gundu vellam,true,false,151,602
+Country sugar,,Groceries,45,500g pack,img/p603.jpg,Country sugar,true,false,152,603
+Cashew,,Groceries,10,per pack,img/p604.jpg,Cashew,true,false,153,604
+Dry grapes,,Groceries,10,per pack,img/p605.jpg,Dry grapes,true,false,154,605
+Red chilli,,Groceries,350,per kg,img/p606.jpg,Red chilli,true,false,155,606
+Avul,,Groceries,80,per kg,img/p607.jpg,Avul,true,false,156,607
+Tata Salt,,Groceries,16,per pack,img/p608.jpg,Tata Salt,true,false,157,608
+Tata Salt,,Groceries,32,per pack,img/p609.jpg,Tata Salt,true,false,158,609
+Salt,,Groceries,10,per pack,img/p610.jpg,Salt,true,false,159,610
+Rock Salt,,Groceries,10,per pack,img/p611.jpg,Rock Salt,true,false,160,611
+Rock Salt,,Groceries,15,per pack,img/p612.jpg,Rock Salt,true,false,161,612
+Tata rock salt,,Groceries,22,per pack,img/p613.jpg,Tata rock salt,true,false,162,613
+Green peas,,Groceries,100,per kg,img/p614.jpg,Green peas,true,false,163,614
+Fried peanut,,Groceries,200,per kg,img/p615.jpg,Fried peanut,true,false,164,615
+Nonfried peanut,,Groceries,190,per kg,img/p616.jpg,Nonfried peanut,true,false,165,616
+Raw pepper,,Groceries,10,per pack,img/p617.jpg,Raw pepper,true,false,166,617
+Tamarind powder,,Groceries,10,per pack,img/p618.jpg,Tamarind powder,true,false,167,618
+Tamarind powder,,Groceries,15,per pack,,Tamarind powder,true,false,168,619
+Tamarind powder,,Groceries,140,per pack,,Tamarind powder,true,false,169,620
+Coriander powder,,Groceries,10,per pack,img/p621.jpg,Coriander powder,true,false,170,621
+Coriander powder,,Groceries,20,per pack,,Coriander powder,true,false,171,622
+Coriander powder,,Groceries,140,per pack,,Coriander powder,true,false,172,623
+Chicken masala,,Groceries,10,per pack,img/p624.webp,Chicken masala,true,false,173,624
+Chicken masala,,Groceries,20,per pack,,Chicken masala,true,false,174,625
+Chicken masala,,Groceries,140,per pack,,Chicken masala,true,false,175,626
+Sambar masala,,Groceries,10,per pack,img/p627.webp,Sambar masala,true,false,176,627
+Sambar masala,,Groceries,20,per pack,,Sambar masala,true,false,177,628
+Sambar masala,,Groceries,180,per pack,,Sambar masala,true,false,178,629
+Chilli powder,,Groceries,10,per pack,img/p630.jpg,Chilli powder,true,false,179,630
+Chilli powder,,Groceries,20,per pack,,Chilli powder,true,false,180,631
+Chilli powder,,Groceries,165,per pack,,Chilli powder,true,false,181,632
+Garam masala,,Groceries,10,per pack,img/p633.jpg,Garam masala,true,false,182,633
+Garam masala,,Groceries,30,per pack,,Garam masala,true,false,183,634
+Pepper powder,,Groceries,10,per pack,https://expat-mart.com/media/catalog/product/cache/921b6d2227da0d2e65f115d2b30a8742/s/a/sakthi-pepper-powder.jpeg,Pepper powder,true,false,184,635
+Pepper powder,,Groceries,65,per pack,,Pepper powder,true,false,185,636
+Curry masala,,Groceries,10,per pack,img/p637.jpg,Curry masala,true,false,186,637
+Curry masala,,Groceries,25,per pack,,Curry masala,true,false,187,638
+Curry masala,,Groceries,210,per pack,,Curry masala,true,false,188,639
+Mutton masala,,Groceries,10,per pack,img/p640.jpg,Mutton masala,true,false,189,640
+Mutton masala,,Groceries,25,per pack,,Mutton masala,true,false,190,641
+Mutton masala,,Groceries,210,per pack,,Mutton masala,true,false,191,642
+Rasa powder,,Groceries,10,per pack,img/p643.jpg,Rasa powder,true,false,192,643
+Rasa powder,,Groceries,30,per pack,,Rasa powder,true,false,193,644
+Kashmir chilli,,Groceries,20,per pack,img/p645.jpg,Kashmir chilli,true,false,194,645
+Biriyani masala,,Groceries,15,per pack,img/p646.jpg,Biriyani masala,true,false,195,646
+Biriyani masala,,Groceries,30,per pack,,Biriyani masala,true,false,196,647
+Chicken 65 masala(50g),,Groceries,25,per pack,img/p648.jpg,Chicken 65 masala(50g),true,false,197,648
+Sunfood chilli powder(100g),,Groceries,20,per pack,https://fslmgjqumvfsicmjwgmx.supabase.co/storage/v1/object/public/product-images/p-1791307245268-fdjc.png,Sunfood chilli powder(100g),true,false,198,649
+Sunfood fish fry masala(100g),,Groceries,20,per pack,https://fslmgjqumvfsicmjwgmx.supabase.co/storage/v1/object/public/product-images/p-1791307293691-0378.png,Sunfood fish fry masala(100g),true,false,199,650
+Saravana 65 masala(50g),,Groceries,20,per pack,img/p651.jpg,Saravana 65 masala(50g),true,false,200,651
+Fish curry masala,,Groceries,10,per pack,img/p652.jpg,Fish curry masala,true,false,201,652
+Fish curry masala,,Groceries,20,per pack,,Fish curry masala,true,false,202,653
+Idly powder,,Groceries,10,per pack,img/p654.jpg,Idly powder,true,false,203,654
+Idly powder,,Groceries,20,per pack,,Idly powder,true,false,204,655
+Puli kolambu masala(50g),,Groceries,20,per pack,img/p656.jpg,Puli kolambu masala(50g),true,false,205,656
+Lemon rice powder(20g),,Groceries,10,per pack,img/p657.jpg,Lemon rice powder(20g),true,false,206,657
+Tamarind rice powder(20g),,Groceries,10,per pack,img/p658.jpg,Tamarind rice powder(20g),true,false,207,658
+Tomato rice powder(20g),,Groceries,10,per pack,img/p659.jpg,Tomato rice powder(20g),true,false,208,659
+Happyma fried rice powder,,Groceries,10,per pack,img/p660.jpg,Happyma fried rice powder,true,false,209,660
+Egg curry masala,,Groceries,10,per pack,img/p661.jpg,Egg curry masala,true,false,210,661
+Egg curry masala,,Groceries,30,per pack,,Egg curry masala,true,false,211,662
+Cumin powder(50g),,Groceries,35,per pack,img/p663.jpg,Cumin powder(50g),true,false,212,663
+Sunflower oil,,Groceries,20,per pack,img/p664.webp,Sunflower oil,true,false,213,664
+Sunflower oil,,Groceries,95,per pack,,Sunflower oil,true,false,214,665
+Sunflower oil,,Groceries,180,per pack,,Sunflower oil,true,false,215,666
+Groundnut oil(500ml),,Groceries,90,per pack,img/p667.jpg,Groundnut oil(500ml),true,false,216,667
+Mustard oil,,Groceries,55,per pack,img/p668.jpg,Mustard oil,true,false,217,668
+Mustard oil,,Groceries,115,per pack,,Mustard oil,true,false,218,669
+Mustard oil,,Groceries,230,per pack,,Mustard oil,true,false,219,670
+Parashut oil,,Bath & Body,20,per pack,img/p671.webp,Parashut oil,true,false,220,671
+Parashut oil,,Bath & Body,63,per pack,,Parashut oil,true,false,221,672
+Parashut oil,,Bath & Body,145,per pack,,Parashut oil,true,false,222,673
+Mr. Gold chekku coconut oil,,Groceries,230,500ml pack,img/p674.jpg,Mr. Gold chekku coconut oil,true,false,223,674
+Idhayam gingely oil,,Groceries,23,per pack,img/p675.jpg,Idhayam gingely oil,true,false,224,675
+Idhayam gingely oil,,Groceries,211,per pack,,Idhayam gingely oil,true,false,225,676
+Manthra groundnut oil(500ml),,Groceries,135,per pack,img/p677.jpg,Manthra groundnut oil(500ml),true,false,226,677
+VVD hair oil,,Bath & Body,20,per pack,img/p678.jpg,VVD hair oil,true,false,227,678
+VVD hair oil,,Bath & Body,70,per pack,,VVD hair oil,true,false,228,679
+Ashwini hair oil,,Bath & Body,75,per pack,img/p680.webp,Ashwini hair oil,true,false,229,680
+Navarathna oil,,Bath & Body,44,per pack,img/p681.jpg,Navarathna oil,true,false,230,681
+Navarathna oil,,Bath & Body,155,per pack,,Navarathna oil,true,false,231,682
+Jasmin oil,,Groceries,20,per pack,img/p683.jpg,Jasmin oil,true,false,232,683
+Jasmin oil,,Groceries,43,per pack,,Jasmin oil,true,false,233,684
+Maggi Noodles,≡ƒì£,Quick meals,15,per pack,img/p685.jpg,Maggi Noodles,true,false,234,685
+Maggi Noodles,≡ƒì£,Quick meals,60,per pack,,Maggi Noodles,true,false,235,686
+Yippee Noodles,≡ƒì£,Quick meals,15,per pack,img/p687.jpg,Yippee Noodles,true,false,236,687
+Yippee Noodles,≡ƒì£,Quick meals,60,per pack,,Yippee Noodles,true,false,237,688
+Anil Samiya,,Quick meals,20,per cup,img/p689.jpg,Anil Samiya,true,false,238,689
+Ragi Samiya,,Quick meals,25,per pack,img/p690.webp,Ragi Samiya,true,false,239,690
+Savarot pasta,,Quick meals,10,per pack,img/p691.jpg,Savarot pasta,true,false,240,691
+Yippee pasta (Cheese),,Quick meals,10,per pack,img/p692.avif,Yippee pasta (Cheese),true,false,241,692
+Yippee pasta (C),,Quick meals,10,per pack,img/p693.jpg,Yippee pasta (C),true,false,242,693
+Tomato sauce,,Quick meals,15,per pack,img/p694.jpg,Tomato sauce,true,false,243,694
+Red chilli sauce,,Quick meals,25,per pack,img/p695.jpg,Red chilli sauce,true,false,244,695
+Soya sauce,,Quick meals,25,per pack,img/p696.jpg,Soya sauce,true,false,245,696
+Green chilli sauce,,Quick meals,25,per pack,img/p697.jpg,Green chilli sauce,true,false,246,697
+Tomato,,Vegetables,60,per kg,img/p698.jpg,Tomato,true,false,247,698
+Onion,,Vegetables,70,per kg,img/p699.jpg,Onion,true,false,248,699
+Beans,,Vegetables,90,per kg,img/p700.jpg,Beans,true,false,249,700
+Carrot,,Vegetables,90,per kg,img/p701.jpg,Carrot,true,false,250,701
+Beetroot,,Vegetables,100,per kg,img/p702.jpg,Beetroot,true,false,251,702
+Ladies Finger,,Vegetables,60,per kg,img/p703.jpg,Ladies Finger,true,false,252,703
+Brinjal,,Vegetables,70,per kg,img/p704.jpg,Brinjal,true,false,253,704
+Pumpkin,,Vegetables,20,per kg,img/p705.jpg,Pumpkin,true,false,254,705
+Indian Broad Bean,,Vegetables,70,per kg,img/p706.jpg,Indian Broad Bean,true,false,255,706
+Radish,,Vegetables,50,per kg,img/p707.jpg,Radish,true,false,256,707
+Bitter Gourd,,Vegetables,70,per kg,img/p708.jpg,Bitter Gourd,true,false,257,708
+Bottle Gourd,,Vegetables,60,per kg,img/p709.jpg,Bottle Gourd,true,false,258,709
+Peerkangai,,Vegetables,60,per kg,img/p710.jpg,Peerkangai,true,false,259,710
+Lemon,,Vegetables,8,per piece,img/p711.jpg,Lemon,true,false,260,711
+Capsicum,,Vegetables,80,per kg,img/p712.jpg,Capsicum,true,false,261,712
+Kothavarangai,,Vegetables,50,per kg,img/p713.jpg,Kothavarangai,true,false,262,713
+Sow Sow,,Vegetables,50,per kg,,Sow Sow,true,false,263,714
+Kovakai,,Vegetables,80,per kg,img/p715.jpg,Kovakai,true,false,264,715
+Ginger,,Vegetables,140,per kg,img/p716.jpg,Ginger,true,false,265,716
+Green Chilli,,Vegetables,80,per kg,img/p717.jpg,Green Chilli,true,false,266,717
+Potato,,Vegetables,35,per kg,img/p718.jpg,Potato,true,false,267,718
+Small Onion,,Vegetables,70,per kg,img/p719.jpg,Small Onion,true,false,268,719
+Cabbage,,Vegetables,35,per kg,img/p720.jpg,Cabbage,true,false,269,720
+Cauliflower,,Vegetables,20,per piece,img/p721.jpg,Cauliflower,true,false,270,721
+Cauliflower,,Vegetables,30,per piece,,Cauliflower,true,false,271,722
+Cauliflower,,Vegetables,40,per piece,,Cauliflower,true,false,272,723
+Cucumber,,Vegetables,70,per kg,img/p724.jpg,Cucumber,true,false,273,724
+Sweetcorn,,Vegetables,30,per piece,img/p725.jpg,Sweetcorn,true,false,274,725
+Drumstick,,Vegetables,5,per piece,img/p726.jpg,Drumstick,true,false,275,726
+Coconut,,Vegetables,25,per piece,img/p727.jpg,Coconut,true,false,276,727
+Coriander Leaf,,Vegetables,5,per bunch,img/p728.jpg,Coriander Leaf,true,false,277,728
+Coriander Leaf,,Vegetables,10,per bunch,,Coriander Leaf,true,false,278,729
+Mint Leaf,,Vegetables,5,per bunch,img/p730.jpg,Mint Leaf,true,false,279,730
+Mint Leaf,,Vegetables,10,per bunch,,Mint Leaf,true,false,280,731
+Curry Leaf,,Vegetables,5,per bunch,img/p732.jpg,Curry Leaf,true,false,281,732
+Curry Leaf,,Vegetables,10,per bunch,,Curry Leaf,true,false,282,733
+Garlic,,Vegetables,250,per kg,img/p735.jpg,Garlic,true,false,284,735
+Banana,,Vegetables,3,per piece,img/p736.jpg,Banana,true,false,285,736
+Red Banana,,Vegetables,10,per piece,img/p737.jpg,Red Banana,true,false,286,737
+Lux,,Bath & Body,10,per pack,img/p738.webp,Lux,true,false,287,738
+Lux,,Bath & Body,40,per pack,,Lux,true,false,287,817
+Lifebuoy,,Bath & Body,10,per pack,img/p739.jpg,Lifebuoy,true,false,288,739
+Lifebuoy,,Bath & Body,40,per pack,,Lifebuoy,true,false,288,818
+Cinthol original,,Bath & Body,10,per pack,img/p740.webp,Cinthol original,true,false,289,740
+Cinthol original,,Bath & Body,45,per pack,,Cinthol original,true,false,289,820
+Cinthol black,,Bath & Body,10,per pack,img/p821.jpg,Cinthol black,true,false,289,821
+Cinthol black,,Bath & Body,45,per pack,,Cinthol black,true,false,289,822
+Cinthol cool,,Bath & Body,10,per pack,img/p823.jpg,Cinthol cool,true,false,289,823
+Cinthol cool,,Bath & Body,45,per pack,img/p824.jpg,Cinthol cool,true,false,289,824
+Medimix,,Bath & Body,10,per pack,img/p741.jpg,Medimix,true,false,290,741
+Medimix,,Bath & Body,35,per pack,,Medimix,true,false,290,825
+Hamam,,Bath & Body,10,per piece,img/p742.webp,Hamam,true,false,291,742
+Hamam,,Bath & Body,45,per piece,,Hamam,true,false,291,826
+Vivel,,Bath & Body,10,per pack,img/p743.jpg,Vivel,true,false,292,743
+Vivel,,Bath & Body,35,per pack,,Vivel,true,false,292,828
+Detol,,Bath & Body,10,per pack,img/p744.jpg,Detol,true,false,293,744
+Detol,,Bath & Body,40,per pack,,Detol,true,false,293,827
+Pears blue,,Bath & Body,52,per pack,img/p745.jpg,Pears blue,true,false,294,745
+Pears yellow,,Bath & Body,50,per pack,img/p829.jpg,Pears ywllow,true,false,294,829
+Pears green,,Bath & Body,55,per pack,img/p830.jpg,Pears green,true,false,294,830
+Nature Power Lavender,,Bath & Body,45,per piece,img/p746.jpg,Nature Power Lavender,true,false,295,746
+Nature Power Lime,,Bath & Body,45,per pack,img/p832.jpg,Nature Power Lime,true,false,295,832
+Nature Power Rose,,Bath & Body,45,per pack,img/p833.jpg,Nature Power Rose,true,false,295,833
+Margo,,Bath & Body,45,per piece,img/p747.webp,Margo,true,false,296,747
+Chandrika,,Bath & Body,33,per piece,img/p748.jpg,Chandrika,true,false,297,748
+Liril,,Bath & Body,41,per piece,img/p749.jpg,Liril,true,false,298,749
+Santoor,,Bath & Body,41,per piece,img/p750.jpg,Santoor,true,false,299,750
+Himalaya,,Bath & Body,38,per piece,img/p751.webp,Himalaya,true,false,300,751
+Mysore Sandal,,Bath & Body,38,per piece,img/p752.jpg,Mysore Sandal,true,false,301,752
+Mysore Sandal Gold,,Bath & Body,90,per piece,img/p753.webp,Mysore Sandal Gold,true,false,302,753
+Nature Power Papaya,,Bath & Body,50,per piece,img/p754.jpg,Nature Power Papaya,true,false,303,754
+Dove,,Bath & Body,30,per piece,img/p755.jpg,Dove,true,false,304,755
+Rexona,,Bath & Body,40,per piece,img/p757.jpg,Rexona,true,false,306,757
+Clinic Plus Shampoo,,Bath & Body,1,per piece,img/p759.webp,Clinic Plus Shampoo,true,false,308,759
+Dove Shampoo,,Bath & Body,2,per piece,img/p760.webp,Dove Shampoo,true,false,309,760
+Sunsilk Shampoo,,Bath & Body,1,per piece,img/p761.jpg,Sunsilk Shampoo,true,false,310,761
+Head & Shoulders Shampoo,,Bath & Body,2,per piece,img/p762.jpg,Head & Shoulders Shampoo,true,false,311,762
+Chik Shampoo,,Bath & Body,1,per piece,img/p764.webp,Chik Shampoo,true,false,313,764
+Meera Shampoo,,Bath & Body,2,per piece,img/p765.jpg,Meera Shampoo,true,false,314,765
+Meera onion Shampoo,,Bath & Body,2,per pack,img/p836.jpg,Meera onion Shampoo,true,false,314,836
+Indulekha Shampoo,,Bath & Body,2,per piece,img/p766.jpg,Indulekha Shampoo,true,false,315,766
+Himalaya Shampoo,,Bath & Body,2,per piece,img/p767.webp,Himalaya Shampoo,true,false,316,767
+Fair & Lovely,,Bath & Body,10,per piece,https://oneplace.pk/wp-content/uploads/2020/04/Fair-and-Lovely-cream-sachet-oneplace.pk-online-sialkot.jpg,Fair & Lovely,true,false,317,768
+Ponds White Beauty,,Bath & Body,10,per piece,img/p769.jpg,Ponds White Beauty,true,false,318,769
+Ponds Powder,,Bath & Body,10,per piece,img/p770.jpg,Ponds Powder,true,false,319,770
+Gokul Sandal,,Bath & Body,40,per piece,img/p771.jpg,Gokul Sandal,true,false,320,771
+Nycil cool,,Bath & Body,50,per piece,img/p773.jpg,Nycil cool,true,false,322,773
+Rin Washing soap,,Home Cleaning,10,per piece,img/p774.jpg,Rin Washing soap,true,false,323,774
+Surf Excel Washing soap,,Home Cleaning,10,,img/p775.jpg,Surf Excel Washing soap,true,false,324,775
+Surf Excel Washing soap,,Home Cleaning,25,,,Surf Excel Washing soap,true,false,324,837
+Ponvandu washing soap,,Home Cleaning,10,per piece,img/p776.jpg,Ponvandu washing soap,true,false,325,776
+Rin Washing Powder,,Home Cleaning,10,per piece,img/p777.jpg,Rin Washing Powder,true,false,326,777
+Rin Washing Powder,,Home Cleaning,66,per piece,,Rin Washing Powder,true,false,326,840
+Surf Excel Washing powder,,Home Cleaning,10,500g pack,img/p778.jpg,Surf Excel Washing powder,true,false,327,778
+Surf Excel Washing powder,,Home Cleaning,95,500g pack,,Surf Excel Washing powder,true,false,327,839
+Ariel Washing powder,,Home Cleaning,89,500g pack,img/p779.jpg,Ariel Washing powder,true,false,328,779
+Wheel,,Home Cleaning,44,500g pack,img/p780.jpg,Wheel,true,false,329,780
+Tide Washing powder,,Home Cleaning,10,per piece,img/p782.webp,Tide Washing powder,true,false,329,782
+Vim Bar,,Home Cleaning,5,per piece,img/p781.jpg,Vim Bar,true,false,330,781
+Vim Bar,,Home Cleaning,10,per piece,,Vim Bar,true,false,330,841
+Surf Excel Liquid,,Home Cleaning,10,per piece,img/p783.jpg,Surf Excel Liquid,true,false,332,783
+Rin Liquid,,Home Cleaning,10,per piece,img/p784.jpg,Rin Liquid,true,false,333,784
+Ariel Liquid Top Load,,Home Cleaning,179,per piece,img/p785.jpg,Ariel Liquid Top Load,true,false,334,785
+Ariel Front Load Liquid,,Home Cleaning,199,per piece,img/p786.jpg,Ariel Front Load Liquid,true,false,335,786
+Fab Liquid,,Home Cleaning,10,per piece,img/p787.webp,Fab Liquid,true,false,336,787
+Comfort Blue,,Home Cleaning,4,per piece,img/p788.jpg,Comfort Blue,true,false,337,788
+Comfort Rose,,Home Cleaning,4,per piece,img/p789.webp,Comfort Rose,true,false,338,789
+Comfort Black,,Home Cleaning,4,per piece,img/p790.webp,Comfort Black,true,false,339,790
+Vim Gel,,Home Cleaning,15,per piece,img/p791.jpg,Vim Gel,true,false,340,791
+Harpic Bathroom Cleaner,,Home Cleaning,46,per piece,img/p792.jpg,Harpic Bathroom Cleaner,true,false,341,792
+Dettol Liquid,,Home Cleaning,45,per piece,img/p793.webp,Dettol Liquid,true,false,342,793
+Ujala,,Home Cleaning,37,per piece,img/p794.jpg,Ujala,true,false,343,794
+Lizol,,Home Cleaning,48,per piece,img/p795.jpg,Lizol,true,false,344,795
+Pencil,,Stationery,6,per piece,img/p796.jpg,Pencil,true,false,345,796
+Eraser,,Stationery,3,per piece,img/p797.jpg,Eraser,true,false,346,797
+Sharpener,,Stationery,3,per piece,img/p798.jpg,Sharpener,true,false,347,798
+Sharpener,,Stationery,5,per piece,,Sharpener,true,false,347,843
+Scale,,Stationery,5,per piece,img/p799.jpg,Scale,true,false,348,799
+Scale,,Stationery,10,per piece,,Scale,true,false,348,842
+Mechanical Pencil 0.7,,Stationery,10,per piece,img/p800.jpg,Mechanical Pencil 0.7,true,false,349,800
+0.7 Lead,,Stationery,5,per piece,img/p801.jpg,0.7 Lead,true,false,350,801
+Protector,,Stationery,5,per piece,img/p802.jpg,Protector,true,false,351,802
+Pro Circle,,Stationery,10,per piece,img/p803.jpg,Pro Circle,true,false,352,803
+Compass,,Stationery,25,per piece,img/p804.jpg,Compass,true,false,353,804
+XO Blue Pen,,Stationery,10,per piece,img/p805.jpg,XO Blue Pen,true,false,354,805
+Stylish blue Pen,,Stationery,7,per piece,img/p806.jpg,Stylish blue Pen,true,false,355,806
+Stylish black Pen,,Stationery,7,per piece,img/p845.jpg,Stylish black Pen,true,false,355,845
+Blue Pen,,Stationery,5,per piece,img/p807.jpg,Blue Pen,true,false,356,807
+Stick Pen Black,,Stationery,10,per piece,img/p808.jpg,Stick Pen Black,true,false,357,808
+Stick Pen Brown,,Stationery,10,per piece,img/p809.jpg,Stick Pen Brown,true,false,358,809
+Stick Pen Purple,,Stationery,10,per piece,img/p810.jpg,Stick Pen Purple,true,false,359,810
+A4 Sheet,,Stationery,10,15 piece,img/p811.jpg,A4 Sheet,true,false,360,811
+Notebook 80 Pages,,Stationery,25,per piece,img/p812.jpg,Notebook 80 Pages,true,false,361,812
+Notebook 180 Pages,,Stationery,35,per piece,img/p813.jpg,Notebook 180 Pages,true,false,362,813
+Notebook 240 Pages,,Stationery,70,per piece,img/p814.jpg,Notebook 240 Pages,true,false,363,814
+Exam Sheet,,Stationery,10,10 piece,img/p815.jpg,Exam Sheet,true,false,364,815
+Brown Sheet,,Stationery,7,per piece,img/p816.jpg,Brown Sheet,true,false,365,816
+Dove,,Bath & Body,40,per piece,,Dove,true,false,366,834
+Dove,,Bath & Body,62,per piece,,Dove,true,false,367,835
+Surf Excel Washing soap,,Home Cleaning,45,,,Surf Excel Washing soap,true,false,369,838
+Rin Washing soap,,Home Cleaning,20,per piece,,Rin Washing soap,true,false,370,844

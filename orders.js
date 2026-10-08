@@ -30,10 +30,6 @@ let lastGuestOrder = null;
 // ------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------
-function money(value) {
-  return "₹" + Number(value).toLocaleString("en-IN");
-}
-
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (c) => ({
     "&": "&amp;",

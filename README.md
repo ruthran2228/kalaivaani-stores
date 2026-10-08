@@ -30,6 +30,7 @@ No build step, no framework — deploy the folder as-is to any static host.
    | 2 | `admin_setup.sql` | Orders, settings, RLS, order-validation trigger | ✅ Yes |
    | 3 | `account_setup.sql` | Links orders to customer accounts, order history | ✅ Yes |
    | 4 | `profile_setup.sql` | Customer profiles + addresses | ✅ Yes |
+   | 5 | `migrate-images.sql` | Repoints product photos from third-party CDNs to the local `img/` folder | ✅ Yes — idempotent |
 
 3. Create the `product-images` Storage bucket (public) for product photos.
 4. Set your config in `config.js`:
@@ -61,9 +62,15 @@ No build step, no framework — deploy the folder as-is to any static host.
 
 ## Data files
 
-- `products.csv` — the full catalog (364 rows, with IDs + emoji). Use
+- `products.csv` — the full live catalog (386 rows, real DB IDs + emoji,
+  regenerated from Supabase with local image paths and lowercase
+  `true`/`false` booleans so Admin → Import CSV round-trips correctly. Use
   **Admin → Products → Import CSV** to upload; this file is *not* read by the
   site directly.
+- `img/` — 297 self-hosted product images (≤ 600 px, ~11 MB). They replaced
+  hotlinks to ~130 third-party CDNs that could rot and break product cards.
+  A few products still use remote URLs (those hosts blocked downloading);
+  cards fall back to emoji if an image ever fails to load.
 - SQL files in this repo are the source of truth for schema; CSV is for bulk
   catalog import.
 
