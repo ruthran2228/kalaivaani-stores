@@ -1191,3 +1191,8 @@ table.data tr:hover td { background: #fafcf8; }
   .setting-row { flex-direction: column; align-items: flex-start; }
   .setting-control { width: 100%; justify-content: space-between; }
 }
+/* ---------- MOBILE FIXES (390px audit) - iOS input zoom + tap targets ---------- */
+.auth-form input{font-size:16px}
+.auth-link{padding:12px 0}
+.user-chip .side-logout{padding:11px 14px}
+@media (max-width:960px){.btn{padding:11px 14px}}

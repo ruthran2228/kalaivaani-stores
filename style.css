@@ -796,3 +796,8 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
 .closed-title{margin:0 0 10px;font-family:var(--font-display);font-size:28px;letter-spacing:-.02em}
 .closed-msg{margin:0;font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.92);white-space:pre-line}
 .closed-sub{margin:20px 0 0;font-size:12.5px;color:rgba(255,255,255,.6);font-weight:600}
+
+/* ---------- MOBILE FIXES (390px audit) - iOS input zoom + tap targets ---------- */
+.qty-input{font-size:16px}
+@media (max-width:900px){.sort-select{font-size:16px}}
+@media (max-width:640px){.footer-main a{min-height:44px}}
