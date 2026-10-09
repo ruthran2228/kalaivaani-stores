@@ -950,7 +950,7 @@ function openProductModal(product) {
 
         <div class="field full">
           <label>Image URL</label>
-          <input name="image_url" type="url" value="${esc(p.image_url || "")}" placeholder="https://…">
+          <input name="image_url" type="text" value="${esc(p.image_url || "")}" placeholder="https://… or img/p123.jpg">
           <div class="img-preview" id="img-preview"></div>
         </div>
 
