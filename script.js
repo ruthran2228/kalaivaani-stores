@@ -794,56 +794,30 @@ async function getCurrentUser() {
   }
 }
 
-// Left-side account menu next to the logo. Guests get a "Sign in" menu,
-// members get Profile / My Orders / Settings (admins) / Sign out.
+// Left slide-in drawer (☰, before the logo). Members get Profile /
+// My Orders / Sign out; guests get Sign in / My Orders. No Settings.
 function renderAuthAction(user) {
-  const anchor = document.getElementById("acct-anchor");
-  const actions = anchor || document.querySelector(".header-actions");
-  if (!actions) return;
+  const nav = document.getElementById("drawer-nav");
+  if (!nav) return;
+  nav.innerHTML = "";
 
-  const oldMenu = document.getElementById("user-menu");
-  if (oldMenu) oldMenu.remove();
-  const oldBtn = document.getElementById("auth-action");
-  if (oldBtn) oldBtn.remove();
-
-  const btn = document.createElement("button");
-  btn.id = "auth-action";
-  btn.className = "track-btn";
-  btn.type = "button";
-  btn.setAttribute("aria-haspopup", "true");
-  btn.setAttribute("aria-expanded", "false");
-  btn.setAttribute("aria-label", "Account menu");
-  btn.innerHTML = "👤 <span>Account</span>";
-
-  const menu = document.createElement("div");
-  menu.id = "user-menu";
-  menu.setAttribute("role", "menu");
-  menu.hidden = true; // closed until the Account button is clicked
+  const addLink = (href, icon, label) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.className = "nav-item";
+    a.innerHTML = icon + " <span>" + label + "</span>";
+    nav.appendChild(a);
+    return a;
+  };
 
   if (user) {
-    // Member: Profile / My Orders / Settings (admin) / Sign out.
-    const itemProfile = document.createElement("a");
-    itemProfile.href = "profile.html";
-    itemProfile.setAttribute("role", "menuitem");
-    itemProfile.innerHTML = "👤 Profile";
-    menu.appendChild(itemProfile);
-
-    const itemOrders = document.createElement("a");
-    itemOrders.href = "orders.html";
-    itemOrders.setAttribute("role", "menuitem");
-    itemOrders.innerHTML = "📦 My Orders";
-    menu.appendChild(itemOrders);
-
-    const itemSettings = document.createElement("a");
-    itemSettings.href = "admin.html";
-    itemSettings.setAttribute("role", "menuitem");
-    itemSettings.innerHTML = "⚙️ Settings";
-    menu.appendChild(itemSettings);
+    addLink("profile.html", "👤", "Profile");
+    addLink("orders.html", "📦", "My Orders");
 
     const itemLogout = document.createElement("button");
-    itemLogout.className = "user-menu-logout";
-    itemLogout.setAttribute("role", "menuitem");
-    itemLogout.innerHTML = "🚪 Sign out";
+    itemLogout.type = "button";
+    itemLogout.className = "nav-item nav-item-logout";
+    itemLogout.innerHTML = "🚪 <span>Sign out</span>";
     itemLogout.addEventListener("click", async () => {
       try {
         await supabaseClient.auth.signOut();
@@ -852,55 +826,56 @@ function renderAuthAction(user) {
       }
       window.location.replace("index.html");
     });
-    menu.appendChild(itemLogout);
-
-    // Settings is admin-only (fail-closed).
-    supabaseClient
-      .rpc("is_admin")
-      .then(({ data }) => {
-        if (data === true) return;
-        itemSettings.hidden = true; // not admin → hide Settings
-      })
-      .catch(() => {
-        itemSettings.hidden = true; // fail closed
-      });
+    nav.appendChild(itemLogout);
   } else {
-    // Guest: the menu lists Sign in.
-    const itemSignIn = document.createElement("a");
-    itemSignIn.href = "login.html?next=" +
-      encodeURIComponent(window.location.pathname + window.location.search);
-    itemSignIn.setAttribute("role", "menuitem");
-    itemSignIn.innerHTML = "🔑 Sign in";
-    menu.appendChild(itemSignIn);
+    addLink(
+      "login.html?next=" +
+        encodeURIComponent(window.location.pathname + window.location.search),
+      "🔑", "Sign in"
+    );
+    addLink("orders.html", "📦", "My Orders");
   }
 
-  // Toggle the menu; aria-expanded reflects the state AFTER the click.
-  btn.addEventListener("click", (event) => {
-    event.preventDefault();
-    const open = menu.hidden; // currently hidden → we are opening it
-    menu.hidden = !open;
-    btn.setAttribute("aria-expanded", String(open));
+  // Followed a link → close the drawer.
+  nav.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", closeNavDrawer)
+  );
+}
+
+// --- drawer open/close (wired once per page load) ---
+function closeNavDrawer() {
+  const drawer = document.getElementById("nav-drawer");
+  const backdrop = document.getElementById("nav-backdrop");
+  const toggle = document.getElementById("nav-toggle");
+  if (!drawer) return;
+  drawer.classList.remove("open");
+  backdrop.classList.remove("open");
+  document.body.classList.remove("nav-open");
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.setAttribute("aria-label", "Open menu");
+}
+
+function initNavDrawer() {
+  const toggle = document.getElementById("nav-toggle");
+  const drawer = document.getElementById("nav-drawer");
+  const backdrop = document.getElementById("nav-backdrop");
+  const closeBtn = document.getElementById("nav-close");
+  if (!toggle || !drawer) return;
+
+  toggle.addEventListener("click", () => {
+    const open = !drawer.classList.contains("open");
+    drawer.classList.toggle("open", open);
+    if (backdrop) backdrop.classList.toggle("open", open);
+    document.body.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   });
 
-  // Close when clicking outside the button/menu or pressing Escape.
-  // Ignore clicks inside the button (the toggle) so opening is not undone.
-  const close = (event) => {
-    if (document.getElementById("user-menu") !== menu) return; // stale listener
-    if (event && event.type === "click" && btn.contains(event.target)) return;
-    menu.hidden = true;
-    btn.setAttribute("aria-expanded", "false");
-  };
-  document.addEventListener("click", close);
+  if (closeBtn) closeBtn.addEventListener("click", closeNavDrawer);
+  if (backdrop) backdrop.addEventListener("click", closeNavDrawer);
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") close();
+    if (event.key === "Escape") closeNavDrawer();
   });
-
-  btn.appendChild(menu);
-  if (anchor) {
-    anchor.appendChild(btn);
-  } else {
-    actions.insertBefore(btn, actions.querySelector(".cart-btn"));
-  }
 }
 
 (function bootStore() {
@@ -912,6 +887,7 @@ function renderAuthAction(user) {
 
     const user = await getCurrentUser();
     renderAuthAction(user);
+    initNavDrawer();
 
     if (supabaseClient) {
       try {

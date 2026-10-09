@@ -30,6 +30,8 @@
   </div>
 
   <header class="site-header">
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">☰</button>
+
     <a class="brand" href="#" aria-label="Kalaivani Stores home">
       <img class="logo-img" src="logo.svg" alt="Kalaivani Stores" width="46" height="46">
       <span>
@@ -37,8 +39,6 @@
         <small>Groceries at your doorstep</small>
       </span>
     </a>
-
-    <div class="acct-anchor" id="acct-anchor" aria-label="Account menu"></div>
 
     <div class="header-search">
       <span aria-hidden="true">⌕</span>
@@ -178,6 +178,24 @@
   </a>
 
   <div class="toast" id="toast" role="status"></div>
+
+  <div class="nav-backdrop" id="nav-backdrop"></div>
+  <aside class="nav-drawer" id="nav-drawer" aria-label="Menu">
+    <div class="nav-drawer-head">
+      <img class="nav-drawer-logo" src="logo.svg" alt="" width="44" height="44">
+      <span>
+        <strong>Kalaivani Stores</strong>
+        <small>Groceries at your doorstep</small>
+      </span>
+      <button class="nav-close" id="nav-close" type="button" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-drawer-list" id="drawer-nav"></nav>
+    <div class="nav-drawer-foot">
+      📍 Muniappan Kovil · Komarapalayam<br>
+      ☎ <a href="tel:7667771101">7667771101</a>
+    </div>
+  </aside>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
   <script src="config.js?v=20261008a"></script>
   <script src="store-cart.js?v=20261008a"></script>
