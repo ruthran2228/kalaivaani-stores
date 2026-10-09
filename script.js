@@ -997,7 +997,7 @@ function showClosedPanel(message) {
 }
 
 // Admin-editable announcement bar (settings.announcement). Empty keeps
-// the default marquee text already in index.html.
+// the default text already in index.html.
 function renderAnnouncement(text) {
   const value = (text && String(text).trim()) || "";
   if (!value) return;
@@ -1006,8 +1006,6 @@ function renderAnnouncement(text) {
   const html = parts
     .map((line) => `${esc(line)} <i>✦</i> `)
     .join("");
-  document.querySelectorAll(".announcement-msg").forEach((el, i) => {
-    el.innerHTML = html;
-    if (i === 1) el.setAttribute("aria-hidden", "true");
-  });
+  const el = document.querySelector(".announcement-msg");
+  if (el) el.innerHTML = html;
 }

@@ -120,13 +120,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 
 main,#shop{scroll-margin-top:120px}
 
-/* ============================ ANNOUNCEMENT (marquee) ========= */
+/* ============================ ANNOUNCEMENT (static) ========== */
 .announcement{background:var(--ink);color:var(--lime);overflow:hidden;padding:10px 0;
-  font-size:11.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;border-bottom:1px solid rgba(198,255,79,.16)}
-.announcement-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
-.announcement-msg{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;padding-right:46px}
-.announcement-msg i{font-style:normal;color:rgba(198,255,79,.5);font-size:9px}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  font-size:11.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;
+  border-bottom:1px solid rgba(198,255,79,.16);text-align:center}
+.announcement-msg{display:inline}
+.announcement-msg i{font-style:normal;color:rgba(198,255,79,.5);font-size:9px;margin:0 5px}
 
 /* ============================ HEADER ========================= */
 .site-header{
@@ -657,8 +656,6 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .announcement-track{animation:none}
-  .announcement-msg+.announcement-msg{display:none}
   .product-card:hover,.steps article:hover,.benefits div:hover{transform:none}
 }
 
