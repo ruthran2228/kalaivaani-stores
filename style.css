@@ -120,13 +120,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 
 main,#shop{scroll-margin-top:120px}
 
-/* ============================ ANNOUNCEMENT (static) ========== */
-.announcement{background:var(--ink);color:var(--lime);overflow:hidden;padding:10px 0;
-  font-size:11.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;
-  border-bottom:1px solid rgba(198,255,79,.16);text-align:center}
-.announcement-msg{display:inline}
-.announcement-msg i{font-style:normal;color:rgba(198,255,79,.5);font-size:9px;margin:0 5px}
-
 /* ============================ HEADER ========================= */
 .site-header{
   height:78px;background:rgba(255,255,255,.86);
@@ -676,7 +669,6 @@ footer::before{content:"";position:absolute;width:520px;height:520px;border-radi
   .benefits span{width:46px;height:46px;font-size:23px;border-radius:14px}
 }
 @media(max-width:640px){
-  .announcement{font-size:10px;padding:8px 0;letter-spacing:.6px}
   .site-header{height:auto;min-height:0;padding:calc(10px + env(safe-area-inset-top,0px)) 4% 8px;gap:10px;flex-wrap:wrap;position:static;margin-bottom:0}
   .brand{min-width:0;flex:1}
   .brand strong{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

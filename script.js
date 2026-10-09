@@ -872,8 +872,9 @@ function openNavDrawer() {
 }
 
 // The drawer must start at the header's bottom EDGE in the viewport - not just
-// its height - because the announcement bar above can push the header down
-// (e.g. at the top of the page), which would hide the first menu item.
+// its height - because the header can be shifted or partially scrolled when the
+// menu opens (e.g. the mobile header wraps to two rows), and the first menu
+// item must never end up underneath it.
 function measureNavHeader() {
   const header = document.querySelector(".site-header");
   if (header) {
@@ -947,7 +948,6 @@ function initNavDrawer() {
           if (settings.shop_open === false) {
             showClosedPanel(settings.message);
           }
-          renderAnnouncement(settings.announcement);
         }
       } catch (error) {
         /* settings unavailable — treat the shop as open */
@@ -994,18 +994,4 @@ function showClosedPanel(message) {
     '<p class="closed-msg">' + esc(msg) + "</p>" +
     '<p class="closed-sub">We\'ll be back soon &mdash; please check back a little later.</p>';
   grid.insertAdjacentElement("beforebegin", panel);
-}
-
-// Admin-editable announcement bar (settings.announcement). Empty keeps
-// the default text already in index.html.
-function renderAnnouncement(text) {
-  const value = (text && String(text).trim()) || "";
-  if (!value) return;
-  const parts = value.split(/\s*[|·]\s*|\s*\n\s*/).filter(Boolean);
-  if (!parts.length) return;
-  const html = parts
-    .map((line) => `${esc(line)} <i>✦</i> `)
-    .join("");
-  const el = document.querySelector(".announcement-msg");
-  if (el) el.innerHTML = html;
 }

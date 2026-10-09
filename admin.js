@@ -1707,28 +1707,16 @@ async function renderSettingsPanel() {
 
   let row = null;
   let missingTable = false;
-  let hasAnnouncement = true;
   try {
     const { data, error } = await supabaseClient
       .from("settings")
-      .select("id, shop_open, message, announcement")
+      .select("id, shop_open, message")
       .eq("id", 1)
       .maybeSingle();
     if (!error && data) {
       row = data;
     } else {
-      // Older settings table without the announcement column?
-      const retry = await supabaseClient
-        .from("settings")
-        .select("id, shop_open, message")
-        .eq("id", 1)
-        .maybeSingle();
-      if (!retry.error && retry.data) {
-        row = retry.data;
-        hasAnnouncement = false;
-      } else {
-        missingTable = true;
-      }
+      missingTable = true;
     }
   } catch (error) {
     missingTable = true;
@@ -1736,7 +1724,6 @@ async function renderSettingsPanel() {
 
   const open = !row || row.shop_open !== false;
   const message = (row && row.message) || "";
-  const announcement = (row && row.announcement) || "";
 
   panel.innerHTML = `
     <div class="page-head">
@@ -1775,16 +1762,6 @@ async function renderSettingsPanel() {
         <textarea id="set-message" rows="4" placeholder="e.g. We're temporarily closed for today — we reopen tomorrow at 9 AM, thanks for your patience!">${esc(message)}</textarea>
         <div class="hint">Shown on the store page in place of the products while closed. Empty = default message.</div>
       </div>
-
-      ${
-        hasAnnouncement
-          ? `<div class="field full">
-        <label for="set-announcement">Announcement bar</label>
-        <textarea id="set-announcement" rows="3" placeholder="e.g. Free delivery above ₹500 | New: Aavin milk daily | Order before 8 PM for same-day delivery">${esc(announcement)}</textarea>
-        <div class="hint">Scrolling bar at the very top of the store page. Separate messages with <strong>|</strong>. Empty = keep the default text.</div>
-      </div>`
-          : `<div class="bulk-empty"><strong>⚠️ Announcement field unavailable.</strong><br>Re-run the "Shop settings" section of <code>admin_setup.sql</code> to add the <code>announcement</code> column, then reload.</div>`
-      }
 
       <div class="settings-preview">
         <strong>Preview (shown while closed)</strong>
@@ -1827,14 +1804,12 @@ async function renderSettingsPanel() {
     saveBtn.addEventListener("click", async () => {
       const nowOpen = sw.checked;
       const msg = ta.value.trim();
-      const annEl = $("#set-announcement");
       const payload = {
         id: 1,
         shop_open: nowOpen,
         message: msg,
         updated_at: new Date().toISOString()
       };
-      if (annEl) payload.announcement = annEl.value.trim();
       saveBtn.disabled = true;
       saveBtn.textContent = "Saving…";
       const { error } = await supabaseClient.from("settings").upsert(payload);

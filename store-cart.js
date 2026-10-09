@@ -175,7 +175,7 @@ async function fetchShopSettings(client) {
     try {
       const { data, error } = await client
         .from("settings")
-        .select("id, shop_open, message, announcement")
+        .select("id, shop_open, message")
         .eq("id", 1)
         .maybeSingle();
       if (!error && data) {
@@ -185,22 +185,6 @@ async function fetchShopSettings(client) {
           /* storage unavailable */
         }
         return data;
-      }
-      if (error && String(error.message).toLowerCase().includes("announcement")) {
-        // Old settings table (no announcement column yet) — retry without it
-        const retry = await client
-          .from("settings")
-          .select("id, shop_open, message")
-          .eq("id", 1)
-          .maybeSingle();
-        if (!retry.error && retry.data) {
-          try {
-            localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(retry.data));
-          } catch (e) {
-            /* storage unavailable */
-          }
-          return retry.data;
-        }
       }
     } catch (error) {
       // settings table missing or offline — fall through to cache
