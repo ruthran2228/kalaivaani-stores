@@ -851,6 +851,7 @@ function closeNavDrawer() {
   drawer.classList.remove("open");
   if (backdrop) backdrop.classList.remove("open");
   document.body.classList.remove("nav-open");
+  document.documentElement.classList.remove("nav-locked");
   toggle.setAttribute("aria-expanded", "false");
   toggle.setAttribute("aria-label", "Open menu");
 }
@@ -863,6 +864,7 @@ function openNavDrawer() {
   drawer.classList.add("open");
   if (backdrop) backdrop.classList.add("open");
   document.body.classList.add("nav-open");
+  document.documentElement.classList.add("nav-locked");
   toggle.setAttribute("aria-expanded", "true");
   toggle.setAttribute("aria-label", "Close menu");
   // measure AFTER opening: the header may shift (mobile static -> sticky)
@@ -877,7 +879,7 @@ function measureNavHeader() {
   if (header) {
     document.documentElement.style.setProperty(
       "--hdr-h",
-      Math.ceil(header.getBoundingClientRect().bottom) + "px"
+      Math.max(0, Math.ceil(header.getBoundingClientRect().bottom)) + "px"
     );
   }
 }

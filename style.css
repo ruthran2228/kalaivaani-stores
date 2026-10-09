@@ -73,8 +73,8 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
-html,body{max-width:100%;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+html,body{max-width:100%;overflow-x:clip}
 body{
   font-family:var(--font-body);
   background:var(--bg);
@@ -243,7 +243,10 @@ body.nav-open .site-header{position:sticky;top:0;z-index:1210}
 .nav-drawer.open .nav-item:nth-child(3){animation-delay:.19s}
 .nav-drawer.open .nav-item:nth-child(4){animation-delay:.26s}
 @keyframes navIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
-body.nav-open{overflow:hidden}
+/* lock the VIEWPORT while the drawer is open (root overflow propagates to the
+   viewport); never on body - body{overflow:hidden} turns body into a scroll
+   container, which breaks the sticky header and does not lock scrolling */
+html.nav-locked{overflow:hidden}
 
 /* ============================ HERO =========================== */
 .hero{
