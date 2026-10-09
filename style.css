@@ -177,6 +177,22 @@ main,#shop{scroll-margin-top:120px}
   border-radius:var(--pill);display:none;place-items:center;font-size:10.5px;font-weight:800;
   border:2px solid #fff;box-shadow:0 4px 10px rgba(229,72,77,.45)}
 
+/* ========================= ACCOUNT MENU ====================== */
+#auth-action[aria-haspopup="true"]{position:relative}
+#user-menu{
+  position:absolute;top:100%;right:0;min-width:172px;background:#fff;
+  border:1px solid rgba(6,21,14,.14);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  padding:4px 0;z-index:1001;margin-top:4px}
+#user-menu a, #user-menu button{
+  display:block;width:100%;text-align:left;padding:11px 16px;
+  background:none;border:none;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink);
+  text-decoration:none}
+#user-menu a:hover, #user-menu button:hover{background:#f0f5f1;color:var(--ink)}
+#user-menu .user-menu-logout{color:#c03622}
+#user-menu .user-menu-logout:hover{background:#fee}
+@media(max-width:600px){
+  #user-menu{min-width:190px;white-space:nowrap}}
+
 /* ============================ HERO =========================== */
 .hero{
   max-width:1400px;margin:auto;min-height:470px;

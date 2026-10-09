@@ -794,29 +794,114 @@ async function getCurrentUser() {
   }
 }
 
-// Header button flips between "Sign in" (guest) and "Logout" (member).
+// Header button flips between "Sign in" (guest) and a 3-line account menu (member):
+// Profile / Settings (admins) / Sign out.
 function renderAuthAction(user) {
-  const btn = $("auth-action");
-  if (!btn) return;
+  const actions = document.querySelector(".header-actions");
+  if (!actions) return;
+
+  const oldMenu = document.getElementById("user-menu");
+  if (oldMenu) oldMenu.remove();
+  const oldBtn = document.getElementById("auth-action");
+  if (oldBtn) oldBtn.remove();
+
   if (user) {
-    btn.href = "#";
-    btn.setAttribute("aria-label", "Sign out");
-    btn.innerHTML = '🚪 <span>Logout</span>';
-    btn.onclick = async (event) => {
-      event.preventDefault();
+    // Member state: account dropdown with 3 lines.
+    const btn = document.createElement("button");
+    btn.id = "auth-action";
+    btn.className = "track-btn";
+    btn.type = "button";
+    btn.setAttribute("aria-haspopup", "true");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "Account menu");
+    btn.innerHTML = "👤 <span>Account</span>";
+
+    const menu = document.createElement("div");
+    menu.id = "user-menu";
+    menu.setAttribute("role", "menu");
+    menu.hidden = true; // closed until the Account button is clicked
+
+    const itemProfile = document.createElement("a");
+    itemProfile.href = "profile.html";
+    itemProfile.setAttribute("role", "menuitem");
+    itemProfile.innerHTML = "👤 Profile";
+    menu.appendChild(itemProfile);
+
+    const itemSettings = document.createElement("a");
+    itemSettings.href = "admin.html";
+    itemSettings.setAttribute("role", "menuitem");
+    itemSettings.innerHTML = "⚙️ Settings";
+    menu.appendChild(itemSettings);
+
+    const itemLogout = document.createElement("button");
+    itemLogout.className = "user-menu-logout";
+    itemLogout.setAttribute("role", "menuitem");
+    itemLogout.innerHTML = "🚪 Sign out";
+    menu.appendChild(itemLogout);
+
+    // Sign out handler.
+    itemLogout.addEventListener("click", async () => {
       try {
         await supabaseClient.auth.signOut();
       } catch (error) {
         /* ignore — we reload either way */
       }
       window.location.replace("index.html");
+    });
+
+    // Toggle the menu; aria-expanded reflects the state AFTER the click.
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      const open = menu.hidden; // currently hidden → we are opening it
+      menu.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+
+    // Close when clicking outside the button/menu or pressing Escape.
+    // Ignore clicks inside the button (the toggle) so opening is not undone.
+    const close = (event) => {
+      if (document.getElementById("user-menu") !== menu) return; // stale listener
+      if (event && event.type === "click" && btn.contains(event.target)) return;
+      menu.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
     };
+    document.addEventListener("click", close);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+
+    btn.appendChild(menu);
+    actions.insertBefore(btn, actions.querySelector(".cart-btn"));
+
+    // Show Settings only to admins (fail-closed).
+    supabaseClient
+      .rpc("is_admin")
+      .then(({ data }) => {
+        if (data === true) return;
+        itemSettings.hidden = true; // not admin → hide Settings
+      })
+      .catch(() => {
+        itemSettings.hidden = true; // fail closed
+      });
   } else {
-    btn.href = "login.html?next=" +
+    // Guest state: plain Sign in link.
+    const login = document.createElement("a");
+    login.id = "auth-action";
+    login.className = "track-btn";
+    login.href = "login.html?next=" +
       encodeURIComponent(window.location.pathname + window.location.search);
-    btn.setAttribute("aria-label", "Sign in");
-    btn.innerHTML = '👤 <span>Sign in</span>';
-    btn.onclick = null;
+    login.setAttribute("aria-label", "Sign in");
+    login.innerHTML = "👤 <span>Sign in</span>";
+
+    const logoutBtn = document.getElementById("logout-btn");
+    const cart = actions.querySelector(".cart-btn");
+    if (logoutBtn) {
+      actions.insertBefore(login, logoutBtn);
+    } else if (cart) {
+      actions.insertBefore(login, cart);
+    } else {
+      actions.appendChild(login);
+    }
   }
 }
 
