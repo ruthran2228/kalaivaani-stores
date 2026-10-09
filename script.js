@@ -860,20 +860,25 @@ function openNavDrawer() {
   const backdrop = document.getElementById("nav-backdrop");
   const toggle = document.getElementById("nav-toggle");
   if (!drawer) return;
-  measureNavHeader(); // drawer sits just below the header bar
   drawer.classList.add("open");
   if (backdrop) backdrop.classList.add("open");
   document.body.classList.add("nav-open");
   toggle.setAttribute("aria-expanded", "true");
   toggle.setAttribute("aria-label", "Close menu");
+  // measure AFTER opening: the header may shift (mobile static -> sticky)
+  measureNavHeader();
 }
 
-// The header stays above the veil while open, so the drawer top must match
-// the header height (differs desktop/mobile, and on resize).
+// The drawer must start at the header's bottom EDGE in the viewport - not just
+// its height - because the announcement bar above can push the header down
+// (e.g. at the top of the page), which would hide the first menu item.
 function measureNavHeader() {
   const header = document.querySelector(".site-header");
   if (header) {
-    document.documentElement.style.setProperty("--hdr-h", header.offsetHeight + "px");
+    document.documentElement.style.setProperty(
+      "--hdr-h",
+      Math.ceil(header.getBoundingClientRect().bottom) + "px"
+    );
   }
 }
 
