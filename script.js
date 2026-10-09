@@ -849,33 +849,77 @@ function closeNavDrawer() {
   const toggle = document.getElementById("nav-toggle");
   if (!drawer) return;
   drawer.classList.remove("open");
-  backdrop.classList.remove("open");
+  if (backdrop) backdrop.classList.remove("open");
   document.body.classList.remove("nav-open");
   toggle.setAttribute("aria-expanded", "false");
   toggle.setAttribute("aria-label", "Open menu");
+}
+
+function openNavDrawer() {
+  const drawer = document.getElementById("nav-drawer");
+  const backdrop = document.getElementById("nav-backdrop");
+  const toggle = document.getElementById("nav-toggle");
+  if (!drawer) return;
+  measureNavHeader(); // drawer sits just below the header bar
+  drawer.classList.add("open");
+  if (backdrop) backdrop.classList.add("open");
+  document.body.classList.add("nav-open");
+  toggle.setAttribute("aria-expanded", "true");
+  toggle.setAttribute("aria-label", "Close menu");
+}
+
+// The header stays above the veil while open, so the drawer top must match
+// the header height (differs desktop/mobile, and on resize).
+function measureNavHeader() {
+  const header = document.querySelector(".site-header");
+  if (header) {
+    document.documentElement.style.setProperty("--hdr-h", header.offsetHeight + "px");
+  }
 }
 
 function initNavDrawer() {
   const toggle = document.getElementById("nav-toggle");
   const drawer = document.getElementById("nav-drawer");
   const backdrop = document.getElementById("nav-backdrop");
-  const closeBtn = document.getElementById("nav-close");
   if (!toggle || !drawer) return;
 
-  toggle.addEventListener("click", () => {
-    const open = !drawer.classList.contains("open");
-    drawer.classList.toggle("open", open);
-    if (backdrop) backdrop.classList.toggle("open", open);
-    document.body.classList.toggle("nav-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  measureNavHeader();
+  window.addEventListener("resize", () => {
+    if (drawer.classList.contains("open")) measureNavHeader();
   });
 
-  if (closeBtn) closeBtn.addEventListener("click", closeNavDrawer);
+  toggle.addEventListener("click", () => {
+    if (drawer.classList.contains("open")) closeNavDrawer();
+    else openNavDrawer();
+  });
+
   if (backdrop) backdrop.addEventListener("click", closeNavDrawer);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeNavDrawer();
   });
+
+  // Swipe: pull right from the left screen edge to open, swipe left to close.
+  let startX = null;
+  let startY = null;
+  document.addEventListener("touchstart", (event) => {
+    if (!event.touches.length) {
+      startX = null;
+      return;
+    }
+    startX = event.touches[0].clientX;
+    startY = event.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener("touchend", (event) => {
+    if (startX === null || !event.changedTouches.length) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - startX;
+    const dy = Math.abs(touch.clientY - startY);
+    const isOpen = drawer.classList.contains("open");
+    if (dy < 70 && dx > 70 && !isOpen && startX <= 30) openNavDrawer();
+    else if (dy < 70 && dx < -70 && isOpen) closeNavDrawer();
+    startX = null;
+    startY = null;
+  }, { passive: true });
 }
 
 (function bootStore() {
