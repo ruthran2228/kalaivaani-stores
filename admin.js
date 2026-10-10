@@ -583,7 +583,7 @@ function renderDashboard() {
       <div class="stat-card">
         <div class="stat-top"><span class="stat-ico">📦</span><span class="stat-label">Total products</span></div>
         <div class="stat-value">${PRODUCTS.length}</div>
-        <div class="stat-sub">${featured} featured</div>
+        <div class="stat-sub">${featured} in Popular</div>
       </div>
       <div class="stat-card warn">
         <div class="stat-top"><span class="stat-ico">🏷️</span><span class="stat-label">Missing price</span></div>
@@ -790,7 +790,12 @@ function renderProductTable() {
           <span class="dot"></span>${p.in_stock ? "In stock" : "Out"}
         </button>`;
 
-      const starBadge = p.featured ? `<span class="badge star">⭐ Featured</span>` : "";
+      const featuredToggle = `
+        <button class="featured-toggle ${p.featured ? "on" : "off"}" data-featured-toggle="${p.id}" type="button"
+          title="${p.featured ? "Remove from Popular" : "Add to Popular"}"
+          aria-pressed="${p.featured ? "true" : "false"}">
+          <span class="star" aria-hidden="true">${p.featured ? "⭐" : "☆"}</span>Popular
+        </button>`;
 
       const groupBadge = p.group_key
         ? `<button class="badge grp" data-group="${esc(p.group_key)}" type="button" title="Show group">G</button>`
@@ -803,7 +808,7 @@ function renderProductTable() {
         <td class="p-name">${esc(p.name)}${sub ? `<small>${esc(sub)}</small>` : ""}</td>
         <td>${priceCell}</td>
         <td>${stockToggle}</td>
-        <td>${starBadge}</td>
+        <td>${featuredToggle}</td>
         <td>${groupBadge}</td>
         <td class="row-actions">
           <button class="btn" data-edit="${p.id}" type="button">Edit</button>
@@ -820,7 +825,7 @@ function renderProductTable() {
         <th>Name</th>
         <th>Price</th>
         <th>Stock</th>
-        <th>Status</th>
+        <th>Popular</th>
         <th>Grp</th>
         <th>Actions</th>
       </tr>
@@ -834,6 +839,12 @@ function renderProductTable() {
     const stockBtn = ev.target.closest("[data-stock-toggle]");
     if (stockBtn) {
       toggleStock(+stockBtn.dataset.stockToggle);
+      return;
+    }
+
+    const featBtn = ev.target.closest("[data-featured-toggle]");
+    if (featBtn) {
+      toggleFeatured(+featBtn.dataset.featuredToggle);
       return;
     }
 
@@ -967,7 +978,7 @@ function openProductModal(product) {
         <div class="field full">
           <div class="toggle-row">
             <label class="toggle"><input name="in_stock" type="checkbox" ${p.in_stock ? "checked" : ""}> In stock</label>
-            <label class="toggle"><input name="featured" type="checkbox" ${p.featured ? "checked" : ""}> Featured</label>
+            <label class="toggle"><input name="featured" type="checkbox" ${p.featured ? "checked" : ""}> ⭐ Popular</label>
           </div>
         </div>
 
@@ -1156,6 +1167,34 @@ async function toggleStock(id) {
   await loadProducts();
   updateTabCounts();
   renderProductTable();
+}
+
+async function toggleFeatured(id) {
+  const p = PRODUCTS.find((x) => x.id == id);
+  if (!p) return;
+  const next = !p.featured;
+
+  // Keep a variant family in sync so the whole group shows in Popular.
+  const ids = p.group_key
+    ? PRODUCTS.filter((x) => x.group_key === p.group_key).map((x) => x.id)
+    : [p.id];
+
+  const res = await supabaseClient.from("products").update({ featured: next }).in("id", ids);
+  if (res.error) {
+    console.error("toggleFeatured error", res.error);
+    showToast("Popular update failed: " + res.error.message);
+    return;
+  }
+
+  showToast(
+    next
+      ? `${p.name} added to ⭐ Popular (${ids.length} row${ids.length === 1 ? "" : "s"}).`
+      : `${p.name} removed from ⭐ Popular.`
+  );
+  await loadProducts();
+  updateTabCounts();
+  renderProductTable();
+  if (currentTab === "dashboard") renderDashboard();
 }
 
 async function deleteProduct(product) {

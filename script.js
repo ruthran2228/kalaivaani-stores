@@ -321,7 +321,7 @@ function renderProducts() {
       : emojiFallback;
 
     const badges = [
-      firstVariant.featured ? '<span class="featured-badge">⭐ Featured</span>' : "",
+      firstVariant.featured ? '<span class="featured-badge">⭐ Popular</span>' : "",
       firstVariant.price != null && firstVariant.price <= 20 ? '<span class="price-badge">Value</span>' : ""
     ].join("");
 
@@ -712,6 +712,8 @@ $("cat-bar").addEventListener("click", (event) => {
   activeCategory = tab.dataset.cat;
   quickFilter = null;
 
+  document.querySelectorAll("[data-quick]").forEach((b) => b.classList.remove("active"));
+
   renderProducts();
 
   smoothScroll("shop");
@@ -751,6 +753,11 @@ document
           });
       }
 
+      // Show which quick filter is currently applied.
+      document.querySelectorAll("[data-quick]").forEach((b) => {
+        b.classList.toggle("active", b === button && type !== "all");
+      });
+
       renderProducts();
     });
   });
@@ -760,6 +767,8 @@ $("reset-filters").addEventListener("click", () => {
   activeCategory = "All";
   quickFilter = null;
   sortBy = "default";
+
+  document.querySelectorAll("[data-quick]").forEach((b) => b.classList.remove("active"));
 
   $("search-input").value = "";
   $("sort-select").value = "default";

@@ -354,6 +354,11 @@ html.nav-locked{overflow:hidden}
   transition:background-color .16s,color .16s,border-color .16s,transform .16s,box-shadow .16s;
 }
 .quick-links button:hover{border-color:var(--ink);border-style:solid;background:var(--lime);transform:translateY(-2px);box-shadow:0 10px 20px rgba(6,21,14,.12)}
+.quick-links button.active{
+  border-style:solid;border-color:var(--ink);background:var(--lime);color:var(--ink);
+  transform:none;box-shadow:0 10px 22px rgba(198,255,79,.38);
+}
+.quick-links button.active::before{content:"✓ ";font-weight:900}
 
 /* ============================ PRODUCT GRID =================== */
 .product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
