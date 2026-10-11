@@ -324,7 +324,7 @@ function buildShell() {
     <div class="admin-shell">
       <aside class="sidebar">
         <div class="side-brand">
-          <img class="logo-img side-logo" src="logo.svg" alt="Kalaivani Stores" width="44" height="44">
+          <img class="side-logo" src="logo.svg" alt="Kalaivani Stores" width="44" height="44">
           <div class="side-brand-text">
             <strong>Kalaivani Stores</strong>
             <small>Store admin</small>
@@ -332,10 +332,24 @@ function buildShell() {
         </div>
 
         <nav class="side-nav" id="tabs" aria-label="Admin sections">
-          <button class="tab active" data-tab="dashboard" type="button"><span class="nav-ico">📊</span>Dashboard</button>
-          <button class="tab" data-tab="products" type="button"><span class="nav-ico">📦</span>Products<span class="count" id="tab-products-count"></span></button>
-          <button class="tab" data-tab="orders" type="button"><span class="nav-ico">🧾</span>Orders<span class="count" id="tab-orders-count"></span></button>
-          <button class="tab" data-tab="settings" type="button"><span class="nav-ico">⚙️</span>Settings</button>
+          <button class="hamburger" aria-label="Open menu" role="button" tabindex="0">
+            <span class="bar"></span>
+          </button>
+
+          <div class="side-drawer" id="side-drawer">
+            <h3>Menu</h3>
+            <div class="side-drawer-nav">
+              <button class="side-drawer-item active" data-drawer="dashboard"><span class="nav-ico">📊</span>Dashboard</button>
+              <button class="side-drawer-item" data-drawer="orders"><span class="nav-ico">🧾</span>My Orders</button>
+              <button class="side-drawer-item" data-drawer="profile"><span class="nav-ico">👤</span>Profile</button>
+            </div>
+            <div class="side-drawer-footer">
+              <a id="sign-in-link" href="./" style="display:none;">Sign in</a>
+              <a id="sign-out-link" href="#">Sign out</a>
+            </div>
+          </div>
+
+          <div class="admin-overlay" id="admin-overlay"></div>
         </nav>
 
         <div class="side-foot">
@@ -367,16 +381,78 @@ function buildShell() {
           <section class="page-panel" id="panel-products"></section>
           <section class="page-panel" id="panel-orders"></section>
           <section class="page-panel" id="panel-settings"></section>
+          <section class="page-panel" id="panel-profile"></section>
         </main>
       </div>
     </div>
   `;
 
-  $("#logout-btn").addEventListener("click", handleLogout);
-  $("#tabs").addEventListener("click", (ev) => {
-    const tab = ev.target.closest("[data-tab]");
-    if (tab) switchTab(tab.dataset.tab);
+  // Drawer toggle
+  var hamburger = $("#tabs").querySelector(".hamburger");
+  var overlay = $("#admin-overlay");
+  var drawer = $("#side-drawer");
+  var drawerItems = document.querySelectorAll(".side-drawer-item");
+  var currentDrawer = "dashboard";
+
+  function openDrawer(name) {
+    currentDrawer = name;
+    drawerItems.forEach(function(el) {
+      el.classList.toggle("active", el.dataset.drawer === name);
+    });
+    document.querySelectorAll(".page-panel").forEach(function(p) {
+      p.classList.toggle("active", p.id === "panel-" + name);
+    });
+    if (name === "dashboard") renderDashboard();
+    if (name === "orders") renderOrdersPanel();
+    if (name === "profile") renderProfilePanel();
+  }
+
+  hamburger.addEventListener("click", function() {
+    drawer.classList.toggle("open");
+    overlay.classList.toggle("open");
+    document.body.classList.toggle("overflow-hidden");
+    openDrawer(currentDrawer);
   });
+
+  overlay.addEventListener("click", function() {
+    drawer.classList.remove("open");
+    overlay.classList.remove("open");
+    document.body.classList.remove("overflow-hidden");
+  });
+
+  drawerItems.forEach(function(el) {
+    el.addEventListener("click", function() {
+      drawer.classList.remove("open");
+      overlay.classList.remove("open");
+      document.body.classList.remove("overflow-hidden");
+      openDrawer(el.dataset.drawer);
+    });
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      drawer.classList.remove("open");
+      overlay.classList.remove("open");
+      document.body.classList.remove("overflow-hidden");
+    }
+  });
+
+  // toggle sign in/out links based on auth
+  var signInLink = $("#sign-in-link");
+  var signOutLink = $("#sign-out-link");
+  if (AUTH && AUTH.user) {
+    signInLink.style.display = "none";
+    signOutLink.style.display = "";
+  } else {
+    signInLink.style.display = "";
+    signOutLink.style.display = "none";
+  }
+
+  $("#logout-btn").addEventListener("click", handleLogout);
+  signOutLink.addEventListener("click", handleLogout);
+
+  // initial open to dashboard
+  openDrawer("dashboard");
 }
 
 function uniqueCategories(products) {
@@ -1863,6 +1939,43 @@ async function renderSettingsPanel() {
       showToast(nowOpen ? "Store is now open." : "Store is now closed.");
     });
   }
+}
+
+// ------------------------------------------------------------
+// Profile panel (shows admin info + sign out)
+// ------------------------------------------------------------
+function renderProfilePanel() {
+  const panel = $("#panel-profile");
+  if (!panel) return;
+
+  const email = (AUTH && AUTH.user && AUTH.user.email) || "Admin";
+  const name = (AUTH && AUTH.user && AUTH.user.user_metadata && AUTH.user.user_metadata.name) || "";
+
+  panel.innerHTML = `
+    <div class="page-head">
+      <div>
+        <h2>Profile</h2>
+        <p>Your admin account details</p>
+      </div>
+    </div>
+
+    <div class="panel-card" style="max-width:480px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Email</label>
+          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">${esc(email)}</p>
+        </div>
+        ${name ? `<div>
+          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Name</label>
+          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">${esc(name)}</p>
+        </div>` : ""}
+        <div>
+          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Role</label>
+          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">Store Admin</p>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // ------------------------------------------------------------

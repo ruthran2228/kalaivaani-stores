@@ -386,6 +386,85 @@ a { color: var(--green-700); }
   gap: 12px;
 }
 
+/* --------------------------------------------------------------
+   Hamburger button (☰) - visible on mobile only (≤960px)
+   -------------------------------------------------------------- */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+}
+.hamburger .bar { width: 24px; height: 3px; background: #fff; margin: 5px 0; transition: transform .3s, opacity .3s; }
+.hamburger:hover .bar { background: var(--ok); }
+
+/* --------------------------------------------------------------
+   Left slide-in drawer (hidden by default, shown when .open)
+   -------------------------------------------------------------- */
+.side-drawer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 260px;
+  max-height: 100vh;
+  background: var(--card-bg);
+  border-right: 1px solid var(--glass-line);
+  box-shadow: var(--glass-shadow), var(--glass-edge);
+  padding: 24px 20px;
+  transform: translateX(-100%);
+  transition: transform .35s ease-out;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+.side-drawer.open { transform: translateX(0); }
+
+.side-drawer h3 { font-size: 18px; font-weight: 800; color: var(--ink); margin: 0 0 20px; letter-spacing: -0.01em; }
+
+.side-drawer-nav { display: flex; flex-direction: column; gap: 12px; }
+.side-drawer-nav a,
+.side-drawer-nav button {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: var(--pill);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.side-drawer-nav a:hover,
+.side-drawer-nav button:hover { background: rgba(255,255,255,.08); border-color: var(--glass-line-strong); color: var(--ink); }
+.side-drawer-nav a.active,
+.side-drawer-nav button.active { background: var(--grad-lime); color: #062418; border-color: var(--ink); }
+
+.side-drawer-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--glass-line); display: flex; flex-direction: column; gap: 8px; }
+.side-drawer-footer a { color: var(--muted); font-size: 12px; }
+
+/* overlay behind drawer */
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6,21,14,.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+  z-index: 199;
+}
+.admin-overlay.open { opacity: 1; visibility: visible; }
+
+/* When drawer is open, dim the main content */
+.admin-shell.open > .main-col { filter: blur(4px); -webkit-filter: blur(4px); }
+
 .side-store {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.32);
@@ -1360,6 +1439,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   }
   .side-brand { border-bottom: 0; padding: 0; }
   .side-brand-text { display: none; }
+  .hamburger { display: flex; }
   .side-nav { flex-direction: row; flex: 1; margin-top: 0; overflow-x: auto; scrollbar-width: none; gap: 6px; }
   .side-nav .tab { width: auto; flex: 0 0 auto; justify-content: center; padding: 10px 13px; border-radius: var(--pill); font-size: 13px; }
   .side-nav .count { margin-left: 4px; }
