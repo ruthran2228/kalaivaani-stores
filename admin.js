@@ -1716,6 +1716,7 @@ function orderCard(o) {
         <span class="oc-date">${new Date(o.created_at).toLocaleString()}</span>
       </div>
       <div class="oc-actions">
+        ${o.phone ? `<a class="call-btn" href="tel:${esc(o.phone)}" title="Call ${esc(o.phone)}" aria-label="Call ${esc(o.phone)}">📞 Call</a>` : ""}
         <select class="status-select status-${status}" data-order-id="${o.id}" aria-label="Order status">
           ${statusOptions}
         </select>

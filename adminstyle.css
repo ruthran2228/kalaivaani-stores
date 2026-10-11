@@ -1050,6 +1050,24 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .pay-toggle:hover { border-color: var(--ok); }
 .pay-toggle.paid { background: var(--ok); color: #fff; border-color: transparent; }
 
+.call-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--ok);
+  border-radius: var(--pill);
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ok);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.call-btn:hover { background: var(--ok); color: #fff; border-color: var(--ok); }
+
 /* ---------- Modal ---------- */
 .modal-bg {
   position: fixed;
@@ -1351,6 +1369,8 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   .user-email { display: none; }
   .oc-actions .btn-danger { font-size: 0; padding: 8px 10px; }
   .oc-actions .btn-danger::after { content: "\2715"; font-size: 13px; }
+  .oc-actions .call-btn { font-size: 0; padding: 8px 10px; }
+  .oc-actions .call-btn::after { content: "\1F4DE"; font-size: 13px; }
   .btn { padding: 11px 14px; }
 }
 
