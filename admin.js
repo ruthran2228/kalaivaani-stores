@@ -321,61 +321,64 @@ function buildShell() {
   });
 
   app.innerHTML = `
-    <div class="admin-shell">
-      <aside class="sidebar">
-        <div class="side-brand">
-          <img class="side-logo" src="logo.svg" alt="Kalaivani Stores" width="44" height="44">
-          <div class="side-brand-text">
-            <strong>Kalaivani Stores</strong>
-            <small>Store admin</small>
-          </div>
-        </div>
-
-        <nav class="side-nav" id="tabs" aria-label="Admin sections">
-          <button class="hamburger" aria-label="Open menu" role="button" tabindex="0">
+    <div class="admin-shell" id="admin-shell">
+      <header class="admin-topbar">
+        <div class="topbar-inner">
+          <button class="hamburger" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="side-drawer">
+            <span class="bar"></span>
+            <span class="bar"></span>
             <span class="bar"></span>
           </button>
 
-          <div class="side-drawer" id="side-drawer">
-            <h3>Menu</h3>
-            <div class="side-drawer-nav">
-              <button class="side-drawer-item active" data-drawer="dashboard"><span class="nav-ico">📊</span>Dashboard</button>
-              <button class="side-drawer-item" data-drawer="orders"><span class="nav-ico">🧾</span>My Orders</button>
-              <button class="side-drawer-item" data-drawer="profile"><span class="nav-ico">👤</span>Profile</button>
-            </div>
-            <div class="side-drawer-footer">
-              <a id="sign-in-link" href="./" style="display:none;">Sign in</a>
-              <a id="sign-out-link" href="#">Sign out</a>
+          <div class="admin-brand">
+            <img class="topbar-logo" src="logo.svg" alt="Kalaivani Stores" width="40" height="40">
+            <div class="admin-brand-text">
+              <strong>Kalaivani Stores</strong>
+              <small>Store admin</small>
             </div>
           </div>
 
-          <div class="admin-overlay" id="admin-overlay"></div>
-        </nav>
+          <div class="topbar-spacer"></div>
 
-        <div class="side-foot">
-          <a class="btn side-store" href="./" target="_blank">Open live store ↗</a>
+          <div class="th-now">
+            <span class="live-dot"></span> Live
+            <span class="th-date">${today}</span>
+          </div>
+
           <div class="user-chip">
             <span class="user-email" title="${esc(email)}">${esc(email)}</span>
             <button class="btn side-logout" id="logout-btn" type="button">Log out</button>
           </div>
         </div>
-      </aside>
+      </header>
+
+      <nav class="side-drawer" id="side-drawer" aria-label="Admin menu">
+        <div class="drawer-head">
+          <img class="drawer-logo" src="logo.svg" alt="Kalaivani Stores" width="38" height="38">
+          <div>
+            <strong>Kalaivani Stores</strong>
+            <small>Store admin</small>
+          </div>
+        </div>
+
+        <div class="side-drawer-nav">
+          <button class="side-drawer-item active" data-drawer="dashboard" type="button"><span class="nav-ico">📊</span>Dashboard</button>
+          <button class="side-drawer-item" data-drawer="products" type="button"><span class="nav-ico">📦</span>Products<span class="count" id="tab-products-count"></span></button>
+          <button class="side-drawer-item" data-drawer="orders" type="button"><span class="nav-ico">🧾</span>My Orders<span class="count" id="tab-orders-count"></span></button>
+          <button class="side-drawer-item" data-drawer="settings" type="button"><span class="nav-ico">⚙️</span>Settings</button>
+          <button class="side-drawer-item" data-drawer="profile" type="button"><span class="nav-ico">👤</span>Profile</button>
+        </div>
+
+        <div class="side-drawer-footer">
+          <a class="side-store" href="./" target="_blank" rel="noopener">Open live store ↗</a>
+          <a id="sign-in-link" href="./" style="display:none;">Sign in</a>
+          <a id="sign-out-link" href="#" style="display:none;">Sign out</a>
+        </div>
+      </nav>
+
+      <div class="admin-overlay" id="admin-overlay"></div>
 
       <div class="main-col">
-        <header class="top-head">
-          <div class="th-bread">
-            <img class="logo-img" src="logo.svg" alt="Kalaivani Stores" width="38" height="38">
-            <div>
-              <h1>Kalaivani Stores</h1>
-              <p>Admin panel</p>
-            </div>
-          </div>
-          <div class="th-now">
-            <span class="live-dot"></span> Live
-            <span class="th-date">${today}</span>
-          </div>
-        </header>
-
         <main class="page">
           <section class="page-panel active" id="panel-dashboard"></section>
           <section class="page-panel" id="panel-products"></section>
@@ -387,59 +390,41 @@ function buildShell() {
     </div>
   `;
 
-  // Drawer toggle
-  var hamburger = $("#tabs").querySelector(".hamburger");
-  var overlay = $("#admin-overlay");
-  var drawer = $("#side-drawer");
-  var drawerItems = document.querySelectorAll(".side-drawer-item");
-  var currentDrawer = "dashboard";
+  // ---- Hamburger drawer ----
+  const hamburger = $("#menu-btn");
+  const overlay = $("#admin-overlay");
+  const drawer = $("#side-drawer");
+  const shell = $("#admin-shell");
 
-  function openDrawer(name) {
-    currentDrawer = name;
-    drawerItems.forEach(function(el) {
-      el.classList.toggle("active", el.dataset.drawer === name);
-    });
-    document.querySelectorAll(".page-panel").forEach(function(p) {
-      p.classList.toggle("active", p.id === "panel-" + name);
-    });
-    if (name === "dashboard") renderDashboard();
-    if (name === "orders") renderOrdersPanel();
-    if (name === "profile") renderProfilePanel();
+  function setDrawerOpen(open) {
+    drawer.classList.toggle("open", open);
+    overlay.classList.toggle("open", open);
+    hamburger.classList.toggle("active", open);
+    hamburger.setAttribute("aria-expanded", String(open));
+    shell.classList.toggle("open", open);
+    document.body.classList.toggle("overflow-hidden", open);
   }
 
-  hamburger.addEventListener("click", function() {
-    drawer.classList.toggle("open");
-    overlay.classList.toggle("open");
-    document.body.classList.toggle("overflow-hidden");
-    openDrawer(currentDrawer);
+  hamburger.addEventListener("click", () => {
+    setDrawerOpen(!drawer.classList.contains("open"));
   });
 
-  overlay.addEventListener("click", function() {
-    drawer.classList.remove("open");
-    overlay.classList.remove("open");
-    document.body.classList.remove("overflow-hidden");
-  });
+  overlay.addEventListener("click", () => setDrawerOpen(false));
 
-  drawerItems.forEach(function(el) {
-    el.addEventListener("click", function() {
-      drawer.classList.remove("open");
-      overlay.classList.remove("open");
-      document.body.classList.remove("overflow-hidden");
-      openDrawer(el.dataset.drawer);
+  drawer.querySelectorAll(".side-drawer-item").forEach((el) => {
+    el.addEventListener("click", () => {
+      setDrawerOpen(false);
+      switchTab(el.dataset.drawer);
     });
   });
 
-  document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") {
-      drawer.classList.remove("open");
-      overlay.classList.remove("open");
-      document.body.classList.remove("overflow-hidden");
-    }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setDrawerOpen(false);
   });
 
-  // toggle sign in/out links based on auth
-  var signInLink = $("#sign-in-link");
-  var signOutLink = $("#sign-out-link");
+  // ---- Sign in / out links in the drawer footer ----
+  const signInLink = $("#sign-in-link");
+  const signOutLink = $("#sign-out-link");
   if (AUTH && AUTH.user) {
     signInLink.style.display = "none";
     signOutLink.style.display = "";
@@ -451,8 +436,8 @@ function buildShell() {
   $("#logout-btn").addEventListener("click", handleLogout);
   signOutLink.addEventListener("click", handleLogout);
 
-  // initial open to dashboard
-  openDrawer("dashboard");
+  // initial view
+  switchTab("dashboard");
 }
 
 function uniqueCategories(products) {
@@ -466,8 +451,8 @@ function uniqueCategories(products) {
 
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll(".tab").forEach((el) => {
-    el.classList.toggle("active", el.dataset.tab === tab);
+  document.querySelectorAll(".side-drawer-item").forEach((el) => {
+    el.classList.toggle("active", el.dataset.drawer === tab);
   });
   document.querySelectorAll(".page-panel").forEach((el) => {
     el.classList.toggle("active", el.id === "panel-" + tab);
@@ -477,6 +462,7 @@ function switchTab(tab) {
   if (tab === "products") renderProductsPanel();
   if (tab === "orders") renderOrdersPanel();
   if (tab === "settings") renderSettingsPanel();
+  if (tab === "profile") renderProfilePanel();
 }
 
 // ------------------------------------------------------------
