@@ -12,7 +12,21 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=20261011d">
+<script>
+  /* apply the stored / system theme before first paint (no flash) */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("ks-theme"); } catch (e) {}
+    if (t !== "dark" && t !== "light") {
+      t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    }
+    var r = document.documentElement;
+    r.setAttribute("data-theme", t);
+    r.style.colorScheme = t;
+  })();
+</script>
+<script src="theme.js?v=20261011e"></script>
+<link rel="stylesheet" href="style.css?v=20261011e">
   <link rel="preload" as="image" href="hero-bg.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,6 +56,7 @@
     </div>
 
     <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme"><span data-theme-icon aria-hidden="true">🌙</span></button>
       <a class="call-btn" href="tel:7667771101">☎ <span>Call</span></a>
       <a class="cart-btn" href="cart.html" id="cart-link" aria-label="View your cart">
         🛒 <span>Cart</span><b class="cart-badge" id="cart-badge">0</b>
@@ -184,8 +199,8 @@
   </aside>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
-  <script src="config.js?v=20261011d"></script>
-  <script src="store-cart.js?v=20261011d"></script>
-  <script src="script.js?v=20261011d"></script>
+  <script src="config.js?v=20261011e"></script>
+  <script src="store-cart.js?v=20261011e"></script>
+  <script src="script.js?v=20261011e"></script>
 </body>
 </html>

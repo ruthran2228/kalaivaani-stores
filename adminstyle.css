@@ -22,6 +22,7 @@
   --green-50: #F1FDF7;
 
   --lime: #C6FF4F;
+  --on-lime: #06150E;          /* text on a lime surface — dark in BOTH themes */
   --teal: #00D9B8;
 
   --muted: #5E6E64;
@@ -70,6 +71,99 @@
 
   --side-1: #06150E;
   --side-2: #0A5B31;
+
+  /* ---- component surfaces (light values; dark mode redefines them) ---- */
+  --field: #fff;
+  --chip: rgba(255, 255, 255, 0.72);
+  --card-2: rgba(255, 255, 255, 0.45);
+  --card-3: rgba(255, 255, 255, 0.6);
+  --card-hover: rgba(255, 255, 255, 0.4);
+  --card-odd: rgba(255, 255, 255, 0.24);
+  --line-2: rgba(6, 21, 14, 0.12);
+  --line-3: rgba(6, 21, 14, 0.08);
+  --line-4: rgba(6, 21, 14, 0.06);
+  --bar-track: rgba(6, 21, 14, 0.07);
+  --scrim: rgba(6, 21, 14, 0.5);
+  --file-hover: #f6fbf7;
+  --toggle-track: rgba(6, 21, 14, 0.16);
+  --thumb: rgba(6, 21, 14, 0.18);
+  --thumb-hover: rgba(6, 21, 14, 0.3);
+  --oc-hero-grad: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.16));
+
+  --status-new-fg: #7a5b11;    --status-new-bg: #fdf6e3;
+  --status-conf-fg: #085cae;   --status-conf-bg: #e8f1fd;
+  --status-out-fg: #7a4c08;    --status-out-bg: #fdf0e0;
+}
+
+/* =============================================================
+   DARK THEME — <html data-theme="dark">
+   ============================================================= */
+:root[data-theme="dark"]{
+  --ink: #EAF3EC;
+  --ink-2: #D6E6DB;
+  --ink-3: #BFD6C7;
+  --muted: #9DB3A5;
+  --on-lime: #06231A;          /* lime stays bright, so its text stays dark */
+  --bg: #07110B;
+  --cream: #0C1A11;
+
+  --green-950: #D3F6E3;
+  --green-900: #A9EEC8;
+  --green-800: #6FE0A6;
+  --green-700: #6FE0A6;
+  --green-600: #12C470;
+  --green-500: #16D07E;
+  --green: #16D07E;
+  --green-100: #10281C;
+  --green-50: #0C2015;
+
+  --danger: #FF7A80;
+  --danger-bg: #2B1114;
+  --warn: #FFC24D;
+  --warn-bg: #2A1F0A;
+  --ok: #16D07E;
+  --ok-bg: #10281C;
+
+  --line: #21382B;
+  --line-2: rgba(255, 255, 255, 0.14);
+  --line-3: rgba(255, 255, 255, 0.1);
+  --line-4: rgba(255, 255, 255, 0.08);
+
+  --shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 34px 76px rgba(0, 0, 0, 0.62);
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-strong: rgba(255, 255, 255, 0.08);
+  --glass-line: rgba(255, 255, 255, 0.12);
+  --glass-line-strong: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --glass-edge: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --frost: blur(24px) saturate(140%);
+
+  --card: rgba(255, 255, 255, 0.05);
+  --card-input: rgba(255, 255, 255, 0.07);
+  --card-bg: linear-gradient(170deg, rgba(24, 42, 33, 0.97), rgba(10, 22, 15, 0.95));
+  --drawer-line: rgba(255, 255, 255, 0.1);
+
+  --field: #132A1D;
+  --chip: rgba(255, 255, 255, 0.08);
+  --card-2: rgba(255, 255, 255, 0.05);
+  --card-3: rgba(255, 255, 255, 0.07);
+  --card-hover: rgba(255, 255, 255, 0.07);
+  --card-odd: rgba(255, 255, 255, 0.07);
+  --bar-track: rgba(255, 255, 255, 0.08);
+  --scrim: rgba(0, 0, 0, 0.65);
+  --file-hover: #163425;
+  --toggle-track: rgba(255, 255, 255, 0.22);
+  --thumb: rgba(255, 255, 255, 0.3);
+  --thumb-hover: rgba(255, 255, 255, 0.45);
+  --oc-hero-grad: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+
+  --status-new-fg: #FFD48A;    --status-new-bg: #2A1F0A;
+  --status-conf-fg: #8FB4FF;   --status-conf-bg: #111E33;
+  --status-out-fg: #FFC48A;    --status-out-bg: #2A1B09;
+
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -228,7 +322,7 @@ a { color: var(--green-700); }
 }
 
 .auth-hint code {
-  background: rgba(6, 21, 14, 0.08);
+  background: var(--line-3);
   padding: 1px 6px;
   border-radius: 5px;
   font-size: 12px;
@@ -265,7 +359,7 @@ a { color: var(--green-700); }
 
 .btn {
   border: 1px solid var(--glass-line-strong);
-  background: rgba(255, 255, 255, 0.66);
+  background: var(--card-3);
   color: var(--ink-3);
   cursor: pointer;
   padding: 8px 14px;
@@ -374,6 +468,33 @@ a { color: var(--green-700); }
 .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* --------------------------------------------------------------
+   Theme toggle (🌙/☀️) - top bar, next to Log out.
+   Styled to sit alongside the hamburger.
+   -------------------------------------------------------------- */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  padding: 0;
+  font-size: 19px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 13px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.42);
+  transform: translateY(-1px);
+}
+.theme-toggle:focus-visible { outline: 2px solid var(--ok); outline-offset: 2px; }
+
+/* --------------------------------------------------------------
    Left slide-in drawer (hidden by default, shown when .open)
    -------------------------------------------------------------- */
 .side-drawer {
@@ -394,7 +515,7 @@ a { color: var(--green-700); }
   flex-direction: column;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(6, 21, 14, 0.18) transparent;
+  scrollbar-color: var(--thumb) transparent;
 }
 .side-drawer.open { transform: translateX(0); }
 
@@ -426,8 +547,8 @@ a { color: var(--green-700); }
   line-height: 1.35;
   font-weight: 600;
   color: var(--ink-2);
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(6, 21, 14, 0.06);
+  background: var(--chip);
+  border: 1px solid var(--line-4);
   box-shadow: 0 1px 2px rgba(6, 21, 14, 0.04);
   cursor: pointer;
   transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s, transform .15s;
@@ -480,7 +601,7 @@ a { color: var(--green-700); }
 .admin-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(6, 21, 14, 0.5);
+  background: var(--scrim);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   opacity: 0;
@@ -674,7 +795,7 @@ body.overflow-hidden { overflow: hidden; }
 .sales-head span { color: var(--muted); font-size: 13px; font-weight: 700; }
 .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 160px; margin-top: 14px; }
 .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
-.bar-track { flex: 1; width: 100%; max-width: 34px; background: rgba(6, 21, 14, 0.07); border-radius: 8px 8px 3px 3px; display: flex; align-items: flex-end; overflow: hidden; }
+.bar-track { flex: 1; width: 100%; max-width: 34px; background: var(--bar-track); border-radius: 8px 8px 3px 3px; display: flex; align-items: flex-end; overflow: hidden; }
 .bar-fill { width: 100%; background: var(--grad); border-radius: 8px 8px 3px 3px; min-height: 2px; }
 .bar-label { font-size: 9px; color: var(--muted); font-weight: 700; white-space: nowrap; }
 .top-products { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
@@ -780,7 +901,7 @@ table.data {
 table.data th {
   text-align: left;
   padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--card-2);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -798,7 +919,7 @@ table.data td {
 
 table.data tr:last-child td { border-bottom: none; }
 
-table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
+table.data tr:hover td { background: var(--card-hover); }
 
 .p-emoji { text-align: center; min-width: 58px; }
 
@@ -826,7 +947,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .badge.star { background: var(--warn-bg); color: var(--warn); }
 
 .badge.grp {
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--chip);
   color: var(--ink-3);
   cursor: pointer;
   border: none;
@@ -837,8 +958,8 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1.5px solid rgba(6, 21, 14, 0.12);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid var(--line-2);
+  background: var(--chip);
   border-radius: var(--pill);
   padding: 5px 11px;
   font-size: 11.5px;
@@ -859,8 +980,8 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  border: 1.5px solid rgba(6, 21, 14, 0.12);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid var(--line-2);
+  background: var(--chip);
   border-radius: var(--pill);
   padding: 5px 11px;
   font-size: 11.5px;
@@ -874,7 +995,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .featured-toggle .star { font-size: 12px; line-height: 1; }
 .featured-toggle:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(6, 21, 14, 0.12); }
 .featured-toggle.on {
-  color: var(--ink);
+  color: var(--on-lime);
   border-color: rgba(198, 255, 79, 0.95);
   background: var(--lime);
   box-shadow: 0 6px 16px rgba(198, 255, 79, 0.4);
@@ -888,7 +1009,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   padding: 12px 14px;
   color: var(--muted);
   font-size: 12.5px;
-  background: rgba(255, 255, 255, 0.35);
+  background: var(--card-2);
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
@@ -917,7 +1038,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   border: 1px solid var(--glass-line-strong);
   border-radius: var(--radius-sm);
   padding: 12px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--card-2);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -947,7 +1068,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 
 .ofilter {
   border: 1px solid var(--glass-line-strong);
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--card-3);
   color: var(--ink-3);
   border-radius: var(--pill);
   padding: 7px 14px;
@@ -972,7 +1093,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 }
 
 .ofilter .ocnt {
-  background: rgba(6, 21, 14, 0.08);
+  background: var(--line-3);
   border-radius: var(--pill);
   padding: 0 7px;
   font-size: 11px;
@@ -1009,7 +1130,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   gap: 12px;
   flex-wrap: wrap;
   padding: 14px 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.16));
+  background: var(--oc-hero-grad);
   border-bottom: 1px solid var(--glass-line-strong);
 }
 
@@ -1065,11 +1186,11 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--card-2);
 }
 
 .oid-row:not(:last-child) { border-bottom: 1px solid var(--line); }
-.oid-row:nth-child(odd) { background: rgba(255, 255, 255, 0.24); }
+.oid-row:nth-child(odd) { background: var(--card-odd); }
 
 .oid-row .t-thumb,
 .oid-row .t-emoji { width: 42px; height: 42px; border-radius: 11px; font-size: 19px; }
@@ -1126,9 +1247,9 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   color: var(--ink);
 }
 
-.status-new { color: #7a5b11; background: #fdf6e3; }
-.status-confirmed { color: #085cae; background: #e8f1fd; }
-.status-out_for_delivery { color: #7a4c08; background: #fdf0e0; }
+.status-new { color: var(--status-new-fg); background: var(--status-new-bg); }
+.status-confirmed { color: var(--status-conf-fg); background: var(--status-conf-bg); }
+.status-out_for_delivery { color: var(--status-out-fg); background: var(--status-out-bg); }
 .status-delivered { color: var(--ok); background: var(--ok-bg); }
 .status-cancelled { color: var(--danger); background: var(--danger-bg); }
 
@@ -1139,7 +1260,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   font: inherit;
   font-size: 12px;
   font-weight: 700;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--card-3);
   color: var(--muted);
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
@@ -1158,7 +1279,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   font-size: 12px;
   font-weight: 700;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--card-3);
   color: var(--ok);
   cursor: pointer;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
@@ -1169,7 +1290,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .modal-bg {
   position: fixed;
   inset: 0;
-  background: rgba(6, 21, 14, 0.5);
+  background: var(--scrim);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: flex;
@@ -1202,7 +1323,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .modal-head h3 { margin: 0; font-size: 19px; }
 
 .modal-close {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--card-3);
   border: 1px solid var(--glass-line-strong);
   border-radius: var(--pill);
   width: 36px;
@@ -1262,7 +1383,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--card-2);
   min-height: 64px;
 }
 
@@ -1276,13 +1397,13 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
   padding: 7px 14px;
   border: 1px solid var(--glass-line-strong);
   border-radius: var(--pill);
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--chip);
   font-size: 13px;
   font-weight: 700;
   color: var(--green-800);
   cursor: pointer;
 }
-.file-btn:hover { border-color: var(--green); background: #f6fbf7; }
+.file-btn:hover { border-color: var(--green); background: var(--file-hover); }
 .file-btn:focus-visible { outline: 3px solid rgba(15, 185, 103, 0.18); outline-offset: 1px; }
 .file-name { color: var(--muted); font-size: 12px; margin-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; vertical-align: middle; }
 
@@ -1303,7 +1424,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 
 .group-note .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .group-note .chips span {
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--card-3);
   border-radius: var(--pill);
   padding: 2px 10px;
   font-size: 11.5px;
@@ -1403,7 +1524,7 @@ table.data tr:hover td { background: rgba(255, 255, 255, 0.4); }
 .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
 .switch .slider {
   position: absolute; inset: 0; border-radius: var(--pill);
-  background: rgba(6, 21, 14, 0.16); transition: background-color 0.18s;
+  background: var(--toggle-track); transition: background-color 0.18s;
 }
 .switch .slider::before {
   content: ""; position: absolute; left: 4px; top: 4px;

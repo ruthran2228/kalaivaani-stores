@@ -12,7 +12,21 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="orders.css?v=20261011d">
+<script>
+  /* apply the stored / system theme before first paint (no flash) */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("ks-theme"); } catch (e) {}
+    if (t !== "dark" && t !== "light") {
+      t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    }
+    var r = document.documentElement;
+    r.setAttribute("data-theme", t);
+    r.style.colorScheme = t;
+  })();
+</script>
+<script src="theme.js?v=20261011e"></script>
+<link rel="stylesheet" href="orders.css?v=20261011e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,6 +38,7 @@
       <span><strong>Kalaivani Stores</strong><small>Your profile</small></span>
     </a>
     <div class="header-right">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme"><span data-theme-icon aria-hidden="true">🌙</span></button>
       <a class="back-btn" href="./cart.html">Your cart</a>
       <a class="back-btn" href="./orders.html">My Orders</a>
       <a class="back-btn" href="./index.html">← Back to store</a>
@@ -74,7 +89,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
-  <script src="config.js?v=20261011d"></script>
+  <script src="config.js?v=20261011e"></script>
   <script>
     let supabaseClient = null;
     try {
@@ -89,7 +104,7 @@
       console.warn("Supabase init failed:", error);
     }
   </script>
-  <script src="store-cart.js?v=20261011d"></script>
-  <script src="profile.js?v=20261011d"></script>
+  <script src="store-cart.js?v=20261011e"></script>
+  <script src="profile.js?v=20261011e"></script>
 </body>
 </html>

@@ -345,6 +345,8 @@ function buildShell() {
             <span class="th-date">${today}</span>
           </div>
 
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme"><span data-theme-icon aria-hidden="true">🌙</span></button>
+
           <div class="user-chip">
             <span class="user-email" title="${esc(email)}">${esc(email)}</span>
             <button class="btn side-logout" id="logout-btn" type="button">Log out</button>
@@ -435,6 +437,9 @@ function buildShell() {
 
   $("#logout-btn").addEventListener("click", handleLogout);
   signOutLink.addEventListener("click", handleLogout);
+
+  // paint the theme toggle now that it exists in the DOM
+  if (window.ksTheme) window.ksTheme.refresh();
 
   // initial view
   switchTab("dashboard");
