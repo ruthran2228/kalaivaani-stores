@@ -387,10 +387,10 @@ a { color: var(--green-700); }
 }
 
 /* --------------------------------------------------------------
-   Hamburger button (☰) - visible on mobile only (≤960px)
+   Hamburger button (☰) - visible on all screen sizes
    -------------------------------------------------------------- */
 .hamburger {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
