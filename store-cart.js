@@ -230,3 +230,22 @@ async function getSessionReady(client) {
   }
   return null;
 }
+
+// ------------------------------------------------------------
+// SMOOTH SCROLL - freeze ambient animations while the user
+// scrolls. Reduces GPU work so wheel/touch scrolling stays smooth.
+// Guarded so it registers once even if two scripts both include it.
+// ------------------------------------------------------------
+if (typeof window.__ksScrollBusyInit === "undefined") {
+  window.__ksScrollBusyInit = true;
+  var __ksBusyTimer;
+  window.addEventListener(
+    "scroll",
+    () => {
+      document.body.classList.add("scroll-busy");
+      clearTimeout(__ksBusyTimer);
+      __ksBusyTimer = setTimeout(() => document.body.classList.remove("scroll-busy"), 140);
+    },
+    { passive: true }
+  );
+}
