@@ -29,6 +29,7 @@
   --line: #E3E9E3;
 
   --danger: #E5484D;
+  --danger-text: #C1272D;   /* darker red for TEXT on light backgrounds (AA contrast) */
   --danger-bg: #FDECEE;
   --warn: #C77700;
   --warn-bg: #FFF4DE;
@@ -118,6 +119,7 @@
   --green-50: #0C2015;
 
   --danger: #FF7A80;
+  --danger-text: #FF7A80;
   --danger-bg: #2B1114;
   --warn: #FFC24D;
   --warn-bg: #2A1F0A;
@@ -304,7 +306,7 @@ a { color: var(--green-700); }
 }
 
 .auth-error {
-  color: var(--danger);
+  color: var(--danger-text);
   background: var(--danger-bg);
   padding: 10px 12px;
   border-radius: 12px;
@@ -386,8 +388,8 @@ a { color: var(--green-700); }
 
 .btn-green:hover { color: #fff; filter: brightness(1.05); transform: translateY(-1px); }
 
-.btn-danger { color: var(--danger); }
-.btn-danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
+.btn-danger { color: var(--danger-text); }
+.btn-danger:hover { border-color: var(--danger-text); color: var(--danger-text); background: var(--danger-bg); }
 
 /* ---------- App shell ---------- */
 .admin-shell { display: flex; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
@@ -759,7 +761,7 @@ body.overflow-hidden { overflow: hidden; }
 .stat-card .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 .stat-card.ok .stat-value { color: var(--ok); }
 .stat-card.warn .stat-value { color: var(--warn); }
-.stat-card.danger .stat-value { color: var(--danger); }
+.stat-card.danger .stat-value { color: var(--danger-text); }
 
 .grid-2 {
   display: grid;
@@ -930,7 +932,7 @@ table.data tr:hover td { background: var(--card-hover); }
   font-weight: 700;
   white-space: nowrap;
 }
-.price.empty { color: var(--danger); font-weight: 600; }
+.price.empty { color: var(--danger-text); font-weight: 600; }
 .price.empty::after { content: " · set price"; font-size: 11px; opacity: 0.8; }
 
 .badge {
@@ -942,7 +944,7 @@ table.data tr:hover td { background: var(--card-hover); }
   white-space: nowrap;
 }
 
-.badge.out { background: var(--danger-bg); color: var(--danger); }
+.badge.out { background: var(--danger-bg); color: var(--danger-text); }
 .badge.in { background: var(--ok-bg); color: var(--ok); }
 .badge.star { background: var(--warn-bg); color: var(--warn); }
 
@@ -972,8 +974,8 @@ table.data tr:hover td { background: var(--card-hover); }
 .stock-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
 .stock-toggle.in { color: var(--ok); border-color: rgba(10, 168, 93, 0.35); }
 .stock-toggle.in:hover { border-color: var(--ok); }
-.stock-toggle.out { color: var(--danger); border-color: rgba(229, 72, 77, 0.35); }
-.stock-toggle.out:hover { border-color: var(--danger); }
+.stock-toggle.out { color: var(--danger-text); border-color: rgba(229, 72, 77, 0.35); }
+.stock-toggle.out:hover { border-color: var(--danger-text); }
 .stock-toggle:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(6, 21, 14, 0.12); }
 
 .featured-toggle {
@@ -1121,7 +1123,7 @@ table.data tr:hover td { background: var(--card-hover); }
 .order-card.oc-confirmed { border-left-color: #0a7bd9; }
 .order-card.oc-out_for_delivery { border-left-color: #c77b12; }
 .order-card.oc-delivered { border-left-color: var(--ok); }
-.order-card.oc-cancelled { border-left-color: var(--danger); }
+.order-card.oc-cancelled { border-left-color: var(--danger-text); }
 
 .oc-head {
   display: flex;
@@ -1251,7 +1253,7 @@ table.data tr:hover td { background: var(--card-hover); }
 .status-confirmed { color: var(--status-conf-fg); background: var(--status-conf-bg); }
 .status-out_for_delivery { color: var(--status-out-fg); background: var(--status-out-bg); }
 .status-delivered { color: var(--ok); background: var(--ok-bg); }
-.status-cancelled { color: var(--danger); background: var(--danger-bg); }
+.status-cancelled { color: var(--danger-text); background: var(--danger-bg); }
 
 .pay-toggle {
   border: 1px solid var(--glass-line-strong);
@@ -1515,7 +1517,7 @@ table.data tr:hover td { background: var(--card-hover); }
   padding: 5px 12px; border-radius: var(--pill); text-transform: uppercase;
 }
 .setting-state.on { background: var(--ok-bg); color: var(--green-900); }
-.setting-state.off { background: var(--danger-bg); color: var(--danger); }
+.setting-state.off { background: var(--danger-bg); color: var(--danger-text); }
 
 .switch {
   position: relative; display: inline-block;

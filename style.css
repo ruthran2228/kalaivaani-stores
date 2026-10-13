@@ -27,6 +27,7 @@
   --amber:#FFB020;
   --orange:#FF9F1C;
   --red:#E5484D;
+  --red-text:#C1272D;           /* darker red for TEXT on light backgrounds (AA contrast) */
   --wa:#25D366;
 
   /* text + lines */
@@ -133,6 +134,7 @@
   --green-50:#0C2015;
 
   --red:#FF7A80;
+  --red-text:#FF7A80;
   --wa:#35DE7A;
   --amber:#FFC24D;
   --orange:#FFB443;
@@ -348,7 +350,7 @@ body.nav-open .site-header{position:sticky;top:0;z-index:1210}
   transition:background-color .16s,padding-left .16s,box-shadow .16s}
 .nav-item:hover{background:var(--glass-hover);padding-left:22px;
   box-shadow:0 8px 22px rgba(6,21,14,.13)}
-.nav-item-logout{color:var(--red)}
+.nav-item-logout{color:var(--red-text)}
 .nav-item-logout:hover{background:rgba(255,238,238,.92)}
 .nav-drawer-foot{
   margin:4px 12px 14px;padding:13px 16px;

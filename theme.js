@@ -41,6 +41,15 @@
     root.setAttribute("data-theme", theme);
     root.style.colorScheme = theme;
 
+    /* keep the browser/phone status bar in step with the theme */
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "theme-color");
+      (document.head || root).appendChild(meta);
+    }
+    meta.setAttribute("content", theme === "dark" ? "#07110B" : "#F2F5F1");
+
     var next = theme === "dark" ? "light" : "dark";
     var icon = theme === "dark" ? "☀️" : "🌙";
     var label = "Switch to " + next + " theme";

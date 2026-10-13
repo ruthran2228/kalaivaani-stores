@@ -25,11 +25,14 @@
     r.style.colorScheme = t;
   })();
 </script>
-<script src="theme.js?v=20261011e"></script>
-<link rel="stylesheet" href="orders.css?v=20261011e">
+<script src="theme.js?v=20261013a"></script>
+<link rel="stylesheet" href="orders.css?v=20261013a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Manage your saved name, phone and delivery address for faster checkout at Kalaivani Stores.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script>if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }</script>
 </head>
 <body>
   <header class="page-header">
@@ -89,7 +92,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
-  <script src="config.js?v=20261011e"></script>
+  <script src="config.js?v=20261013a"></script>
   <script>
     let supabaseClient = null;
     try {
@@ -104,7 +107,7 @@
       console.warn("Supabase init failed:", error);
     }
   </script>
-  <script src="store-cart.js?v=20261011e"></script>
-  <script src="profile.js?v=20261011e"></script>
+  <script src="store-cart.js?v=20261013a"></script>
+  <script src="profile.js?v=20261013a"></script>
 </body>
 </html>

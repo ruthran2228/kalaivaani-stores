@@ -23,6 +23,7 @@
   --amber:#FFB020;
   --orange:#FF9F1C;
   --red:#E5484D;
+  --red-text:#C1272D;           /* darker red for TEXT on light backgrounds (AA contrast) */
   --wa:#25D366;
 
   --muted:#5E6E64;
@@ -128,6 +129,7 @@
   --green-50:#0C2015;
 
   --red:#FF7A80;
+  --red-text:#FF7A80;
   --wa:#35DE7A;
   --amber:#FFC24D;
   --orange:#FFB443;
@@ -248,7 +250,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   background:var(--field);color:var(--ink);letter-spacing:-.1px;
 }
 .back-btn:hover{border-color:var(--ink);background:var(--lime);color:var(--on-lime);transform:translateY(-2px);box-shadow:var(--shadow)}
-.logout-btn{border-color:var(--danger-line);color:var(--red);background:var(--danger-soft)}
+.logout-btn{border-color:var(--danger-line);color:var(--red-text);background:var(--danger-soft)}
 .logout-btn:hover{background:var(--danger-bg);border-color:var(--danger-line-2);transform:translateY(-2px)}
 
 .page{flex:1;width:100%;max-width:780px;margin:0 auto;padding:40px 20px 64px;position:relative;overflow-x:clip}
@@ -296,7 +298,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 .wa-btn:hover{box-shadow:0 18px 38px rgba(37,211,102,.44);transform:translateY(-2px)}
 .wa-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-.clear-btn{width:100%;height:40px;border:0;background:transparent;color:var(--red);
+.clear-btn{width:100%;height:40px;border:0;background:transparent;color:var(--red-text);
   font-size:12.5px;font-weight:800;margin-top:7px;border-radius:12px}
 .clear-btn:hover{background:rgba(229,72,77,.09)}
 
@@ -325,7 +327,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   padding:11px;border-radius:var(--pill)}
 .auth-tab.active{background:var(--ink);color:var(--on-ink-accent);box-shadow:var(--shadow)}
 .auth-hint-text{color:var(--muted);font-size:12.5px;margin-top:16px}
-.form-error{background:var(--danger-bg);color:var(--red);font-size:13px;font-weight:700;
+.form-error{background:var(--danger-bg);color:var(--red-text);font-size:13px;font-weight:700;
   border-radius:14px;padding:12px 14px;text-align:left;border:1.5px solid var(--danger-line-3)}
 .form-hint{background:var(--warn-bg-2);color:var(--warn-text-2);font-size:13px;font-weight:700;
   border-radius:14px;padding:12px 14px;line-height:1.5;text-align:left;border:1.5px solid var(--warn-line-2)}
@@ -397,7 +399,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .guest-result{margin-top:10px}
 .guest-result .track-card{border-radius:18px;padding:18px;box-shadow:none}
 .guest-result .status-hero{padding-bottom:13px}
-.track-error{background:var(--danger-bg);color:var(--red);font-size:13px;font-weight:700;
+.track-error{background:var(--danger-bg);color:var(--red-text);font-size:13px;font-weight:700;
   border-radius:14px;padding:12px 14px;margin-top:8px;border:1.5px solid var(--danger-line-3)}
 .track-loading{color:var(--muted);font-size:13.5px;font-weight:700;margin-top:9px}
 
@@ -451,7 +453,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .track-badge.b-confirmed{background:var(--info-bg);color:var(--info-text);border:1.5px solid var(--info-line)}
 .track-badge.b-out_for_delivery{background:var(--green-100);color:var(--green-800);border:1.5px solid var(--green-line)}
 .track-badge.b-delivered{background:var(--ink);color:var(--on-ink-accent);border:1.5px solid var(--ink)}
-.track-badge.b-cancelled{background:var(--danger-bg);color:var(--red);border:1.5px solid var(--danger-line-3)}
+.track-badge.b-cancelled{background:var(--danger-bg);color:var(--red-text);border:1.5px solid var(--danger-line-3)}
 .order-mid{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:13px;flex-wrap:wrap;font-weight:600}
 .order-mid b{color:var(--ink);font-weight:800}
 .order-mid span{display:inline-flex;align-items:center;gap:5px}
@@ -579,7 +581,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
   box-shadow:var(--glass-shadow),var(--glass-edge);transition:transform .18s,box-shadow .18s,border-color .18s;
 }
 .cart-row:hover{transform:translateY(-2px);box-shadow:var(--glass-shadow-hover),var(--glass-edge);border-color:rgba(15,185,103,.45)}
-.ci-oos{display:inline-block;margin-top:4px;background:var(--danger-bg);color:var(--red);
+.ci-oos{display:inline-block;margin-top:4px;background:var(--danger-bg);color:var(--red-text);
   border:1px solid var(--danger-line);border-radius:var(--pill);padding:3px 10px;
   font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
 .row-oos{opacity:.78}
@@ -611,7 +613,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .cart-row-sub{font-family:var(--font-display);font-size:17px;color:var(--ink);
   font-variant-numeric:tabular-nums;font-weight:800;letter-spacing:-.03em}
 .cart-row-remove{
-  width:34px;height:34px;border:1.5px solid var(--danger-line);background:var(--danger-soft);color:var(--red);
+  width:34px;height:34px;border:1.5px solid var(--danger-line);background:var(--danger-soft);color:var(--red-text);
   border-radius:11px;font-size:18px;line-height:1;
 }
 .cart-row-remove:hover{background:var(--danger-bg);border-color:var(--danger-line-2)}
@@ -639,8 +641,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 }
 .checkout-fields input:hover{border-color:var(--field-line)}
 .checkout-fields input:focus-visible{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,185,103,.16);background:var(--field)}
-.checkout-fields input.invalid{border-color:var(--red);box-shadow:0 0 0 4px rgba(229,72,77,.14)}
-.field-error{color:var(--red);font-size:12px;font-weight:800;display:block;margin-top:5px}
+.checkout-fields input.invalid{border-color:var(--red-text);box-shadow:0 0 0 4px rgba(229,72,77,.14)}
+.field-error{color:var(--red-text);font-size:12px;font-weight:800;display:block;margin-top:5px}
 
 /* ============================ PROFILE LINES ================== */
 .profile-line{
@@ -729,7 +731,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .addr-label-chip:hover{border-color:var(--green-line-2);color:var(--green-800)}
 .addr-label-chip.active{background:var(--ink);color:var(--on-ink-accent);border-color:var(--ink)}
 .addr-remove{
-  width:34px;height:34px;border:1.5px solid var(--danger-line);background:var(--danger-soft);color:var(--red);
+  width:34px;height:34px;border:1.5px solid var(--danger-line);background:var(--danger-soft);color:var(--red-text);
   border-radius:11px;font-size:18px;line-height:1;flex:none;
 }
 .addr-remove:hover{background:var(--danger-bg);border-color:var(--danger-line-2)}
