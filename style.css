@@ -356,6 +356,24 @@ body.nav-open .site-header{position:sticky;top:0;z-index:1210}
   box-shadow:0 8px 22px rgba(6,21,14,.13)}
 .nav-item-logout{color:var(--red-text)}
 .nav-item-logout:hover{background:rgba(255,238,238,.92)}
+/* theme switch row - light/dark toggle lives inside the drawer */
+.nav-drawer-theme{
+  display:flex;align-items:center;gap:12px;width:calc(100% - 24px);
+  margin:0 12px 8px;padding:13px 16px;
+  background:var(--glass-mid);border:1px solid var(--glass-line);border-radius:14px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:var(--ink);font-family:inherit;font-size:0.875rem;font-weight:800;
+  cursor:pointer;text-align:left;transition:background-color .16s;
+}
+.nav-drawer-theme:hover{background:var(--glass-hover)}
+.nav-drawer-theme:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.nav-drawer-theme .dt-label{flex:1}
+.switch{position:relative;flex:none;width:44px;height:26px;border-radius:999px;
+  background:var(--field);border:1.5px solid var(--line);transition:background-color .2s,border-color .2s}
+.switch i{position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;
+  background:var(--muted);transition:transform .2s,background-color .2s}
+html[data-theme="dark"] .nav-drawer-theme .switch{background:var(--green);border-color:var(--green)}
+html[data-theme="dark"] .nav-drawer-theme .switch i{transform:translateX(18px);background:#06231A}
 .nav-drawer-foot{
   margin:4px 12px 14px;padding:13px 16px;
   background:var(--glass-mid);border:1px solid var(--glass-line);border-radius:14px;
