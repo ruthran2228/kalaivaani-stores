@@ -474,7 +474,7 @@ function renderTrackCard(order) {
 
       <div class="track-divider"></div>
       <div class="seg-title">Items</div>
-      ${itemRows || "<p style='color:var(--muted);font-size:13px'>No items.</p>"}
+      ${itemRows || "<p style='color:var(--muted);font-size:0.8125rem'>No items.</p>"}
       <div class="oc-item oc-total">
         <span>Total</span>
         <strong>${money(order.total)}</strong>

@@ -681,7 +681,7 @@ function renderDashboard() {
       </div>
       <div class="panel-card">
         <h3>Recent orders</h3>
-        ${recent.length ? renderMiniOrders(recent) : "<p style='color:var(--muted);font-size:13.5px'>No orders yet.</p>"}
+        ${recent.length ? renderMiniOrders(recent) : "<p style='color:var(--muted);font-size:0.84375rem'>No orders yet.</p>"}
       </div>
     </div>
 
@@ -690,13 +690,13 @@ function renderDashboard() {
         <h3>Sales — last 14 days</h3>
         <span>${money(totalRev14)} · ${count14} order${count14 === 1 ? "" : "s"}</span>
       </div>
-      <div class="bar-chart">${barRows || "<p style='color:var(--muted);font-size:13.5px'>No orders in the last 14 days.</p>"}</div>
+      <div class="bar-chart">${barRows || "<p style='color:var(--muted);font-size:0.84375rem'>No orders in the last 14 days.</p>"}</div>
     </div>
 
     <div class="panel-card">
       <h3>Top products</h3>
       <div class="top-products">
-        ${topRows || "<p style='color:var(--muted);font-size:13.5px'>No orders yet — product leaders will show here.</p>"}
+        ${topRows || "<p style='color:var(--muted);font-size:0.84375rem'>No orders yet — product leaders will show here.</p>"}
       </div>
     </div>
   `;
@@ -1953,16 +1953,16 @@ function renderProfilePanel() {
     <div class="panel-card" style="max-width:480px;">
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div>
-          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Email</label>
-          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">${esc(email)}</p>
+          <label style="font-size:0.78125rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Email</label>
+          <p style="margin:4px 0 0;font-size:0.9375rem;font-weight:600;">${esc(email)}</p>
         </div>
         ${name ? `<div>
-          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Name</label>
-          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">${esc(name)}</p>
+          <label style="font-size:0.78125rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Name</label>
+          <p style="margin:4px 0 0;font-size:0.9375rem;font-weight:600;">${esc(name)}</p>
         </div>` : ""}
         <div>
-          <label style="font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Role</label>
-          <p style="margin:4px 0 0;font-size:15px;font-weight:600;">Store Admin</p>
+          <label style="font-size:0.78125rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Role</label>
+          <p style="margin:4px 0 0;font-size:0.9375rem;font-weight:600;">Store Admin</p>
         </div>
       </div>
     </div>

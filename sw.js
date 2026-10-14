@@ -11,15 +11,15 @@
    · CACHE version is bumped with each release (same value as the
      ?v= stamp); old caches are deleted on activate.
    ============================================================= */
-const CACHE = "ks-cache-20261013a";
+const CACHE = "ks-cache-20261014a";
 
 const CORE = [
   "/",
   "/index.html",
-  "/style.css?v=20261013a",
-  "/orders.css?v=20261013a",
-  "/adminstyle.css?v=20261013a",
-  "/theme.js?v=20261013a",
+  "/style.css?v=20261014a",
+  "/orders.css?v=20261014a",
+  "/adminstyle.css?v=20261014a",
+  "/theme.js?v=20261014a",
   "/config.js",
   "/manifest.webmanifest",
   "/icon-192.png",
