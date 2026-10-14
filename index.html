@@ -88,28 +88,31 @@
   }
   </script>
   <script>if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }</script>
+  <link rel="preload" as="image" href="icon-512.png">
   <style>
-    /* intro splash: logo pop-in, then fade out (index.html only, once per tab session) */
+    /* full-screen intro splash: logo pop-in → expand to fill the screen → dissolve (index.html, once per tab session) */
     .ks-splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
-      background:#07110B;transition:opacity .45s ease}
+      background:#07110B;transition:opacity .4s ease}
     html[data-theme="light"] .ks-splash{background:#F2F5F1}
     html.ks-no-splash .ks-splash{display:none}      /* repeat visit in this session: skip entirely */
-    .ks-splash-logo{width:132px;height:132px;animation:ks-splash-pop 1s ease both}
+    .ks-splash-logo{width:min(62vmin,340px);height:auto;animation:ks-splash-expand 1.5s ease-in-out both}
     .ks-splash.out{opacity:0;pointer-events:none}
-    @keyframes ks-splash-pop{
-      0%{transform:scale(.55);opacity:0}
-      55%{transform:scale(1.06);opacity:1}
-      100%{transform:scale(1);opacity:1}
+    @keyframes ks-splash-expand{
+      0%{transform:scale(.5);opacity:0}
+      28%{transform:scale(1);opacity:1}     /* pop in */
+      55%{transform:scale(1);opacity:1}     /* hold */
+      100%{transform:scale(6);opacity:0}    /* expand past full screen while dissolving */
     }
     @media (prefers-reduced-motion: reduce){
-      .ks-splash-logo{animation:none}
+      .ks-splash-logo{animation:ks-splash-fade .35s ease both}
       .ks-splash{transition:opacity .2s ease}
     }
+    @keyframes ks-splash-fade{from{opacity:0}to{opacity:1}}
   </style>
   <noscript><style>.ks-splash{display:none}</style></noscript>
 </head>
 <body>
-  <div id="ks-splash" class="ks-splash" aria-hidden="true"><img class="ks-splash-logo" src="icon-192.png" alt="" width="132" height="132"></div>
+  <div id="ks-splash" class="ks-splash" aria-hidden="true"><img class="ks-splash-logo" src="icon-512.png" alt="" width="340" height="340"></div>
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
@@ -291,7 +294,7 @@
       }
       var logo = s.querySelector(".ks-splash-logo");
       if (logo) logo.addEventListener("animationend", hide, { once: true });
-      setTimeout(hide, 1100);   /* fallback if animationend never fires */
+      setTimeout(hide, 1600);   /* fallback if animationend never fires */
     })();
   </script>
 </body>
